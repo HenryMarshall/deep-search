@@ -14,26 +14,33 @@
 <body id="default-popup">
   <div class="container-fluid">
 
-    <div class="form-group has-feedback" id="filter">
-      <label class="sr-only" for="filter">Input with error</label>
-      <input type="text" class="form-control">
-      <span id="clear-search" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
-    </div>
+    <form id="filter">
 
-    <div class="row">
-      <div class="col-xs-5 col-xs-offset-1">
-        <label class="checkbox">
-          <input type="checkbox" id="is-regex"> Regex
-        </label>
+      <!-- Input Field -->
+      <div class="form-group has-feedback">
+        <label class="sr-only" for="filter">Input with error</label>
+        <input type="text" name="search" id="deepSearch-search" class="form-control">
+        <span id="clear-search" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
       </div>
-      <div class="col-xs-5">
-        <label class="checkbox">
-          <input type="checkbox" id="is-deep"> Deep Search
-        </label>
+
+      <!-- Checkboxes -->
+      <div class="row">
+        <div class="col-xs-5 col-xs-offset-1">
+          <label class="checkbox">
+            <input type="checkbox" name="is-regex" id="is-regex"> Regex
+          </label>
+        </div>
+        <div class="col-xs-5">
+          <label class="checkbox">
+            <input type="checkbox" name="is-deep" id="is-deep"> Deep Search
+          </label>
+        </div>
       </div>
-    </div>
 
 
+    </form>
+
+    <!-- Navigation Buttons -->
     <div class="row">
       <div class="col-xs-6">
         <button class="btn btn-default btn-block" id="prev">Prev</button>
