@@ -2,5 +2,25 @@
   "manifest_version": 2,
 
   "name": "deep-search",
-  "version": "0.0.1"
+  "description": "Search current page and links for strings or regex",
+  "version": "0.0.1",
+
+  "content_scripts": [
+    {
+      "matches": [ "<all_urls>" ],
+      "js": [ 
+        "lib/jquery-3.0.0.min.js", 
+        "content/highlightMatches.js" 
+      ]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "assets/icon.png",
+    "default_popup": "popup/default.html"
+  },
+
+  "permissions": [
+    "<all_urls>"
+  ]
 }
