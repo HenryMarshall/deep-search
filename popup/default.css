@@ -1,0 +1,9 @@
+#default-popup {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  width: 360px;
+}
+
+#filter {
+  margin-bottom: 0;
+}

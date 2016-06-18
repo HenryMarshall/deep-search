@@ -2,17 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title></title>
+  <title>Search Pages</title>
+
+  <link rel="stylesheet" type="text/css" href="default.css">
+  <link rel="stylesheet" type="text/css" href="../lib/bootstrap-3.3.6-dist/css/bootstrap.css">
+
+  <script src="../lib/jquery-2.2.4.min.js"></script>
+  <script src="../lib/bootstrap-3.3.6-dist/js/bootstrap.js"></script>
   <script src="default.js"></script>
 </head>
-<body>
-  <input id="filter" />
+<body id="default-popup">
+  <div class="container-fluid">
 
-  <div id="filter-options">
-    <input type="checkbox" id="is-regex"/>
-    <label for="is-regex"/>Regex</label>
-    <button id="prev">Prev</button>
-    <button id="next">Next</button>
+    <div class="form-group has-feedback" id="filter">
+      <label class="sr-only" for="filter">Input with error</label>
+      <input type="text" class="form-control">
+      <span id="clear-search" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-5 col-xs-offset-1">
+        <label class="checkbox">
+          <input type="checkbox" id="is-regex"> Regex
+        </label>
+      </div>
+      <div class="col-xs-5">
+        <label class="checkbox">
+          <input type="checkbox" id="is-deep"> Deep Search
+        </label>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-6">
+        <button class="btn btn-default btn-block" id="prev">Prev</button>
+      </div>
+      <div class="col-xs-6">
+        <button class="btn btn-primary btn-block" id="next">Next</button>
+      </div>
+    </div>
   </div>
 </body>
 </html>
