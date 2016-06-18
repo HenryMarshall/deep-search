@@ -9,7 +9,7 @@
     {
       "matches": [ "<all_urls>" ],
       "js": [ 
-        "lib/jquery-3.0.0.min.js", 
+        "lib/jquery-2.2.4.min.js", 
         "content/highlightMatches.js" 
       ]
     }
