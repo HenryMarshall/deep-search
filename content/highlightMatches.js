@@ -1,9 +1,8 @@
 // receive message from `popup/default.js:30`
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    console.log("request.fields: ", request.fields)
     // Where `isDeep` is true is handled in `content/matchedLinks.js`
-    if (!request.fields.isDeep) {
+    if (request.fields && !request.fields.isDeep) {
       switch(request.message) {
         case "submit_search":
           highlightMatches(request.fields)
