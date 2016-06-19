@@ -4,14 +4,21 @@
   "name": "deep-search",
   "description": "Search current page and links for strings or regex",
   "version": "0.0.1",
-
+  "background": {
+    "scripts": [
+      "lib/jquery-2.2.4.min.js",
+      "background/pageScraper.js"
+    ],
+    "persistant": false
+  },
   "content_scripts": [
     {
       "matches": [ "<all_urls>" ],
-      "js": [ 
-        "lib/jquery-2.2.4.min.js", 
+      "js": [
+        "lib/jquery-2.2.4.min.js",
         "lib/findAndReplaceDOMText.js",
-        "content/highlightMatches.js" 
+        "content/highlightMatches.js",
+        "content/matchedLinks.js"
       ]
     }
   ],
