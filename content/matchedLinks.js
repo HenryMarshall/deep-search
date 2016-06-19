@@ -1,19 +1,33 @@
-//find links on  page
+function findLinks(queryParams) {
+  $("a").each(function(index) {
+    var href = $(this).attr("href");
+    if (/^https?/.test(href)) {
+      console.log(href);
+      sendPageSearch(href, queryParams);
+    }
+  });
+}
 
-//get html of links
-//strip tags
-//search for regex
-//return y if found
 
-// res: {
-// 	[
-// 		{
-// 			url: "myUrl",
-// 			CaptureGroups: 
-// 			[
-// 				"textCg1",
-// 				"textCg2"
-// 			]
-// 		}
-// 	]
-// }
+function sendPageSearch(url, queryParams) {
+  chrome.runtime.sendMessage({
+    message: "page_search",
+    queryParams: queryParams, 
+    url: url
+  });
+}
+
+findLinks({
+  search: "Let Me Tell You A Story", 
+  isRegex: false, 
+  isDeep: true,
+  isCaseInsensitive: true
+});
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.message === "submit_query" && request.fields.isDeep) {
+      findLinks(request.fields)
+    }
+  }  
+);
