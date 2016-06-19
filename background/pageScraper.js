@@ -81,10 +81,10 @@ function regexEscape(text) {
 // }
 
 var defaultSearch = {
-  "#deepSearch-search": "north",
+  "#deepSearch-search": "",
   "#is-regex": false,
-  "#is-deep": true,
-  "#is-case-insensitive": true
+  "#is-deep": false,
+  "#is-case-insensitive": false
 }
 var currentSearch = cloneObj(defaultSearch)
 

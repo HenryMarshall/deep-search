@@ -16,8 +16,9 @@
   width: 100%;
 }
 
-#clear-search {
+#deepSearch-submit {
   width: 34px;
+  cursor: pointer;
 }
 
 

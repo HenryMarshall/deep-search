@@ -104,7 +104,7 @@ $(document).on('ready', function() {
   }
 
   function unmarkLinks() {
-    $('.deepSearch-link-found, .deepSearch-link-not-found').empty()
+    $('.deepSearch-link-found, .deepSearch-link-not-found').remove()
   }
 
   function storeLinkData(linkData) {

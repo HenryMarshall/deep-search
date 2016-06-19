@@ -2,8 +2,9 @@ $(document).on('ready', initialize)
 
 function initialize() {
   repopulateSettings()
+  registerSubmitClick()
   registerEvent("#filter", "submit", "submit_search", "save")
-  registerEvent("#clear-search", "click", "clear_search", "clear")
+  // registerEvent("#clear-search", "click", "clear_search", "clear")
   registerEvent("#next", "click", "next_highlight")
   registerEvent("#prev", "click", "prev_highlight")
 }
@@ -27,12 +28,25 @@ function repopulateSettings() {
 //   })
 // }
 
+function registerSubmitClick() {
+  $("#deepSearch-submit").click(function() {
+    var fields = readFields()
+    clearVisuals()
+    saveFields(fields)
+    notifyContentOfMessage({
+      message: "submit_search",
+      queryParams: fields
+    })
+  })
+}
+
 function registerEvent(target, action, message, changeState) {
   $(target).on(action, function(e) {
     e.preventDefault()
     var fields = readFields()
     // FIXME: This smells -- totally not "registering event"
     if(changeState === "save") {
+      clearVisuals()
       saveFields(fields)
     }
     else if(changeState === "clear") {
@@ -62,6 +76,12 @@ function saveFields(fields) {
   currentSearch["#is-case-insensitive"] = fields.isCaseInsensitive
 }
 
+function clearVisuals() {
+  notifyContentOfMessage({
+    message: "clear_search"
+  })
+}
+
 function clearSearch() {
   // Reset the search field in the state
   var currentSearch = chrome.extension.getBackgroundPage().currentSearch
@@ -81,10 +101,11 @@ function notifyContentOfMessage(message) {
   )
 }
 
+var currentSearch = {}
 
-var currentSearch = {
-  "#deepSearch-search": "",
-  "#is-regex": false,
-  "#is-deep": false,
-  "#is-case-insensitive": false
-}
+// var currentSearch = {
+//   "#deepSearch-search": "",
+//   "#is-regex": false,
+//   "#is-deep": false,
+//   "#is-case-insensitive": false
+// }
