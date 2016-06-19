@@ -21,7 +21,10 @@
         "content/matchedLinks.js",
         "content/highlightMatches.js"
       ],
-      "css": [ "content/highlightMatches.css" ]
+      "css": [ 
+        "content/matchedLinks.css",
+        "content/highlightMatches.css"
+      ]
     }
   ],
 

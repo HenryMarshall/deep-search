@@ -1,0 +1,45 @@
+/* @font-face { */
+/*   font-family: 'FontAwesome'; */
+/*   src: url('chrome-extension://pmhbjagfchbnlilbegbolcdmgiebgffj/lib/font-awesome-4.6.3/fonts/fontawesome-webfont.eot'); */
+/*   /1* src: url('chrome-extension://pmhbjagfchbnlilbegbolcdmgiebgffj/lib/font-awesome-4.6.3/fonts/fontawesome-webfont.eot?#iefix&v=4.6.3') format('embedded-opentype'), url('chrome-extension://pmhbjagfchbnlilbegbolcdmgiebgffj/lib/font-awesome-4.6.3/fonts/fontawesome-webfont.woff2?v=4.6.3') format('woff2'), url('chrome-extension://pmhbjagfchbnlilbegbolcdmgiebgffj/lib/font-awesome-4.6.3/fonts/fontawesome-webfont.woff?v=4.6.3') format('woff'), url('chrome-extension://pmhbjagfchbnlilbegbolcdmgiebgffj/lib/font-awesome-4.6.3/fonts/fontawesome-webfont.ttf?v=4.6.3') format('truetype'), url('chrome-extension://pmhbjagfchbnlilbegbolcdmgiebgffj/lib/font-awesome-4.6.3/fonts/fontawesome-webfont.svg?v=4.6.3#fontawesomeregular') format('svg'); *1/ */
+/*   font-weight: normal; */
+/*   font-style: normal; */
+/* } */
+
+
+      /* ,"web_accessible_resources": [ */
+      /*   "lib/font-awesome-4.6.3/fonts/fontawesome-webfont.eot" */
+      /* ] */
+
+/* .deepSearch-link-found:after, .deepSearch-link-not-found:after { */
+/*   /1* font-family: FontAwesome; *1/ */
+/*   font-weight: normal; */
+/*   font-style: normal; */
+/*   display: inline-block; */
+/*   text-decoration: inherit; */
+/* } */
+
+/* .deepSearch-link-found:after { */
+/*   content: "Y" */
+/*   /1* content: "\f058"; *1/ */
+/*   color: green; */
+/* } */
+
+/* .deepSearch-link-not-found:after { */
+/*   /1* content: "\f057"; *1/ */
+/*   content: "N" */
+/*   color: red; */
+/* } */
+
+.deepSearch-link-found, .deepSearch-link-not-found {
+  cursor: pointer;
+}
+
+.deepSearch-link-found {
+  color: green;
+}
+
+.deepSearch-link-not-found {
+  color: red;
+}
+

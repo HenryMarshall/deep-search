@@ -14,20 +14,21 @@ function getHTML(url, callback) {
 function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
+      // TODO: don't run if searching the current page
       if (request.message === "page_search") {
         getHTML(
           request.url,
-          searchHTML(request.url, request.queryParams)
+          searchHTML(request.href, request.queryParams, sendResponse)
         );
       }
     }
   );
 }
 
-function searchHTML(url, queryParams) {
+function searchHTML(href, queryParams, sendResponse) {
   return function(response) {
     var res = {
-      url: url,
+      // url: url,
       found: {}
     }
     response = response.replace(/[\s\S]*<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>[\s\S]*/, "$1");
@@ -46,13 +47,19 @@ function searchHTML(url, queryParams) {
       res.found = response.match(plainSearch);
     }
 
-    //change this to return what you want
-    if (res.found) {
-      console.groupCollapsed("message received");
-      console.log(res);
-      //console.log(response);
-      console.groupEnd();
-    }
+    sendResponse()
+    notifyContentOfMessage({ 
+      message: "checked_url", 
+      href: href,
+      matchesFound: res.found 
+    })
+    // //change this to return what you want
+    // if (res.found) {
+    //   console.groupCollapsed("message received");
+    //   console.log(res);
+    //   //console.log(response);
+    //   console.groupEnd();
+    // }
   }
 }
 
@@ -72,10 +79,10 @@ function regexEscape(text) {
 // }
 
 var defaultSearch = {
-  "#deepSearch-search": "lolwut",
-  "#is-regex": true,
-  "#is-deep": false,
-  "#is-case-insensitive": false
+  "#deepSearch-search": "north",
+  "#is-regex": false,
+  "#is-deep": true,
+  "#is-case-insensitive": true
 }
 var currentSearch = cloneObj(defaultSearch)
 
@@ -88,3 +95,14 @@ function cloneObj(obj) {
   return clone
 }
 
+// FIXME: DRY me out
+function notifyContentOfMessage(message) {
+  chrome.tabs.query(
+    { active: true, currentWindow: true },
+    function(tabs) {
+      var activeTab = tabs[0]
+      console.log("message sent")
+      chrome.tabs.sendMessage(activeTab.id, message)
+    }
+  )
+}
