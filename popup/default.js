@@ -19,9 +19,9 @@ function registerQuery() {
 function registerClear() {
   $("#clear-search").click(function(e) {
     e.preventDefault()
-    notifyContentOfMessage({ 
+    notifyContentOfMessage({
       message: "clear_query",
-      fields: read_fields()
+      fields: readFields()
     })
   })
 }

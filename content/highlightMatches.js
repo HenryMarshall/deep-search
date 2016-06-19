@@ -2,14 +2,11 @@
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     // Where `isDeep` is true is handled in `content/matchedLinks.js`
-    console.log("a message received", request)
     if (!request.fields.isDeep) {
       if (request.message === "submit_query") {
-        console.log("submit_query received")
         highlightMatches(request.fields)
       }
       else if (request.message === "clear_query") {
-        console.log("clear query received")
         clearHighlights()
       }
     }
@@ -17,7 +14,6 @@ chrome.runtime.onMessage.addListener(
 )
 
 function highlightMatches(queryParams) {
-  debugger
   clearHighlights()
 
   var find = queryParams.isRegex
