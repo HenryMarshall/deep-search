@@ -1,19 +1,25 @@
-// receive message from `popup/default.js:26`
+// receive message from `popup/default.js:30`
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
-    if (request.message === "submit_query" && !request.fields.isDeep) {
-      console.log("receive shallow submit_query: ", request)
-      highlightMatches(request.fields)
+    // Where `isDeep` is true is handled in `content/matchedLinks.js`
+    console.log("a message received", request)
+    if (!request.fields.isDeep) {
+      if (request.message === "submit_query") {
+        console.log("submit_query received")
+        highlightMatches(request.fields)
+      }
+      else if (request.message === "clear_query") {
+        console.log("clear query received")
+        clearHighlights()
+      }
     }
   }
 )
 
-// highlightMatches({
-//   search: 'and\\s\\w+',
-//   isRegex: true
-// })
-
 function highlightMatches(queryParams) {
+  debugger
+  clearHighlights()
+
   var find = queryParams.isRegex
     ? new RegExp(queryParams.search, 'g')
     : queryParams.search
@@ -27,4 +33,8 @@ function highlightMatches(queryParams) {
   })
 }
 
-console.log("hightlightMatches file initialized")
+function clearHighlights() {
+  $(".deepSearch-highlight").each(function() {
+    $(this).replaceWith($(this).html())
+  })
+}

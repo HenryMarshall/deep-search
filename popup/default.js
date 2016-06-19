@@ -1,11 +1,28 @@
-$(document).on('ready', function(e) {
+$(document).on('ready', initialize)
+
+function initialize() {
   registerQuery()
-})
+  registerClear()
+}
 
 function registerQuery() {
   $("#filter").submit(function(e) {
     e.preventDefault();
-    notifyContentOfQuery(readFields())
+    // send message to `content/highlightMatches.js:1`
+    notifyContentOfMessage({
+      message: "submit_query",
+      fields: readFields()
+    })
+  })
+}
+
+function registerClear() {
+  $("#clear-search").click(function(e) {
+    e.preventDefault()
+    notifyContentOfMessage({ 
+      message: "clear_query",
+      fields: read_fields()
+    })
   })
 }
 
@@ -17,21 +34,13 @@ function readFields() {
   }
 }
 
-function notifyContentOfQuery(fields) {
+function notifyContentOfMessage(message) {
   chrome.tabs.query(
     { active: true, currentWindow: true },
     function(tabs) {
       var activeTab = tabs[0]
-      // send message to `content/highlightMatches.js:1`
       console.log("message sent")
-      chrome.tabs.sendMessage(
-        activeTab.id,
-        {
-          message: "submit_query",
-          fields: fields
-        }
-      )
+      chrome.tabs.sendMessage(activeTab.id, message)
     }
   )
 }
-
