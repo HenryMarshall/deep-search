@@ -1,6 +1,6 @@
 function findLinks(queryParams) {
   $("a").each(function(index) {
-    var href = $(this).attr("href");
+    var href = $(this)[0].href
     if (/^https?/.test(href)) {
       console.log(href);
       sendPageSearch(href, queryParams);
@@ -14,7 +14,6 @@ function sendPageSearch(url, queryParams) {
     message: "page_search",
     queryParams: queryParams, 
     url: url,
-    currentLocation: window.location
   });
 }
 

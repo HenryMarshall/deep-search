@@ -16,16 +16,12 @@ function setupListener() {
     function(request, sender, sendResponse) {
       if (request.message === "page_search") {
         getHTML(
-          constructURL(request.url, request.currentLocation), 
+          request.url,
           searchHTML(request.url, request.queryParams)
         );
       }
     }
   );
-}
-
-function constructURL(url, currentLocation) {
-  return url;
 }
 
 function searchHTML(url, queryParams) {
@@ -49,11 +45,14 @@ function searchHTML(url, queryParams) {
       var plainSearch = new RegExp(regexEscape(queryParams.search), regexFlags);
       res.found = response.match(plainSearch);
     }
-    console.groupCollapsed("message received");
-    console.log(window.location.href);
-    console.log(res);
-    //console.log(response);
-    console.groupEnd();
+
+    if (res.found) {
+      console.groupCollapsed("message received");
+      console.log(window.location.href);
+      console.log(res);
+      //console.log(response);
+      console.groupEnd();
+    }
   }
 }
 
