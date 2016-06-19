@@ -4,13 +4,13 @@
   width: 360px;
 }
 
-#filter {
-  margin-bottom: 0;
-}
+/* #filter { */
+/*   margin-bottom: 0; */
+/* } */
 
-#search-wrapper {
-  margin-bottom: 0;
-}
+/* #search-wrapper { */
+/*   margin-bottom: 0; */
+/* } */
 
 #search-wrapper .input-group {
   width: 100%;
@@ -20,7 +20,25 @@
   width: 34px;
 }
 
-.checkboxes {
+
+.checkbox-buttons {
+  margin-bottom: 16px
+}
+
+.checkbox-buttons label {
+  font-size: 18px;
+  margin-right: 8px;
+  width: 48px;
+  font-weight: bold;
+}
+
+.checkbox-buttons input[type='checkbox']:checked+label {
+  color: #fff;
+  background-color: #666;
+  border-color: #555;
+}
+
+#is-deep+label>span {
   position: relative;
-  left: 20px;
+  top: 4px;
 }

@@ -1,26 +1,17 @@
 $(document).on('ready', initialize)
 
 function initialize() {
-  registerQuery()
-  registerClear()
+  registerEvent("#filter", "submit", "submit_search")
+  registerEvent("#clear-search", "click", "clear_search")
+  registerEvent("#next", "click", "next_highlight")
+  registerEvent("#prev", "click", "prev_highlight")
 }
 
-function registerQuery() {
-  $("#filter").submit(function(e) {
-    e.preventDefault();
-    // send message to `content/highlightMatches.js:1`
-    notifyContentOfMessage({
-      message: "submit_query",
-      fields: readFields()
-    })
-  })
-}
-
-function registerClear() {
-  $("#clear-search").click(function(e) {
+function registerEvent(target, action, message) {
+  $(target).on(action, function(e) {
     e.preventDefault()
     notifyContentOfMessage({
-      message: "clear_query",
+      message: message,
       fields: readFields()
     })
   })
@@ -30,7 +21,8 @@ function readFields() {
   return {
     search: $("#deepSearch-search").val(),
     isRegex: $("#is-regex").prop('checked'),
-    isDeep: $("#is-deep").prop('checked')
+    isDeep: $("#is-deep").prop('checked'),
+    isCaseInsensitive: $("#is-case-insensitive").prop('checked')
   }
 }
 

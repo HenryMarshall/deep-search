@@ -32,20 +32,20 @@
 
 
       <!-- Checkboxes -->
-      <div class="row checkboxes">
-        <div class="col-xs-6">
-          <label class="checkbox">
-            <input type="checkbox" name="is-regex" id="is-regex"> Regex
-          </label>
-        </div>
-        <div class="col-xs-6">
-          <label class="checkbox">
-            <input type="checkbox" name="is-deep" id="is-deep"> Deep Search
+      <div class="row checkbox-buttons">
+        <div class="col-xs-12">
+          <input type="checkbox" name="is-regex" id="is-regex" hidden>
+          <label class="btn btn-default" for="is-regex" data-toggle="tooltip" data-placement="top" title="Use Regex">.*</label>
+
+          <input type="checkbox" name="is-case-insensitive" id="is-case-insensitive" hidden>
+          <label class="btn btn-default" for="is-case-insensitive" data-toggle="tooltip" data-placement="top" title="Case Insensitive">Aa</label>
+
+          <input type="checkbox" name="is-deep" id="is-deep" hidden>
+          <label class="btn btn-default" for="is-deep" data-toggle="tooltip" data-placement="top" title="Deep Search">
+            <span class="glyphicon glyphicon-chevron-down"></span>
           </label>
         </div>
       </div>
-
-
     </form>
 
     <!-- Navigation Buttons -->
