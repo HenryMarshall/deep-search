@@ -7,3 +7,12 @@
 #filter {
   margin-bottom: 0;
 }
+
+#search-wrapper {
+  margin-bottom: 0;
+}
+
+.checkboxes {
+  position: relative;
+  left: 20px;
+}
