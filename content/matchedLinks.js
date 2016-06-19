@@ -1,8 +1,9 @@
 function findLinks(queryParams) {
   $("a").each(function(index) {
     var href = $(this)[0].href
-    if (/^https?/.test(href)) {
-      console.log(href);
+    var attr = $(this).attr("href")
+    if (/^https?/.test(href) && /^[^#]/.test(attr) ) {
+      console.log(attr);
       sendPageSearch(href, queryParams);
     }
   });
@@ -18,8 +19,8 @@ function sendPageSearch(url, queryParams) {
 }
 
 // findLinks({
-//   search: "a(n unconventional) love story.", 
-//   isRegex: false, 
+//   search: "Retrieved 2016-[0-9]{2}-[0-9]{2}\.", 
+//   isRegex: true, 
 //   isDeep: true,
 //   isCaseInsensitive: true
 // });

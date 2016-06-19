@@ -1,14 +1,14 @@
 setupListener();
 
 function getHTML(url, callback) {
-	$.ajax({
-		url: url,
-		datatype: "html",
-		success: callback,
-		error: function(err) {
-			console.error(url, error);
-		}
-	});
+  $.ajax({
+    url: url,
+    datatype: "html",
+    success: callback,
+    error: function(err) {
+      console.error(url, err);
+    }
+  });
 }
 
 function setupListener() {
@@ -46,9 +46,9 @@ function searchHTML(url, queryParams) {
       res.found = response.match(plainSearch);
     }
 
+    //change this to return what you want
     if (res.found) {
       console.groupCollapsed("message received");
-      console.log(window.location.href);
       console.log(res);
       //console.log(response);
       console.groupEnd();
