@@ -71,3 +71,20 @@ function regexEscape(text) {
 //   )
 // }
 
+var defaultSearch = {
+  "#deepSearch-search": "lolwut",
+  "#is-regex": true,
+  "#is-deep": false,
+  "#is-case-insensitive": false
+}
+var currentSearch = cloneObj(defaultSearch)
+
+function cloneObj(obj) {
+  console.log("clonedObj")
+  var clone = {}
+  Object.keys(obj).forEach(function(key) {
+    clone[key] = obj[key]
+  })
+  return clone
+}
+
