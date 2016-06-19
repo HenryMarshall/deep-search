@@ -15,7 +15,9 @@ function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       // TODO: don't run if searching the current page
-      if (request.message === "page_search") {
+      if (request.queryParams && 
+          request.queryParams.isDeep && 
+          request.message === "page_search") {
         getHTML(
           request.url,
           searchHTML(request.href, request.queryParams, sendResponse)
@@ -79,10 +81,10 @@ function regexEscape(text) {
 // }
 
 var defaultSearch = {
-  "#deepSearch-search": "north",
+  "#deepSearch-search": "",
   "#is-regex": false,
-  "#is-deep": true,
-  "#is-case-insensitive": true
+  "#is-deep": false,
+  "#is-case-insensitive": false
 }
 var currentSearch = cloneObj(defaultSearch)
 

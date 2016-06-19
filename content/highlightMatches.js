@@ -2,21 +2,21 @@
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     // Where `isDeep` is true is handled in `content/matchedLinks.js`
-    if (request.fields && !request.fields.isDeep) {
-      switch(request.message) {
-        case "submit_search":
-          highlightMatches(request.fields)
-          break
-        case "clear_search":
-          clearHighlights()
-          break
-        case "next_highlight":
-          moveCurrentHighlight(1)
-          break
-        case "prev_highlight":
-          moveCurrentHighlight(-1)
-          break
-      }
+    switch(request.message) {
+      case "clear_search":
+        clearHighlights()
+        break
+      case "next_highlight":
+        moveCurrentHighlight(1)
+        break
+      case "prev_highlight":
+        moveCurrentHighlight(-1)
+        break
+      case "submit_search":
+        if (request.queryParams && !request.queryParams.isDeep) {
+          highlightMatches(request.queryParams)
+        }
+        break
     }
   }
 )
