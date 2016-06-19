@@ -20,7 +20,7 @@
       <div class="form-group has-feedback" id="search-wrapper">
         <label class="sr-only" for="filter">Input with error</label>
         <div class="input-group">
-          <input type="text" name="search" id="deepSearch-search" class="form-control">
+          <input type="text" name="search" id="deepSearch-search" class="form-control" autocomplete="off">
           <div id="deepSearch-submit" class="input-group-addon">
             <span class="glyphicon glyphicon-chevron-right form-control-feedback" aria-hidden="true" ></span>
           </div>
@@ -41,6 +41,10 @@
           <label class="btn btn-default" for="is-deep" data-toggle="tooltip" data-placement="top" title="Deep Search">
             <span class="glyphicon glyphicon-chevron-down"></span>
           </label>
+
+          <button class="btn btn-default" id="clear-search">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
         </div>
       </div>
     </form>

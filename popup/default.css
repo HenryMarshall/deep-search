@@ -26,7 +26,7 @@
   margin-bottom: 16px
 }
 
-.checkbox-buttons label {
+.checkbox-buttons label, #clear-search{
   font-size: 18px;
   margin-right: 8px;
   width: 48px;
@@ -39,7 +39,7 @@
   border-color: #555;
 }
 
-#is-deep+label>span {
+#is-deep+label>span, #clear-search>span {
   position: relative;
   top: 4px;
 }

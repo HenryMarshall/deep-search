@@ -4,7 +4,7 @@ function initialize() {
   repopulateSettings()
   registerSubmitClick()
   registerEvent("#filter", "submit", "submit_search", "save")
-  // registerEvent("#clear-search", "click", "clear_search", "clear")
+  registerEvent("#clear-search", "click", "clear_search", "clear")
   registerEvent("#next", "click", "next_highlight")
   registerEvent("#prev", "click", "prev_highlight")
 }

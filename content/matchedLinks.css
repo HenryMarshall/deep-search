@@ -19,4 +19,15 @@
   background-color: #940000;
 }
 
+.matchCountWrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 auto;
+  line-height: 18px;
+}
+
+.matchCountWrapper {
+
+}
+
 
