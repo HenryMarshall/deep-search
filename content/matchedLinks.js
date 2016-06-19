@@ -13,16 +13,17 @@ function sendPageSearch(url, queryParams) {
   chrome.runtime.sendMessage({
     message: "page_search",
     queryParams: queryParams, 
-    url: url
+    url: url,
+    currentLocation: window.location
   });
 }
 
-findLinks({
-  search: "Let Me Tell You A Story", 
-  isRegex: false, 
-  isDeep: true,
-  isCaseInsensitive: true
-});
+// findLinks({
+//   search: "a(n unconventional) love story.", 
+//   isRegex: false, 
+//   isDeep: true,
+//   isCaseInsensitive: true
+// });
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {

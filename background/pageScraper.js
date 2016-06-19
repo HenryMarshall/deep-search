@@ -16,12 +16,16 @@ function setupListener() {
     function(request, sender, sendResponse) {
       if (request.message === "page_search") {
         getHTML(
-          request.url, 
+          constructURL(request.url, request.currentLocation), 
           searchHTML(request.url, request.queryParams)
         );
       }
     }
   );
+}
+
+function constructURL(url, currentLocation) {
+  return url;
 }
 
 function searchHTML(url, queryParams) {
@@ -46,6 +50,7 @@ function searchHTML(url, queryParams) {
       res.found = response.match(plainSearch);
     }
     console.groupCollapsed("message received");
+    console.log(window.location.href);
     console.log(res);
     //console.log(response);
     console.groupEnd();
@@ -55,3 +60,15 @@ function searchHTML(url, queryParams) {
 function regexEscape(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
+
+// function getPageAddress() {
+//   chrome.tabs.query(
+//     { active: true, currentWindow: true },
+//     function(tabs) {
+//       var activeTab = tabs[0]
+//       console.log("message sent")
+//       chrome.tabs.sendMessage(activeTab.id, {message: "current_url", })
+//     }
+//   )
+// }
+
