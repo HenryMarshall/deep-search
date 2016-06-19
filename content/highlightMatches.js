@@ -53,21 +53,50 @@ function clearHighlights() {
 }
 
 function moveCurrentHighlight(moveDirection) {
-  var oldIndex = $(".deepSearch-current-highlight")
-    .removeClass("deepSearch-current-highlight")
-    .attr('data-highlight-index')
+  var $newHighlight =
+    $(".deepSearch-highlight[data-highlight-index='" + newCurrentIndex() + "']")
 
-  var maxIndex = $(".deepSearch-highlight")
-    .last()
-    .attr('data-highlight-index')
+  $newHighlight.addClass("deepSearch-current-highlight")
+  scrollToHighlight($newHighlight)
 
-  var newIndex = Number(oldIndex) + moveDirection
-  if (newIndex < 0) {
-    newIndex = maxIndex
+  function newCurrentIndex() {
+    var oldIndex = $(".deepSearch-current-highlight")
+      .removeClass("deepSearch-current-highlight")
+      .attr('data-highlight-index')
+
+    var maxIndex = $(".deepSearch-highlight")
+      .last()
+      .attr('data-highlight-index')
+
+    var newIndex = Number(oldIndex) + moveDirection
+    if (newIndex < 0) {
+      newIndex = maxIndex
+    }
+    else if (newIndex > maxIndex) {
+      newIndex = 0
+    }
+    return newIndex
   }
-  else if (newIndex > maxIndex) {
-    newIndex = 0
+
+  function scrollToHighlight(highlight) {
+    var highlight = highlight.first()
+
+    var jumpTo = scrollDestination(highlight)
+    if (jumpTo) {
+      window.scrollTo(0, jumpTo)
+    }
+
+    function scrollDestination(highlight) {
+      var top = $("html").scrollTop()
+      var bottom = top + $(window).height()
+      var highlightPosition = Math.max(highlight.first().offset().top - 36, 0)
+
+      var jumpTo = null
+      if (bottom < highlightPosition || highlightPosition < top) {
+        jumpTo = highlightPosition
+      }
+      return jumpTo
+    }
   }
-  $(".deepSearch-highlight[data-highlight-index='" + newIndex + "']")
-    .addClass("deepSearch-current-highlight")
 }
+
