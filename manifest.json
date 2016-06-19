@@ -17,9 +17,10 @@
       "js": [
         "lib/jquery-2.2.4.min.js",
         "lib/findAndReplaceDOMText.js",
-        "content/highlightMatches.js",
-        "content/matchedLinks.js"
-      ]
+        "content/matchedLinks.js",
+        "content/highlightMatches.js"
+      ],
+      "css": [ "content/highlightMatches.css" ]
     }
   ],
 

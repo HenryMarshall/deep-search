@@ -7,3 +7,20 @@
 #filter {
   margin-bottom: 0;
 }
+
+#search-wrapper {
+  margin-bottom: 0;
+}
+
+#search-wrapper .input-group {
+  width: 100%;
+}
+
+#clear-search {
+  width: 34px;
+}
+
+.checkboxes {
+  position: relative;
+  left: 20px;
+}

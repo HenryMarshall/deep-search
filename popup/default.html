@@ -17,20 +17,28 @@
     <form id="filter">
 
       <!-- Input Field -->
-      <div class="form-group has-feedback">
+      <div class="form-group has-feedback" id="search-wrapper">
         <label class="sr-only" for="filter">Input with error</label>
-        <input type="text" name="search" id="deepSearch-search" class="form-control">
-        <span id="clear-search" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+        <div class="input-group">
+          <input type="text" name="search" id="deepSearch-search" class="form-control">
+          <div class="input-group-addon" id="clear-search">
+            <span
+              class="glyphicon glyphicon-remove form-control-feedback"
+              aria-hidden="true"
+            ></span>
+          </div>
+        </div>
       </div>
 
+
       <!-- Checkboxes -->
-      <div class="row">
-        <div class="col-xs-5 col-xs-offset-1">
+      <div class="row checkboxes">
+        <div class="col-xs-6">
           <label class="checkbox">
             <input type="checkbox" name="is-regex" id="is-regex"> Regex
           </label>
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-6">
           <label class="checkbox">
             <input type="checkbox" name="is-deep" id="is-deep"> Deep Search
           </label>
