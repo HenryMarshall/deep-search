@@ -17,13 +17,6 @@ function sendPageSearch(url, queryParams) {
   });
 }
 
-findLinks({
-  search: "Let Me Tell You A Story", 
-  isRegex: false, 
-  isDeep: true,
-  isCaseInsensitive: true
-});
-
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.message === "submit_query" && request.fields.isDeep) {

@@ -20,13 +20,22 @@ function highlightMatches(queryParams) {
     ? new RegExp(queryParams.search, 'g')
     : queryParams.search
 
-  var wrapper = document.createElement("span")
-  wrapper.setAttribute('class', 'deepSearch-highlight')
-
   findAndReplaceDOMText($('body')[0], {
     find: find,
-    wrap: wrapper
+    replace: createHighlight
   })
+}
+
+function createHighlight(portion, match) {
+  var wrapper = document.createElement("span")
+  var wrapperClasses = 'deepSearch-highlight'
+  if (match.index === 0) {
+    wrapperClasses += ' deepSearch-current-highlight'
+  }
+  wrapper.setAttribute('class', wrapperClasses)
+  wrapper.setAttribute('data-highlight-index', match.index)
+  wrapper.appendChild(document.createTextNode(portion.text))
+  return wrapper
 }
 
 function clearHighlights() {
