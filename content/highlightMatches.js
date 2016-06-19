@@ -3,10 +3,10 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     // Where `isDeep` is true is handled in `content/matchedLinks.js`
     if (!request.fields.isDeep) {
-      if (request.message === "submit_query") {
+      if (request.message === "submit_search") {
         highlightMatches(request.fields)
       }
-      else if (request.message === "clear_query") {
+      else if (request.message === "clear_search") {
         clearHighlights()
       }
     }
