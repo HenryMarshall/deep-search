@@ -95,11 +95,11 @@ $(document).on('ready', function() {
     
     if (matchCount) {
       $link.append(
-        $("<span class='deepSearch-link-found'>" + matchCount + "</span>")
+        $("<span class='deepSearch-link-found'><span class='matchCountWrapper'><span='matchCount'>" + matchCount + "</span></span></span>")
       )
     }
     else {
-      $link.append($("<span class='deepSearch-link-not-found'>&times;</span>"))
+      $link.append($("<span class='deepSearch-link-not-found'><span class='matchCountWrapper'><span class='matchCount'>&times;</span></span></span>"))
     }
   }
 
