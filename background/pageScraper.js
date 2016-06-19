@@ -80,6 +80,7 @@ var defaultSearch = {
 var currentSearch = cloneObj(defaultSearch)
 
 function cloneObj(obj) {
+  console.log("clonedObj")
   var clone = {}
   Object.keys(obj).forEach(function(key) {
     clone[key] = obj[key]
