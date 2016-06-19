@@ -18,6 +18,15 @@ function repopulateSettings() {
   })
 }
 
+// function showMatchData(matchData) {
+//   var $table = $("#results-table")
+//   $table.empty()
+//   matchData.slice(1).forEach(function(match) {
+//     var tableRow = $("<tr><td>" + match + "</td></tr>")
+//     $("#results-table").append(tableRow)
+//   })
+// }
+
 function registerEvent(target, action, message, changeState) {
   $(target).on(action, function(e) {
     e.preventDefault()
@@ -31,7 +40,7 @@ function registerEvent(target, action, message, changeState) {
     }
     notifyContentOfMessage({
       message: message,
-      fields: fields
+      queryParams: fields
     })
   })
 }

@@ -1,69 +1,113 @@
-function checkLink(queryParams, link) {
-  var href = $(link)[0].href
-  var attr = $(link).attr("href")
-  if (/^https?/.test(href) && /^[^#]/.test(attr) ) {
-    // console.log(attr);
-    sendPageSearch(href, attr, queryParams);
+$(document).on('ready', function() {
+  var linksData = {}
+  initialize()
+
+  function initialize() {
+    listenForMessages()
+    listenForMatchedLinkClicks()
+
+    // // TODO: undo for production
+    // processLinks({
+    //   // search: "Retrieved 2016-[0-9]{2}-[0-9]{2}\.", 
+    //   // isRegex: true,
+    //   search: 'north\\s(\\w+)',
+    //   isRegex: true, 
+    //   isDeep: true,
+    //   isCaseInsensitive: true
+    // });
   }
-}
 
+  function listenForMatchedLinkClicks() {
+    $("body").on('click', ".deepSearch-link-found", function(e) {
+      e.preventDefault()
+      // Using `prop` gets you the absolute path -- we store with as written
+      var href = $(this).parent().attr('href')
+      var matchString = linksData[href]
+        .slice(0,10)
+        .map(match => match.replace(/\s/, ' '))
+        .join('\n')
+      alert(matchString)
+    })
 
-function sendPageSearch(url, href, queryParams) {
-  chrome.runtime.sendMessage({
-    message: "page_search",
-    queryParams: queryParams, 
-    url: url,
-    href: href
-  });
-}
+    // just prevent default for consistency
+    $("body").on('click', ".deepSearch-link-not-found", function(e) {
+      e.preventDefault()
+    })
+  }
 
-// processLinks({
-//   search: "Retrieved 2016-[0-9]{2}-[0-9]{2}\.", 
-//   isRegex: true, 
-//   isDeep: true,
-//   isCaseInsensitive: true
-// });
-
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    if (request.fields && request.fields.isDeep) {
-      switch(request.message) {
-        case "submit_search":
-          processLinks(request.fields)
-          break
-        case "clear_search":
+  function listenForMessages() {
+    chrome.runtime.onMessage.addListener(
+      function(request, sender, sendResponse) {
+        if (request.message === "checked_url") {
+          markLink(request)
+        }
+        else if (request.message === "clear_search") {
           unmarkLinks()
-          break
+        }
+        else if (request.message === "submit_search" && 
+            request.queryParams &&
+            request.queryParams.isDeep) 
+        {
+          processLinks(request.queryParams)
+        }
       }
-    }
-    if (request.message === "checked_url") {
-      markLink(request)
-    }
-  }  
-)
-
-function processLinks(queryParams) {
-  $("a").each(function(index) {
-    checkLink(queryParams, this)
-  })
-}
-
-function markLink(linkData) {
-  var $link = $("a[href='" + linkData.href + "']")
-  // $link
-  //   .removeClass('deepSearch-link-found')
-  //   .removeClass('deepSearch-link-not-found')
-  if (linkData.matchesFound) {
-    $link
-      .append($("<span class='deepSearch-link-found'>Y</span>"))
-      // .addClass('deepSearch-link-found')
+    )
   }
-  else {
-    $link
-      .append($("<span class='deepSearch-link-not-found'>N</span>"))
-      
-      // .addClass('deepSearch-link-not-found')
-  }
-}
 
-$("a").prepend()
+  function checkLink(queryParams, link) {
+    var href = $(link)[0].href
+    var attr = $(link).attr("href")
+    if (/^https?/.test(href) && /^[^#]/.test(attr) ) {
+      // console.log(attr);
+      sendPageSearch(href, attr, queryParams);
+    }
+  }
+
+  function sendPageSearch(url, href, queryParams) {
+    chrome.runtime.sendMessage({
+      message: "page_search",
+      queryParams: queryParams, 
+      url: url,
+      href: href
+    });
+  }
+
+  function processLinks(queryParams) {
+    $("a").each(function(index) {
+      checkLink(queryParams, this)
+    })
+  }
+
+  function markLink(linkData) {
+    storeLinkData(linkData)
+
+    var $link = $("a[href='" + linkData.href + "']")
+    // if ($link.children('.deepSearch-link-found, .deepSearch-link-not-found').length)
+    //   debugger
+
+    $link.children('.deepSearch-link-found, .deepSearch-link-not-found').each(function() {
+      $(this).remove()
+    })
+    var matchCount = linkData.matchesFound && linkData.matchesFound.length
+    if (matchCount >= 10) {
+      matchCount = "+"
+    }
+    
+    if (matchCount) {
+      $link.append(
+        $("<span class='deepSearch-link-found'>" + matchCount + "</span>")
+      )
+    }
+    else {
+      $link.append($("<span class='deepSearch-link-not-found'>&times;</span>"))
+    }
+  }
+
+  function unmarkLinks() {
+    $('.deepSearch-link-found, .deepSearch-link-not-found').empty()
+  }
+
+  function storeLinkData(linkData) {
+    linksData[linkData.href] = linkData.matchesFound
+  }
+}) 
