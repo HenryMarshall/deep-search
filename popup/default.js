@@ -54,6 +54,11 @@ function saveFields(fields) {
 }
 
 function clearSearch() {
+  // Reset the search field in the state
+  var currentSearch = chrome.extension.getBackgroundPage().currentSearch
+  currentSearch["#deepSearch-search"] = ""
+  // Reset the field in the UI
+  $("#deepSearch-search").val("")
 }
 
 function notifyContentOfMessage(message) {
