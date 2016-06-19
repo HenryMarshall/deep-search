@@ -21,7 +21,8 @@ function readFields() {
   return {
     search: $("#deepSearch-search").val(),
     isRegex: $("#is-regex").prop('checked'),
-    isDeep: $("#is-deep").prop('checked')
+    isDeep: $("#is-deep").prop('checked'),
+    isCaseInsensitive: $("#is-case-insensitive").prop('checked')
   }
 }
 

@@ -1,6 +1,7 @@
 // receive message from `popup/default.js:30`
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
+    console.log("request.fields: ", request.fields)
     // Where `isDeep` is true is handled in `content/matchedLinks.js`
     if (!request.fields.isDeep) {
       switch(request.message) {
@@ -24,14 +25,22 @@ chrome.runtime.onMessage.addListener(
 function highlightMatches(queryParams) {
   clearHighlights()
 
+  var flags = 'g'
+  if (queryParams.isCaseInsensitive) {
+    flags += 'i'
+  }
   var find = queryParams.isRegex
-    ? new RegExp(queryParams.search, 'g')
-    : queryParams.search
+    ? new RegExp(queryParams.search, flags)
+    : new RegExp(regexEscape(queryParams.search), flags)
 
   findAndReplaceDOMText($('body')[0], {
     find: find,
     replace: createHighlight
   })
+
+  function regexEscape(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+  };
 }
 
 function createHighlight(portion, match) {
@@ -79,6 +88,10 @@ function moveCurrentHighlight(moveDirection) {
   }
 
   function scrollToHighlight(highlight) {
+    if (highlight.length === 0) {
+      return
+    }
+
     var highlight = highlight.first()
 
     var jumpTo = scrollDestination(highlight)
