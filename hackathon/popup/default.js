@@ -19,15 +19,6 @@ function repopulateSettings() {
   })
 }
 
-// function showMatchData(matchData) {
-//   var $table = $("#results-table")
-//   $table.empty()
-//   matchData.slice(1).forEach(function(match) {
-//     var tableRow = $("<tr><td>" + match + "</td></tr>")
-//     $("#results-table").append(tableRow)
-//   })
-// }
-
 function registerSubmitClick() {
   $("#deepSearch-submit").click(function() {
     var fields = readFields()
@@ -102,10 +93,3 @@ function notifyContentOfMessage(message) {
 }
 
 var currentSearch = {}
-
-// var currentSearch = {
-//   "#deepSearch-search": "",
-//   "#is-regex": false,
-//   "#is-deep": false,
-//   "#is-case-insensitive": false
-// }

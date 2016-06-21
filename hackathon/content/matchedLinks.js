@@ -58,7 +58,6 @@ $(document).on('ready', function() {
     var href = $(link)[0].href
     var attr = $(link).attr("href")
     if (/^https?/.test(href) && /^[^#]/.test(attr) ) {
-      // console.log(attr);
       sendPageSearch(href, attr, queryParams);
     }
   }
@@ -82,8 +81,6 @@ $(document).on('ready', function() {
     storeLinkData(linkData)
 
     var $link = $("a[href='" + linkData.href + "']")
-    // if ($link.children('.deepSearch-link-found, .deepSearch-link-not-found').length)
-    //   debugger
 
     $link.children('.deepSearch-link-found, .deepSearch-link-not-found').each(function() {
       $(this).remove()
