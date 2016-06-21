@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import { stripHtml } from './searchUrl'
+
 export default setupListener;
 
 function getHTML(url, callback) {
@@ -33,11 +35,13 @@ function searchHTML(href, queryParams, sendResponse) {
     var res = {
       found: {}
     }
-    response = response.replace(/[\s\S]*<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>[\s\S]*/, "$1");
-    response = response.replace(/<\s*script[^>]*>[\s\S]*<\s*\/\s*script\s*>/g, "");
-    response = response.replace(/<\s*script[^>]*\/\s*>/g, "");
-    response = response.replace(/<[^>]+>/g, "");
-    response = response.replace(/(\r?\n){2,}/g, "$1");
+    // response = response.replace(/<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>/, "$1");
+    // response = response.replace(/<\s*script[^>]*>[\s\S]*<\s*\/\s*script\s*>/g, "");
+    // response = response.replace(/<\s*script[^>]*\/\s*>/g, "");
+    // response = response.replace(/<[^>]+>/g, "");
+    // response = response.replace(/(\r?\n){2,}/g, "\n");
+    
+    response = stripHtml(response)
 
     var regexFlags = queryParams.isCaseInsensitive ? "gi" : "g";
     if (queryParams.isRegex) {
