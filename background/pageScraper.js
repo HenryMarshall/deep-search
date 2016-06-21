@@ -1,3 +1,6 @@
+import validateUrls from './validateUrls'
+validateUrls()
+
 setupListener();
 
 function getHTML(url, callback) {
@@ -14,7 +17,6 @@ function getHTML(url, callback) {
 function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      // TODO: don't run if searching the current page
       if (request.queryParams && 
           request.queryParams.isDeep && 
           request.message === "page_search") {
@@ -30,7 +32,6 @@ function setupListener() {
 function searchHTML(href, queryParams, sendResponse) {
   return function(response) {
     var res = {
-      // url: url,
       found: {}
     }
     response = response.replace(/[\s\S]*<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>[\s\S]*/, "$1");
@@ -55,30 +56,12 @@ function searchHTML(href, queryParams, sendResponse) {
       href: href,
       matchesFound: res.found 
     })
-    // //change this to return what you want
-    // if (res.found) {
-    //   console.groupCollapsed("message received");
-    //   console.log(res);
-    //   //console.log(response);
-    //   console.groupEnd();
-    // }
   }
 }
 
 function regexEscape(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
-
-// function getPageAddress() {
-//   chrome.tabs.query(
-//     { active: true, currentWindow: true },
-//     function(tabs) {
-//       var activeTab = tabs[0]
-//       console.log("message sent")
-//       chrome.tabs.sendMessage(activeTab.id, {message: "current_url", })
-//     }
-//   )
-// }
 
 var defaultSearch = {
   "#deepSearch-search": "",
