@@ -1,15 +1,59 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8" />
-  <title>Popup</title>
-  <link rel="stylesheet" type="text/css" href="../styles/popup.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Popup</title>
+    <link rel="stylesheet" type="text/css" href="../styles/popup.css">
+  </head>
+  <body>
 
-  <h1>Popup</h1>
-  <button class="btn btn-primary">foo</button>
+  <div class="container-fluid">
 
+    <form id="filter">
+
+      <!-- Input Field -->
+      <div class="form-group has-feedback" id="search-wrapper">
+        <label class="sr-only" for="filter">Input with error</label>
+        <div class="input-group">
+          <input type="text" name="search" id="deepSearch-search" class="form-control" autocomplete="off">
+          <div id="deepSearch-submit" class="input-group-addon">
+            <span class="glyphicon glyphicon-chevron-right form-control-feedback" aria-hidden="true" ></span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Checkboxes -->
+      <div class="row checkbox-buttons">
+        <div class="col-xs-12">
+          <input type="checkbox" name="is-regex" id="is-regex" hidden>
+          <label class="btn btn-default" for="is-regex" data-toggle="tooltip" data-placement="top" title="Use Regex">.*</label>
+
+          <input type="checkbox" name="is-case-insensitive" id="is-case-insensitive" hidden>
+          <label class="btn btn-default" for="is-case-insensitive" data-toggle="tooltip" data-placement="top" title="Case Insensitive">Aa</label>
+
+          <input type="checkbox" name="is-deep" id="is-deep" hidden>
+          <label class="btn btn-default" for="is-deep" data-toggle="tooltip" data-placement="top" title="Deep Search">
+            <span class="glyphicon glyphicon-chevron-down"></span>
+          </label>
+
+          <button class="btn btn-default" id="clear-search">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- Navigation Buttons -->
+    <div class="row">
+      <div class="col-xs-6">
+        <button class="btn btn-default btn-block" id="prev">Prev</button>
+      </div>
+      <div class="col-xs-6">
+        <button class="btn btn-primary btn-block" id="next">Next</button>
+      </div>
+    </div>
+  </div>
   <script src="../scripts/popup.js"></script>
-</body>
+  </body>
 </html>

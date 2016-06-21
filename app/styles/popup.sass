@@ -1,5 +1,32 @@
 @import 'vendor/bootstrap'
 
 body
-  background-color: green
+  margin-top: 16px
+  margin-bottom: 16px
+  width: 360px
+
+#search-wrapper .input-group
+  width: 100%
+
+#deepSearch-submit
+  width: 34px
+  cursor: pointer
+
+.checkbox-buttons
+  margin-bottom: 16px
+
+.checkbox-buttons label, #clear-search
+  font-size: 18px
+  margin-right: 8px
+  width: 48px
+  font-weight: bold
+
+.checkbox-buttons input[type='checkbox']:checked+label
+  color: #fff
+  background-color: #666
+  border-color: #555
+
+#is-deep+label>span, #clear-search>span
+  position: relative
+  top: 4px
 
