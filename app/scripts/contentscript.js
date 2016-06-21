@@ -1,3 +1,9 @@
 'use strict';
+import $ from 'jquery'
+import initializeMatchedLinks from './content/matchedLinks'
+import initializeHighlightMatches from './content/highlightMatches'
 
-console.log('\'Allo \'Allo! Content script');
+$(document).on('ready', function() {
+  initializeMatchedLinks()
+  initializeHighlightMatches()
+})

@@ -1,25 +1,33 @@
-// receive message from `popup/default.js:30`
-chrome.runtime.onMessage.addListener(
-  function(request, sender, sendResponse) {
-    // Where `isDeep` is true is handled in `content/matchedLinks.js`
-    switch(request.message) {
-      case "clear_search":
-        clearHighlights()
-        break
-      case "next_highlight":
-        moveCurrentHighlight(1)
-        break
-      case "prev_highlight":
-        moveCurrentHighlight(-1)
-        break
-      case "submit_search":
-        if (request.queryParams && !request.queryParams.isDeep) {
-          highlightMatches(request.queryParams)
-        }
-        break
+import $ from 'jquery'
+import findAndReplaceDOMText from 'findandreplacedomtext'
+
+export default initialize
+
+function initialize() {
+  console.log("highlightMatches initialized")
+  // receive message from `popup/default.js:30`
+  chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+      // Where `isDeep` is true is handled in `content/matchedLinks.js`
+      switch(request.message) {
+        case "clear_search":
+          clearHighlights()
+          break
+        case "next_highlight":
+          moveCurrentHighlight(1)
+          break
+        case "prev_highlight":
+          moveCurrentHighlight(-1)
+          break
+        case "submit_search":
+          if (request.queryParams && !request.queryParams.isDeep) {
+            highlightMatches(request.queryParams)
+          }
+          break
+      }
     }
-  }
-)
+  )
+}
 
 function highlightMatches(queryParams) {
   clearHighlights()

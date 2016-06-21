@@ -1,3 +1,4 @@
+import $ from 'jquery'
 export default setupListener;
 
 function getHTML(url, callback) {
@@ -17,6 +18,7 @@ function setupListener() {
       if (request.queryParams && 
           request.queryParams.isDeep && 
           request.message === "page_search") {
+        console.log("receive getHTML message", request)
         getHTML(
           request.url,
           searchHTML(request.href, request.queryParams, sendResponse)
@@ -60,22 +62,6 @@ function regexEscape(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-var defaultSearch = {
-  "#deepSearch-search": "",
-  "#is-regex": false,
-  "#is-deep": false,
-  "#is-case-insensitive": false
-}
-var currentSearch = cloneObj(defaultSearch)
-
-function cloneObj(obj) {
-  console.log("clonedObj")
-  var clone = {}
-  Object.keys(obj).forEach(function(key) {
-    clone[key] = obj[key]
-  })
-  return clone
-}
 
 // FIXME: DRY me out
 function notifyContentOfMessage(message) {
