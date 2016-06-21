@@ -29,7 +29,7 @@ gulp.task('styles:less', function() {
 });
 
 gulp.task('styles:sass', function() {
-  return gulp.src('app/styles/*.scss')
+  return gulp.src('app/styles/*.sass')
     .pipe(gulpif(args.sourcemaps, sourcemaps.init()))
     .pipe(sass({ includePaths: ['./app']}).on('error', function(error) {
       gutil.log(gutil.colors.red('Error (' + error.plugin + '): ' + error.message));
