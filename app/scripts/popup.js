@@ -1,3 +1,5 @@
 'use strict';
+import $ from 'jquery'
+import initialize from './popup/hackathon'
 
-console.log('\'Allo \'Allo! Popup');
+$(document).on('ready', initialize)
