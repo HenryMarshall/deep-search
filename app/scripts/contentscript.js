@@ -1,9 +1,11 @@
 'use strict';
 import $ from 'jquery'
-import initializeMatchedLinks from './content/matchedLinks'
-import initializeHighlightMatches from './content/highlightMatches'
+// import initializeMatchedLinks from './content/matchedLinks'
+// import initializeHighlightMatches from './content/highlightMatches'
+import setupListeners from './content/messageListener'
 
 $(document).on('ready', function() {
-  initializeMatchedLinks()
-  initializeHighlightMatches()
+  setupListeners()
+  // initializeMatchedLinks()
+  // initializeHighlightMatches()
 })
