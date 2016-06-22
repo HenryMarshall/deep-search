@@ -17,6 +17,9 @@ export default function setupListeners() {
         case "change_highlight":
           shallow.changeHighlight(request.direction)
           break
+        case "checked_url":
+          deep.setMark(request.href, request.matchesFound)
+          break
       }
     }
   )

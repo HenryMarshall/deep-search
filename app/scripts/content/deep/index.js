@@ -1,9 +1,9 @@
 import search from './search'
-import markLinks from './markLinks'
+import setMark from './setMark'
 import clearMarks from './clearMarks'
 
 export default {
   search,
-  markLinks,
+  setMark,
   clearMarks,
 }

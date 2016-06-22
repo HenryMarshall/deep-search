@@ -1,8 +1,10 @@
-export default function markLinks(linkData) {
-  var link = $(`a[href='${linkData.href}']`)
+import $ from 'jquery'
+
+export default function setMark(href, matches) {
+  var link = $(`a[href='${href}']`)
 
   clearMarksFromLink(link)
-  const marker = buildMarker(linkData.matchesFound)
+  const marker = buildMarker(matches)
   link.append(marker)
 }
 
@@ -19,11 +21,14 @@ function clearMarksFromLink(link) {
 
 function buildMarker(matches) {
   // FIXME: Accidental camelCase class names
-  return $(`<span class='deepSearch-link${matches ? '' : '-not'}-found'>
-           <span class='matchCountWrapper'>
-           <span='matchCount'>${matchCount(matches)}</span>
-           </span>
-           </span>`)
+  const marker = $(
+    `<span class='deepSearch-link${matches ? '' : '-not'}-found'>
+    <span class='matchCountWrapper'>
+    <span='matchCount'>${matchCount(matches)}</span>
+    </span>
+    </span>`
+  )
+  return marker
 }
 
 function matchCount(matches) {

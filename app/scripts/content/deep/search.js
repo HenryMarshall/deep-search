@@ -2,12 +2,14 @@ import $ from 'jquery'
 
 export default function search(queryParams) {
   $("a").each(function() {
-    const href = $(this)[0].href
-    if (href && !isCurrentPageDeepLink(this)) {
+    const url = $(this)[0].href
+    const href = $(this).attr("href")
+    if (href && !isCurrentPageDeepLink(href)) {
       chrome.runtime.sendMessage({
         message: "page_search",
         queryParams,
-        url: href
+        url,
+        href
       })
     }
   })
@@ -17,7 +19,6 @@ export default function search(queryParams) {
 // `<a href="#some_section">Some Section</a>`. Crawling these entails
 // searching the very page you are currently on (which should be done with
 // a shallow search).
-function isCurrentPageDeepLink(link) {
-  const attr = $(link).attr("href")
-  return (attr.slice(0,1) === "#")
+function isCurrentPageDeepLink(href) {
+  return (href.slice(0,1) === "#")
 }
