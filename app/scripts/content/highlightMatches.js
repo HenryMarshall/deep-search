@@ -30,6 +30,7 @@ function initialize() {
 }
 
 function highlightMatches(queryParams) {
+  console.log("queryParams: ", queryParams)
   clearHighlights()
 
   var flags = 'g'
