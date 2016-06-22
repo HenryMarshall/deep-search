@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import { stripHtml } from './searchUrl'
+import messageContent from '../shared/messageContent'
 
 export default setupListener;
 
@@ -33,7 +34,7 @@ function searchHTML(href, queryParams) {
     const regexFlags = isCaseInsensitive ? "gi" : "g";
 
     const matchesFound = text.match(new RegExp(regex, regexFlags))
-    notifyContentOfMessage({ message: "checked_url", href, matchesFound })
+    messageContent({ message: "checked_url", href, matchesFound })
   }
 }
 
@@ -41,15 +42,3 @@ function regexEscape(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-
-// FIXME: DRY me out
-function notifyContentOfMessage(message) {
-  chrome.tabs.query(
-    { active: true, currentWindow: true },
-    function(tabs) {
-      var activeTab = tabs[0]
-      console.log("message sent")
-      chrome.tabs.sendMessage(activeTab.id, message)
-    }
-  )
-}

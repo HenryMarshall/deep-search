@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import messageContent from '../shared/messageContent'
 
 export default initialize
 
@@ -26,7 +27,7 @@ function registerSubmitClick() {
     var fields = readFields()
     clearVisuals()
     saveFields(fields)
-    notifyContentOfMessage({
+    messageContent({
       message: "submit_search",
       queryParams: fields
     })
@@ -46,7 +47,7 @@ function registerEvent(target, action, message, changeState) {
     else if(changeState === "clear") {
       clearSearch()
     }
-    notifyContentOfMessage({
+    messageContent({
       message: message,
       queryParams: fields
     })
@@ -71,9 +72,7 @@ function saveFields(fields) {
 }
 
 function clearVisuals() {
-  notifyContentOfMessage({
-    message: "clear_search"
-  })
+  messageContent({ message: "clear_search" })
 }
 
 function clearSearch() {
@@ -82,17 +81,6 @@ function clearSearch() {
   currentSearch["#deepSearch-search"] = ""
   // Reset the field in the UI
   $("#deepSearch-search").val("")
-}
-
-function notifyContentOfMessage(message) {
-  chrome.tabs.query(
-    { active: true, currentWindow: true },
-    function(tabs) {
-      var activeTab = tabs[0]
-      console.log("message sent")
-      chrome.tabs.sendMessage(activeTab.id, message)
-    }
-  )
 }
 
 var currentSearch = {}
