@@ -13,7 +13,7 @@ function getNewFocused(direction) {
   var oldIndex = $(".deepSearch-current-highlight").attr('data-highlight-index')
   var maxIndex = $(".deepSearch-highlight").last().attr('data-highlight-index')
 
-  var newIndex = Number(oldIndex) + moveDirection
+  var newIndex = Number(oldIndex) + direction
   if (newIndex < 0) {
     newIndex = maxIndex
   }
@@ -39,15 +39,15 @@ function removeFocused() {
 }
 
 function setFocused(element) {
-  $element.addClass('deepSearch-current-highlight')
+  element.addClass('deepSearch-current-highlight')
 }
 
 function scrollToElement(elements) {
-  const targetPosition = $elements.first().offset().top
+  const targetPosition = elements.first().offset().top
   const viewportTop = $("html").scrollTop()
-  const viewportBottom = top + $(window).height()
+  const viewportBottom = viewportTop + $(window).height()
 
-  if (bottom < targetPosition) {
+  if (viewportBottom < targetPosition) {
     // give a negative offset?
     window.scrollTo(0, targetPosition)
   }

@@ -29,7 +29,7 @@ function clearMarks(event) {
 
 function changeHighlight(event) {
   event.preventDefault()
-  const direction = $(this).prop('data-direction')
+  const direction = $(this).attr('data-direction')
   messageContent({
     message: "change_highlight",
     direction
