@@ -6,46 +6,34 @@ export default setupListener;
 function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      if (request.queryParams && 
-          request.queryParams.isDeep && 
-          request.message === "page_search") {
-        console.log("receive getHTML message", request)
-        getHTML(
-          request.url,
-          searchHTML(request.href, request.queryParams, sendResponse)
-        );
+      const { queryParams, url, message, href } = request
+      if (queryParams && queryParams.isDeep && message === "page_search") {
+        getHTML(url, sendResponse, searchHTML(href, queryParams))
       }
     }
-  );
+  )
 }
 
-function getHTML(url, callback) {
+function getHTML(url, sendResponse, callback) {
   $.ajax({
     url: url,
     datatype: "html",
     success: callback,
-    error: function(err) {
-      console.error(url, err);
-    }
-  });
+    error: (err) => { console.error(url, err) },
+    complete: () => { sendResponse() }
+  })
 }
 
-function searchHTML(href, queryParams, sendResponse) {
-  return function(response) {
-    const { isCaseInsensitive, isRegex, search } = queryParams
+function searchHTML(href, queryParams) {
+  const { isCaseInsensitive, isRegex, search } = queryParams
 
+  return function(response) {
     const text = stripHtml(response)
     const regex = isRegex ? search : regexEscape(search)
     const regexFlags = isCaseInsensitive ? "gi" : "g";
 
-    const found = text.match(new RegExp(regex, regexFlags))
-
-    sendResponse()
-    notifyContentOfMessage({ 
-      message: "checked_url", 
-      href: href,
-      matchesFound: found
-    })
+    const matchesFound = text.match(new RegExp(regex, regexFlags))
+    notifyContentOfMessage({ message: "checked_url", href, matchesFound })
   }
 }
 
