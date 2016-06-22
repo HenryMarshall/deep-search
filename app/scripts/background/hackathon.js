@@ -33,8 +33,8 @@ function searchHTML(url, href, queryParams) {
     const regex = isRegex ? search : regexEscape(search)
     const regexFlags = isCaseInsensitive ? "gi" : "g";
 
-    const matchesFound = text.match(new RegExp(regex, regexFlags))
-    messageContent({ message: "checked_url", url, href, matchesFound })
+    const matches = text.match(new RegExp(regex, regexFlags))
+    messageContent({ message: "checked_url", url, href, matches })
   }
 }
 

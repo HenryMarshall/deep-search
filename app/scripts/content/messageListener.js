@@ -18,7 +18,7 @@ export default function setupListeners() {
           shallow.changeHighlight(request.direction)
           break
         case "checked_url":
-          deep.setMark(request.href, request.matchesFound)
+          checkedUrl(request.href, request.matches)
           break
       }
     }
@@ -34,5 +34,10 @@ function submitQuery(queryParams) {
 function clearMarks() {
   shallow.clearMarks()
   deep.clearMarks()
+}
+
+function checkedUrl(href, matches) {
+  deep.saveMatch(href, matches)
+  deep.setMark(href, matches)
 }
 
