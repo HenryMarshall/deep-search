@@ -27,7 +27,6 @@ function registerSubmitClick() {
 
 function registerEvent(target, action, message, changeState) {
   $(target).on(action, function(e) {
-    console.log("something happened")
     e.preventDefault()
     const queryParams = manageState.extractUiState()
     // FIXME: This smells -- totally not "registering event"
