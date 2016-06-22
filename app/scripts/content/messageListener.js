@@ -25,12 +25,11 @@ export default function setupListeners() {
 function submitQuery(queryParams) {
   clearMarks()
   const searchType = queryParams.isDeep ? deep : shallow
-  console.log("searchType: ", searchType)
   searchType.search(queryParams)
 }
 
 function clearMarks() {
   shallow.clearMarks()
-  // deep.clearMarks()
+  deep.clearMarks()
 }
 

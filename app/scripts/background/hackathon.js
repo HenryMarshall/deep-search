@@ -7,9 +7,9 @@ export default setupListener;
 function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      const { queryParams, url, message, href } = request
+      const { message, queryParams, url } = request
       if (queryParams && queryParams.isDeep && message === "page_search") {
-        getHTML(url, sendResponse, searchHTML(href, queryParams))
+        getHTML(url, sendResponse, searchHTML(url, queryParams))
       }
     }
   )
@@ -25,7 +25,7 @@ function getHTML(url, sendResponse, callback) {
   })
 }
 
-function searchHTML(href, queryParams) {
+function searchHTML(url, queryParams) {
   const { isCaseInsensitive, isRegex, search } = queryParams
 
   return function(response) {
@@ -34,11 +34,11 @@ function searchHTML(href, queryParams) {
     const regexFlags = isCaseInsensitive ? "gi" : "g";
 
     const matchesFound = text.match(new RegExp(regex, regexFlags))
-    messageContent({ message: "checked_url", href, matchesFound })
+    messageContent({ message: "checked_url", url, matchesFound })
   }
 }
 
 function regexEscape(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
+}
 
