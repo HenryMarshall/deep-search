@@ -1,13 +1,13 @@
 import $ from 'jquery'
 import messageContent from '../shared/messageContent'
 
-export function getHtml(url, sendResponse, callback) {
+export function getHtml(url, onSuccess, onCompletion) {
   $.ajax({
     url: url,
     datatype: "html",
-    success: callback,
+    success: onSuccess,
     error: (err) => { console.error(url, err) },
-    complete: () => { sendResponse() }
+    complete: onCompletion
   })
 }
 
