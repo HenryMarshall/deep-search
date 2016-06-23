@@ -11,7 +11,7 @@ export function getHtml(url, sendResponse, callback) {
   })
 }
 
-export function searchHtml(url, href, queryParams) {
+export function searchHtml(href, queryParams) {
   const { isCaseInsensitive, isRegex, search } = queryParams
 
   return function(response) {
@@ -20,7 +20,7 @@ export function searchHtml(url, href, queryParams) {
     const regexFlags = isCaseInsensitive ? "gi" : "g";
 
     const matches = text.match(new RegExp(regex, regexFlags))
-    messageContent({ message: "checked_url", url, href, matches })
+    messageContent({ message: "checked_url", href, matches })
   }
 }
 
