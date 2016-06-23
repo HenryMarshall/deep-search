@@ -1,0 +1,253 @@
+[1mdiff --git a/app/images/icon-128.png b/app/images/icon-128.png[m
+[1mdeleted file mode 100644[m
+[1mindex 75c023a..0000000[m
+Binary files a/app/images/icon-128.png and /dev/null differ
+[1mdiff --git a/app/images/icon-16.png b/app/images/icon-16.png[m
+[1mdeleted file mode 100644[m
+[1mindex 7df748f..0000000[m
+Binary files a/app/images/icon-16.png and /dev/null differ
+[1mdiff --git a/app/images/icon-19.png b/app/images/icon-19.png[m
+[1mdeleted file mode 100644[m
+[1mindex 20c54d4..0000000[m
+Binary files a/app/images/icon-19.png and /dev/null differ
+[1mdiff --git a/app/images/icon-38.png b/app/images/icon-38.png[m
+[1mdeleted file mode 100644[m
+[1mindex c453adc..0000000[m
+Binary files a/app/images/icon-38.png and /dev/null differ
+[1mdiff --git a/app/manifest.json b/app/manifest.json[m
+[1mindex 417323e..3e6184e 100644[m
+[1m--- a/app/manifest.json[m
+[1m+++ b/app/manifest.json[m
+[36m@@ -16,8 +16,7 @@[m
+   },[m
+   "browser_action": {[m
+     "default_icon": {[m
+[31m-      "19": "images/icon-19.png",[m
+[31m-      "38": "images/icon-38.png"[m
+[32m+[m[32m      "38": "images/icon.png"[m
+     },[m
+     "default_title": "__MSG_browserActionTitle__",[m
+     "default_popup": "pages/popup.html"[m
+[1mdiff --git a/app/scripts/background.js b/app/scripts/background.js[m
+[1mindex 931df99..f885d3c 100644[m
+[1m--- a/app/scripts/background.js[m
+[1m+++ b/app/scripts/background.js[m
+[36m@@ -1,7 +1,7 @@[m
+ 'use strict';[m
+ [m
+ import savedState from './background/savedState'[m
+[31m-import setupListener from './background/hackathon'[m
+[32m+[m[32mimport setupListener from './background/setupListener'[m
+ setupListener()[m
+ [m
+ // Enable chromereload by uncommenting this line:[m
+[36m@@ -11,27 +11,4 @@[m [mchrome.runtime.onInstalled.addListener(function (details) {[m
+   console.log('previousVersion', details.previousVersion);[m
+ });[m
+ [m
+[31m-chrome.browserAction.setBadgeText({text: '\'Allo'});[m
+[31m-[m
+[31m-console.log('\'Allo \'Allo! Event Page for Browser Action');[m
+[31m-[m
+[31m-[m
+[31m-// From hackathon[m
+[31m-[m
+[31m-// var defaultSearch = {[m
+[31m-//   "#deepSearch-search": "",[m
+[31m-//   "#is-regex": false,[m
+[31m-//   "#is-deep": false,[m
+[31m-//   "#is-case-insensitive": false[m
+[31m-// }[m
+[31m-// // To escape the module's scope, you must save as global.*[m
+[31m-// global.currentSearch = cloneObj(defaultSearch)[m
+[31m-[m
+[31m-// function cloneObj(obj) {[m
+[31m-//   console.log("clonedObj")[m
+[31m-//   var clone = {}[m
+[31m-//   Object.keys(obj).forEach(function(key) {[m
+[31m-//     clone[key] = obj[key][m
+[31m-//   })[m
+[31m-//   return clone[m
+[31m-// }[m
+[32m+[m[32mchrome.browserAction.setBadgeText({text: '.*'});[m
+[1mdiff --git a/app/scripts/background/hackathon.js b/app/scripts/background/hackathon.js[m
+[1mdeleted file mode 100644[m
+[1mindex e9eadcd..0000000[m
+[1m--- a/app/scripts/background/hackathon.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,44 +0,0 @@[m
+[31m-import $ from 'jquery'[m
+[31m-import { stripHtml } from './searchUrl'[m
+[31m-import messageContent from '../shared/messageContent'[m
+[31m-[m
+[31m-export default setupListener;[m
+[31m-[m
+[31m-function setupListener() {[m
+[31m-  chrome.runtime.onMessage.addListener([m
+[31m-    function(request, sender, sendResponse) {[m
+[31m-      const { message, queryParams, url, href } = request[m
+[31m-      if (queryParams && queryParams.isDeep && message === "page_search") {[m
+[31m-        getHTML(url, sendResponse, searchHTML(url, href, queryParams))[m
+[31m-      }[m
+[31m-    }[m
+[31m-  )[m
+[31m-}[m
+[31m-[m
+[31m-function getHTML(url, sendResponse, callback) {[m
+[31m-  $.ajax({[m
+[31m-    url: url,[m
+[31m-    datatype: "html",[m
+[31m-    success: callback,[m
+[31m-    error: (err) => { console.error(url, err) },[m
+[31m-    complete: () => { sendResponse() }[m
+[31m-  })[m
+[31m-}[m
+[31m-[m
+[31m-function searchHTML(url, href, queryParams) {[m
+[31m-  const { isCaseInsensitive, isRegex, search } = queryParams[m
+[31m-[m
+[31m-  return function(response) {[m
+[31m-    const text = stripHtml(response)[m
+[31m-    const regex = isRegex ? search : regexEscape(search)[m
+[31m-    const regexFlags = isCaseInsensitive ? "gi" : "g";[m
+[31m-[m
+[31m-    const matches = text.match(new RegExp(regex, regexFlags))[m
+[31m-    messageContent({ message: "checked_url", url, href, matches })[m
+[31m-  }[m
+[31m-}[m
+[31m-[m
+[31m-function regexEscape(text) {[m
+[31m-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");[m
+[31m-}[m
+[31m-[m
+[1mdiff --git a/app/scripts/background/searchUrl.js b/app/scripts/background/searchUrl.js[m
+[1mindex 37ff236..66ec570 100644[m
+[1m--- a/app/scripts/background/searchUrl.js[m
+[1m+++ b/app/scripts/background/searchUrl.js[m
+[36m@@ -1,3 +1,34 @@[m
+[32m+[m[32mimport $ from 'jquery'[m
+[32m+[m[32mimport messageContent from '../shared/messageContent'[m
+[32m+[m
+[32m+[m[32mexport function getHtml(url, sendResponse, callback) {[m
+[32m+[m[32m  $.ajax({[m
+[32m+[m[32m    url: url,[m
+[32m+[m[32m    datatype: "html",[m
+[32m+[m[32m    success: callback,[m
+[32m+[m[32m    error: (err) => { console.error(url, err) },[m
+[32m+[m[32m    complete: () => { sendResponse() }[m
+[32m+[m[32m  })[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mexport function searchHtml(url, href, queryParams) {[m
+[32m+[m[32m  const { isCaseInsensitive, isRegex, search } = queryParams[m
+[32m+[m
+[32m+[m[32m  return function(response) {[m
+[32m+[m[32m    const text = stripHtml(response)[m
+[32m+[m[32m    const regex = isRegex ? search : regexEscape(search)[m
+[32m+[m[32m    const regexFlags = isCaseInsensitive ? "gi" : "g";[m
+[32m+[m
+[32m+[m[32m    const matches = text.match(new RegExp(regex, regexFlags))[m
+[32m+[m[32m    messageContent({ message: "checked_url", url, href, matches })[m
+[32m+[m[32m  }[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mfunction regexEscape(text) {[m
+[32m+[m[32m  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m// exported for testing purposes[m
+ export function stripHtml(html) {[m
+   const body = html.match(/<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>/)[m
+   return ([m
+[1mdiff --git a/app/scripts/content/matchedLinks.js b/app/scripts/content/matchedLinks.js[m
+[1mdeleted file mode 100644[m
+[1mindex addb061..0000000[m
+[1m--- a/app/scripts/content/matchedLinks.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,30 +0,0 @@[m
+[31m-// import $ from 'jquery'[m
+[31m-// export default initialize[m
+[31m-[m
+[31m-// var linksData = {}[m
+[31m-[m
+[31m-// function initialize() {[m
+[31m-//   listenForMatchedLinkClicks()[m
+[31m-// }[m
+[31m-[m
+[31m-// function listenForMatchedLinkClicks() {[m
+[31m-//   $("body").on('click', ".deepSearch-link-found", function(e) {[m
+[31m-//     e.preventDefault()[m
+[31m-//     // Using `prop` gets you the absolute path -- we store with as written[m
+[31m-//     var href = $(this).parent().attr('href')[m
+[31m-//     var matchString = linksData[href][m
+[31m-//       .slice(0,10)[m
+[31m-//       .map(match => match.replace(/\s/, ' '))[m
+[31m-//       .join('\n')[m
+[31m-//     alert(matchString)[m
+[31m-//   })[m
+[31m-[m
+[31m-//   // just prevent default for consistency[m
+[31m-//   $("body").on('click', ".deepSearch-link-not-found", function(e) {[m
+[31m-//     e.preventDefault()[m
+[31m-//   })[m
+[31m-// }[m
+[31m-[m
+[31m-// function storeLinkData(linkData) {[m
+[31m-//   linksData[linkData.href] = linkData.matchesFound[m
+[31m-// }[m
+[1mdiff --git a/app/scripts/popup/hackathon.js b/app/scripts/popup/hackathon.js[m
+[1mdeleted file mode 100644[m
+[1mindex 96c6c8f..0000000[m
+[1m--- a/app/scripts/popup/hackathon.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,50 +0,0 @@[m
+[31m-import $ from 'jquery'[m
+[31m-import messageContent from '../shared/messageContent'[m
+[31m-import manageState from './manageState'[m
+[31m-[m
+[31m-export default initialize[m
+[31m-[m
+[31m-function initialize() {[m
+[31m-  manageState.setUiState()[m
+[31m-  registerSubmitClick()[m
+[31m-  registerEvent("#filter", "submit", "submit_search", "save")[m
+[31m-  registerEvent("#clear-search", "click", "clear_search", "clear")[m
+[31m-  registerEvent("#next", "click", "next_highlight")[m
+[31m-  registerEvent("#prev", "click", "prev_highlight")[m
+[31m-}[m
+[31m-[m
+[31m-function registerSubmitClick() {[m
+[31m-  $("#deepSearch-submit").click(function() {[m
+[31m-    const queryParams = manageState.extractUiState()[m
+[31m-    clearVisuals()[m
+[31m-    manageState.saveState(queryParams)[m
+[31m-    messageContent({[m
+[31m-      message: "submit_search",[m
+[31m-      queryParams[m
+[31m-    })[m
+[31m-  })[m
+[31m-}[m
+[31m-[m
+[31m-function registerEvent(target, action, message, changeState) {[m
+[31m-  $(target).on(action, function(e) {[m
+[31m-    e.preventDefault()[m
+[31m-    const queryParams = manageState.extractUiState()[m
+[31m-    // FIXME: This smells -- totally not "registering event"[m
+[31m-    if(changeState === "save") {[m
+[31m-      clearVisuals()[m
+[31m-      manageState.saveState(queryParams)[m
+[31m-    }[m
+[31m-    else if(changeState === "clear") {[m
+[31m-      manageState.clearState()[m
+[31m-    }[m
+[31m-    messageContent({[m
+[31m-      message: message,[m
+[31m-      queryParams[m
+[31m-    })[m
+[31m-  })[m
+[31m-}[m
+[31m-[m
+[31m-function clearVisuals() {[m
+[31m-  messageContent({ message: "clear_search" })[m
+[31m-}[m
+[31m-[m
