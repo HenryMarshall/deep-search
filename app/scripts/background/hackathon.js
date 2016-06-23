@@ -1,76 +1,44 @@
 import $ from 'jquery'
-export default setupListener;
+import { stripHtml } from './searchUrl'
+import messageContent from '../shared/messageContent'
 
-function getHTML(url, callback) {
-  $.ajax({
-    url: url,
-    datatype: "html",
-    success: callback,
-    error: function(err) {
-      console.error(url, err);
-    }
-  });
-}
+export default setupListener;
 
 function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      if (request.queryParams && 
-          request.queryParams.isDeep && 
-          request.message === "page_search") {
-        console.log("receive getHTML message", request)
-        getHTML(
-          request.url,
-          searchHTML(request.href, request.queryParams, sendResponse)
-        );
+      const { message, queryParams, url, href } = request
+      if (queryParams && queryParams.isDeep && message === "page_search") {
+        getHTML(url, sendResponse, searchHTML(url, href, queryParams))
       }
     }
-  );
+  )
 }
 
-function searchHTML(href, queryParams, sendResponse) {
+function getHTML(url, sendResponse, callback) {
+  $.ajax({
+    url: url,
+    datatype: "html",
+    success: callback,
+    error: (err) => { console.error(url, err) },
+    complete: () => { sendResponse() }
+  })
+}
+
+function searchHTML(url, href, queryParams) {
+  const { isCaseInsensitive, isRegex, search } = queryParams
+
   return function(response) {
-    var res = {
-      found: {}
-    }
-    response = response.replace(/[\s\S]*<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>[\s\S]*/, "$1");
-    response = response.replace(/<\s*script[^>]*>[\s\S]*<\s*\/\s*script\s*>/g, "");
-    response = response.replace(/<\s*script[^>]*\/\s*>/g, "");
-    response = response.replace(/<[^>]+>/g, "");
-    response = response.replace(/(\r?\n){2,}/g, "$1");
+    const text = stripHtml(response)
+    const regex = isRegex ? search : regexEscape(search)
+    const regexFlags = isCaseInsensitive ? "gi" : "g";
 
-    var regexFlags = queryParams.isCaseInsensitive ? "gi" : "g";
-    if (queryParams.isRegex) {
-      var regExp = new RegExp(queryParams.search, regexFlags);
-      res.found = response.match(regExp);
-    } 
-    else {
-      var plainSearch = new RegExp(regexEscape(queryParams.search), regexFlags);
-      res.found = response.match(plainSearch);
-    }
-
-    sendResponse()
-    notifyContentOfMessage({ 
-      message: "checked_url", 
-      href: href,
-      matchesFound: res.found 
-    })
+    const matches = text.match(new RegExp(regex, regexFlags))
+    messageContent({ message: "checked_url", url, href, matches })
   }
 }
 
 function regexEscape(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-};
-
-
-// FIXME: DRY me out
-function notifyContentOfMessage(message) {
-  chrome.tabs.query(
-    { active: true, currentWindow: true },
-    function(tabs) {
-      var activeTab = tabs[0]
-      console.log("message sent")
-      chrome.tabs.sendMessage(activeTab.id, message)
-    }
-  )
 }
+
