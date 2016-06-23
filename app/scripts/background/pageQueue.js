@@ -2,33 +2,47 @@ import queue from 'queue'
 import { getHtml, searchHtml } from './searchUrl'
 
 let q
+let running
+let queuedHrefs
 
 export function initializeQueue(concurrency = 8, timeout = 750) {
   q = queue({ concurrency, timeout })
+  running = false
+  queuedHrefs = []
   q.on('timeout', onTimeout)
 }
 
 export function enqueue(request, sendResponse) {
   const { url, href, queryParams } = request
 
-  q.push((callback) => {
-    const onSuccess = searchHtml(href, queryParams)
-    const onCompletion = () => {
-      sendResponse()
-      callback()
-    }
-    getHtml(url, onSuccess, onCompletion)
-  })
+  if(!isAlreadyQueued(href)) {
+    console.log("about to queue")
+    queuedHrefs.push(href)
+    q.push((callback) => {
+      const onSuccess = searchHtml(href, queryParams)
+      const onCompletion = () => {
+        sendResponse()
+        callback()
+      }
+      getHtml(url, onSuccess, onCompletion)
+    })
+  }
+
   initialStart()
 }
 
-let running = false
 function initialStart() {
   if (!running) {
     running = true
-    q.start(() => { running = false })
+    q.start(() => { 
+      initializeQueue()
+    })
   }
+}
 
+function isAlreadyQueued(href) {
+  const isQueued = (queuedHrefs.indexOf(href) !== -1)
+  return isQueued
 }
 
 function onTimeout(next, job) {
