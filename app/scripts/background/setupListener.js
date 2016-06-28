@@ -10,6 +10,8 @@ function setupListener() {
       if (queryParams && queryParams.isDeep && message === "page_search") {
         // getHtml(url, sendResponse, searchHtml(href, queryParams))
         enqueue(request, sendResponse)
+        // We `return true` to permit async sendResponse
+        return true
       }
     }
   )

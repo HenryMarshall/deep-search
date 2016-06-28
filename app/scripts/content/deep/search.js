@@ -10,6 +10,8 @@ export default function search(queryParams) {
         queryParams,
         url,
         href
+      }, function(response) {
+        console.log(`completed ${response.href}`)
       })
     }
   })

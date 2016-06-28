@@ -21,7 +21,7 @@ export function enqueue(request, sendResponse) {
     q.push((callback) => {
       const onSuccess = searchHtml(href, queryParams)
       const onCompletion = () => {
-        sendResponse()
+        sendResponse({ href })
         callback()
       }
       getHtml(url, onSuccess, onCompletion)
