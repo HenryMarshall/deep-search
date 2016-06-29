@@ -1,26 +1,36 @@
 @import 'vendor/bootstrap'
 
-body
-  width: 600px
-  height: 45px
+$elementHeight: 34px
 
-#search-bar
+body
+  width: 792px
+  margin: 4px 0 4px 8px
+  height: $elementHeight
+
+form
   display: flex
 
-input[type='checkbox']+label, #clear-search
-  font-size: 18px
+label, input, button
   margin-right: 8px
-  width: 48px
+
+#search
+  flex: 1 1 150px
+
+input[type='checkbox']+label, #clear-search
+  font-size: 14px
+  width: $elementHeight
   font-weight: bold
+  display: flex;
+  justify-content: center;
 
 input[type='checkbox']:checked+label
   color: #fff
   background-color: #666
   border-color: #555
 
-.glyphicon
+.glyphicon-chevron-down
   position: relative
-  top: 4px
+  top: 3px
 
 #find, #find-prev
   flex: 0 1 64px
