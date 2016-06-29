@@ -1,4 +1,6 @@
 import $ from 'jquery'
+import { saveMatch } from './matches'
+import setMark from './setMark'
 
 export default function search(queryParams) {
   $("a").each(function() {
@@ -10,7 +12,7 @@ export default function search(queryParams) {
         queryParams,
         url,
         href
-      })
+      }, onSearched)
     }
   })
 }
@@ -21,4 +23,16 @@ export default function search(queryParams) {
 // a shallow search).
 function isCurrentPageDeepLink(href) {
   return (href.slice(0,1) === "#")
+}
+
+function onSearched(response) {
+  if (response) { 
+    const { status, href, matches } = response
+    saveMatch(href, matches)
+    setMark(href, matches)
+  }
+  else {
+    // TODO: Sometimes `sendResponse` is called implicitly. Why?
+    console.error("sendResponse implicitly called")
+  }
 }

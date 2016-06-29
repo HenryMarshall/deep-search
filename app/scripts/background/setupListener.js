@@ -1,13 +1,16 @@
-import { getHtml, searchHtml } from './searchUrl'
+// import { getHtml, searchHtml } from './searchUrl'
+import { enqueue } from './pageQueue'
 
 export default setupListener;
 
 function setupListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-      const { message, queryParams, url, href } = request
+      const { message, queryParams } = request
       if (queryParams && queryParams.isDeep && message === "page_search") {
-        getHtml(url, sendResponse, searchHtml(url, href, queryParams))
+        enqueue(request, sendResponse)
+        // We `return true` to permit async sendResponse
+        return true
       }
     }
   )

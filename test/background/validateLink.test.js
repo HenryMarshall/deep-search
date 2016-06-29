@@ -1,6 +1,5 @@
 import { expect } from 'chai'
 import { stripHtml } from '../../app/scripts/background/searchUrl'
-// const stripHtml = require('../../app/scripts/background/searchUrl')
 
 describe('stripHtml', function() {
   it('should remove tags from properly formatted html', function() {
