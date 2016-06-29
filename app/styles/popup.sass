@@ -1,6 +1,6 @@
 @import 'vendor/bootstrap'
-
-$elementHeight: 34px
+@import 'popup/vars'
+@import 'popup/error'
 
 body
   width: 792px
@@ -10,7 +10,7 @@ body
 form
   display: flex
 
-label, input, button
+label, input, button, .alert
   margin-right: 8px
 
 #search
@@ -32,5 +32,3 @@ input[type='checkbox']:checked+label
   position: relative
   top: 3px
 
-#find, #find-prev
-  flex: 0 1 64px

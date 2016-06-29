@@ -1,0 +1,22 @@
+@import 'vars'
+
+#find, #find-prev
+  display: block
+  flex: 0 1 $findWidth
+
+.alert
+  display: none
+  flex: 0 1 ($findWidth * 2 + 8px)
+  height: 34px
+  padding: 6px 12px
+  margin-bottom: 0
+
+
+.invalid-regex
+  #find, #find-prev
+    display: none
+
+  .alert
+    display: block
+
+
