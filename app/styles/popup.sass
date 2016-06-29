@@ -1,32 +1,34 @@
 @import 'vendor/bootstrap'
+@import 'popup/vars'
+@import 'popup/error'
 
 body
-  margin-top: 16px
-  margin-bottom: 16px
-  width: 360px
+  width: 792px
+  margin: 4px 0 4px 8px
+  height: $elementHeight
 
-#search-wrapper .input-group
-  width: 100%
+form
+  display: flex
 
-#deepSearch-submit
-  width: 34px
-  cursor: pointer
-
-.checkbox-buttons
-  margin-bottom: 16px
-
-.checkbox-buttons label, #clear-search
-  font-size: 18px
+label, input, button, .alert
   margin-right: 8px
-  width: 48px
-  font-weight: bold
 
-.checkbox-buttons input[type='checkbox']:checked+label
+#search
+  flex: 1 1 150px
+
+input[type='checkbox']+label, #clear-search
+  font-size: 14px
+  width: $elementHeight
+  font-weight: bold
+  display: flex;
+  justify-content: center;
+
+input[type='checkbox']:checked+label
   color: #fff
   background-color: #666
   border-color: #555
 
-#is-deep+label>span, #clear-search>span
+.glyphicon-chevron-down
   position: relative
-  top: 4px
+  top: 3px
 

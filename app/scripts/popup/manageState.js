@@ -6,25 +6,28 @@ export default {
       search: $("#search").val(),
       isRegex: $("#is-regex").prop('checked'),
       isDeep: $("#is-deep").prop('checked'),
-      isCaseInsensitive: $("#is-case-insensitive").prop('checked')
+      isCaseInsensitive: $("#is-case-insensitive").prop('checked'),
+      isValid: !$("#query").hasClass("invalid-regex")
     }
-  },
-
-  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
-    $("#search").val(state.search)
-    $("#is-regex").prop('checked', state.isRegex),
-    $("#is-deep").prop('checked', state.isDeep),
-    $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
   },
 
   saveState(state = this.extractUiState()) {
     const background = chrome.extension.getBackgroundPage()
     background.savedState = state
+    return state
   },
 
+  readState() {
+    const background = chrome.extension.getBackgroundPage()
+    return background.savedState
+  },
+
+  // Note: You *cannot* simply import and use the initialization method from
+  // the `background/savedState` page. This has a different global scope!
   clearState() {
-    const defaultState = chrome.extension.getBackgroundPage().defaultState
-    this.setUiState(defaultState)
-    this.saveState(defaultState)
+    const background = chrome.extension.getBackgroundPage()
+    const newState = Object.assign({}, background.defaultState)
+    background.savedState = newState
+    return newState
   }
 }

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import buildRegex from '../shared/buildRegex'
 
 export default class SearchPage {
   constructor({
@@ -12,7 +13,7 @@ export default class SearchPage {
     this.sendResponse = sendResponse
 
     // Is this the best way? Should I use a getter?
-    this.regex = this.buildRegex(queryParams)
+    this.regex = buildRegex(queryParams)
   }
 
   search(callback) {
@@ -27,13 +28,6 @@ export default class SearchPage {
       error,
       complete: callback
     })
-  }
-
-  buildRegex(queryParams) {
-    const { isCaseInsensitive, isRegex, search } = queryParams
-    const regex = isRegex ? search : this.regexEscape(search)
-    const regexFlags = isCaseInsensitive ? "gi" : "g";
-    return new RegExp(regex, regexFlags)
   }
 
   onSuccess(response) {
@@ -56,9 +50,5 @@ export default class SearchPage {
         .replace(/(\r?\n){2,}/g, "\n")
         .trim()
     )
-  }
-
-  regexEscape(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
   }
 }

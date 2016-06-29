@@ -1,8 +1,9 @@
 'use strict';
 
-import savedState from './background/savedState'
+import initializeState from './background/savedState'
 import setupListener from './background/setupListener'
 import { initializeQueue } from './background/pageQueue'
+initializeState()
 setupListener()
 initializeQueue()
 

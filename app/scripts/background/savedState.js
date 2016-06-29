@@ -2,6 +2,11 @@ global.defaultState = {
   search: '',
   isRegex: false,
   isDeep: false,
-  isCaseInsensitive: false
+  isCaseInsensitive: false,
+  isValid: true
 }
-global.savedState = Object.assign({}, global.defaultState)
+
+export default function resetState() {
+  global.savedState = Object.assign({}, global.defaultState)
+  return global.savedState
+}

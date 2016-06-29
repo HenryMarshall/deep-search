@@ -1,19 +1,13 @@
 import $ from 'jquery'
+import buildRegex from '../../shared/buildRegex'
 import findAndReplaceDomText from 'findandreplacedomtext'
 
 export default function search(queryParams) {
-  const { isCaseInsensitive, isRegex, search } = queryParams
-  const flags = isCaseInsensitive ? 'gi' : 'g'
-  const reg = new RegExp(isRegex ? search : regexEscape(search), flags)
-
+  const regex = buildRegex(queryParams)
   findAndReplaceDomText($('body')[0], {
-    find: reg,
+    find: regex,
     replace: createHighlight
   })
-}
-
-function regexEscape(text) {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
 function createHighlight(portion, match) {
