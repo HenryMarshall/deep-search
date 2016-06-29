@@ -12,6 +12,7 @@ export default function initialize() {
 
   $("#clear-search").click(onClear)
   $("#find, #find-prev").click(changeHighlight)
+  $("#deep-search").click(onDeepSearch)
 }
 
 function onChange(event) {
@@ -26,7 +27,7 @@ function onChange(event) {
   //
   // KeyCodes for Shift, Control, Alt, Meta respectively
   else if (![16,17,18,91].includes(event.keyCode)) {
-    dispatch.shallowSearch()
+    dispatch.updateSearch()
   }
 }
 
@@ -44,6 +45,11 @@ function changeHighlight(event) {
 function onClear(event) {
   event.preventDefault()
   dispatch.clearState()
+}
+
+function onDeepSearch(event) {
+  event.preventDefault()
+  dispatch.deepSearch()
 }
 
 export const ui = {

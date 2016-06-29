@@ -17,6 +17,11 @@ export default {
     return state
   },
 
+  readState() {
+    const background = chrome.extension.getBackgroundPage()
+    return background.savedState
+  },
+
   // Note: You *cannot* simply import and use the initialization method from
   // the `background/savedState` page. This has a different global scope!
   clearState() {

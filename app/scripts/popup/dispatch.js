@@ -4,25 +4,32 @@ import buildRegex from '../shared/buildRegex'
 import messageContent from '../shared/messageContent'
 
 export default {
-  shallowSearch() {
+  updateSearch() {
     const queryParams = manageState.saveState()
-    if (!queryParams.isDeep) {
-      this.clearMarks()
-      if (queryParams.isRegex) {
-        try {
-          buildRegex(queryParams)
+    this.clearMarks()
 
-          // in the event of success...
-          ui.toggleValidClass(true)
-          this.submitQuery(queryParams)
-        }
-        catch (error) {
-          ui.toggleValidClass(false)
-        }
-      }
-      else {
-        this.submitQuery(queryParams)
-      }
+    const isValid = queryParams.isRegex ? this.isRegexValid(queryParams) : true
+    ui.toggleValidClass(isValid)
+
+    if (isValid && !queryParams.isDeep) {
+      this.submitQuery(queryParams)
+    }
+  },
+
+  isRegexValid(queryParams) {
+    try {
+      buildRegex(queryParams)
+      return true
+    }
+    catch (error) {
+      return false
+    }
+  },
+
+  deepSearch() {
+    const queryParams = manageState.readState()
+    if (queryParams.isDeep) {
+      this.submitQuery(queryParams)
     }
   },
 
