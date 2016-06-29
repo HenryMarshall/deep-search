@@ -1,8 +1,13 @@
 @import 'vars'
 
+// Default State
 #find, #find-prev
   display: block
   flex: 0 1 $findWidth
+
+#deep-search
+  display: none
+  flex: 0 1 ($findWidth * 2 + 8px)
 
 .alert
   display: none
@@ -11,12 +16,17 @@
   padding: 6px 12px
   margin-bottom: 0
 
-
-.invalid-regex
+// Variant States
+// TODO: Improve selector efficiency
+.deep-query
   #find, #find-prev
     display: none
-
-  .alert
+  #deep-search
     display: block
 
-
+// .invalid-regex must be below .deep-query for the cascade
+.invalid-regex
+  #find, #find-prev, #deep-search
+    display: none
+  .alert
+    display: block

@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import manageState from './manageState'
 import dispatch from './dispatch'
 
 export default function initialize() {
@@ -6,6 +7,7 @@ export default function initialize() {
   ui.setUiState()
   $("#search").keyup(onChange)
   $("#is-regex, #is-case-insensitive, #is-deep").click(onChange)
+  $("#is-deep").click(onDeepToggle)
 
   $("#clear-search").click(clearMarks)
   $("#find, #find-prev").click(changeHighlight)
@@ -27,6 +29,11 @@ function onChange(event) {
   }
 }
 
+function onDeepToggle() {
+  const isDeep = $(this).prop('checked')
+  ui.toggleDeepClass(isDeep)
+}
+
 function changeHighlight(event) {
   event.preventDefault()
   const direction = $(this).attr('data-direction')
@@ -44,18 +51,16 @@ export const ui = {
     $("#is-regex").prop('checked', state.isRegex),
     $("#is-deep").prop('checked', state.isDeep),
     $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
-    this.setValidState(state.isValid)
+
+    this.toggleValidClass(state.isValid)
+    this.toggleDeepClass(state.isDeep)
   },
 
-  setValidState(isValid) {
-    const query = $("#query")
-    const wasValid = !query.hasClass("invalid-regex")
+  toggleValidClass(isValid) {
+    $("#query").toggleClass("invalid-regex", !isValid)
+  },
 
-    if (wasValid && !isValid) {
-      query.addClass("invalid-regex")
-    }
-    else if (!wasValid && isValid) {
-      query.removeClass("invalid-regex")
-    }
+  toggleDeepClass(isDeep) {
+    $("#query").toggleClass("deep-query", isDeep)
   }
 }
