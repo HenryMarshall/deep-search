@@ -11,8 +11,9 @@ export default function initialize() {
   $("#is-deep").click(onDeepToggle)
 
   $("#clear-search").click(onClear)
-  $("#find, #find-prev").click(changeHighlight)
+  $("#find, #find-prev").click(onFind)
   $("#deep-search").click(onDeepSearch)
+  $("#query").submit((e) => { e.preventDefault() })
 }
 
 function onChange(event) {
@@ -36,7 +37,7 @@ function onDeepToggle() {
   ui.toggleDeepClass(isDeep)
 }
 
-function changeHighlight(event) {
+function onFind(event) {
   event.preventDefault()
   const direction = $(this).attr('data-direction')
   dispatch.changeHighlight(direction)
