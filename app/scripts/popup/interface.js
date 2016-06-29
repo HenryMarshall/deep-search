@@ -1,10 +1,9 @@
 import $ from 'jquery'
-import manageState from './manageState'
 import dispatch from './dispatch'
 
 export default function initialize() {
   // Restores the state from the last time the popup was open
-  manageState.setUiState()
+  ui.setUiState()
   $("#search").keyup(onChange)
   $("#is-regex, #is-case-insensitive, #is-deep").click(onChange)
 
@@ -40,7 +39,15 @@ function clearMarks(event) {
 }
 
 export const ui = {
-  validRegex(isValid) {
+  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
+    $("#search").val(state.search)
+    $("#is-regex").prop('checked', state.isRegex),
+    $("#is-deep").prop('checked', state.isDeep),
+    $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
+    this.setValidState(state.isValid)
+  },
+
+  setValidState(isValid) {
     const query = $("#query")
     const wasValid = !query.hasClass("invalid-regex")
 

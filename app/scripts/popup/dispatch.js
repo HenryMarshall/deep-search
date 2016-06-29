@@ -14,11 +14,11 @@ export default {
           regex = buildRegex(queryParams)
 
           // in the event of success...
-          ui.validRegex(true)
+          ui.setValidState(true)
           this.submitQuery(queryParams)
         }
         catch (error) {
-          ui.validRegex(false)
+          ui.setValidState(false)
         }
       }
       else {

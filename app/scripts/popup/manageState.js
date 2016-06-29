@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import ui from './interface'
 
 export default {
   extractUiState() {
@@ -6,15 +7,9 @@ export default {
       search: $("#search").val(),
       isRegex: $("#is-regex").prop('checked'),
       isDeep: $("#is-deep").prop('checked'),
-      isCaseInsensitive: $("#is-case-insensitive").prop('checked')
+      isCaseInsensitive: $("#is-case-insensitive").prop('checked'),
+      isValid: $("#query").hasClass("invalid-regex")
     }
-  },
-
-  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
-    $("#search").val(state.search)
-    $("#is-regex").prop('checked', state.isRegex),
-    $("#is-deep").prop('checked', state.isDeep),
-    $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
   },
 
   saveState(state = this.extractUiState()) {
@@ -25,7 +20,7 @@ export default {
 
   clearState() {
     const defaultState = chrome.extension.getBackgroundPage().defaultState
-    this.setUiState(defaultState)
+    setUiState(defaultState)
     this.saveState(defaultState)
   }
 }
