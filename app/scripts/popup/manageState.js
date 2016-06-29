@@ -20,6 +20,7 @@ export default {
   saveState(state = this.extractUiState()) {
     const background = chrome.extension.getBackgroundPage()
     background.savedState = state
+    return state
   },
 
   clearState() {
