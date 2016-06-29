@@ -5,4 +5,8 @@ global.defaultState = {
   isCaseInsensitive: false,
   isValid: true
 }
-global.savedState = Object.assign({}, global.defaultState)
+
+export default function resetState() {
+  global.savedState = Object.assign({}, global.defaultState)
+  return global.savedState
+}

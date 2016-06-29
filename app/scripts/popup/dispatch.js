@@ -9,9 +9,8 @@ export default {
     if (!queryParams.isDeep) {
       this.clearMarks()
       if (queryParams.isRegex) {
-        let regex
         try {
-          regex = buildRegex(queryParams)
+          buildRegex(queryParams)
 
           // in the event of success...
           ui.toggleValidClass(true)
@@ -42,7 +41,8 @@ export default {
   },
 
   clearState() {
-    manageState.clearState()
+    const state = manageState.clearState()
+    ui.setUiState(state)
     this.clearMarks()
   },
 

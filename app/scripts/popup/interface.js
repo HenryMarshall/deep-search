@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import resetState from '../background/savedState'
 import manageState from './manageState'
 import dispatch from './dispatch'
 
@@ -9,7 +10,7 @@ export default function initialize() {
   $("#is-regex, #is-case-insensitive, #is-deep").click(onChange)
   $("#is-deep").click(onDeepToggle)
 
-  $("#clear-search").click(clearMarks)
+  $("#clear-search").click(onClear)
   $("#find, #find-prev").click(changeHighlight)
 }
 
@@ -40,7 +41,7 @@ function changeHighlight(event) {
   dispatch.changeHighlight(direction)
 }
 
-function clearMarks(event) {
+function onClear(event) {
   event.preventDefault()
   dispatch.clearState()
 }

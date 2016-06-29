@@ -1,5 +1,4 @@
 import $ from 'jquery'
-import ui from './interface'
 
 export default {
   extractUiState() {
@@ -8,7 +7,7 @@ export default {
       isRegex: $("#is-regex").prop('checked'),
       isDeep: $("#is-deep").prop('checked'),
       isCaseInsensitive: $("#is-case-insensitive").prop('checked'),
-      isValid: $("#query").hasClass("invalid-regex")
+      isValid: !$("#query").hasClass("invalid-regex")
     }
   },
 
@@ -18,9 +17,12 @@ export default {
     return state
   },
 
+  // Note: You *cannot* simply import and use the initialization method from
+  // the `background/savedState` page. This has a different global scope!
   clearState() {
-    const defaultState = chrome.extension.getBackgroundPage().defaultState
-    setUiState(defaultState)
-    this.saveState(defaultState)
+    const background = chrome.extension.getBackgroundPage()
+    const newState = Object.assign({}, background.defaultState)
+    background.savedState = newState
+    return newState
   }
 }
