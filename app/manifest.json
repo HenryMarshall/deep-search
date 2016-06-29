@@ -46,5 +46,12 @@
   "permissions": [
     "webNavigation",
     "webRequest"
-  ]
+  ],
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F"
+      }
+    }
+  }
 }
