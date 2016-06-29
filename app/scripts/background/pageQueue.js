@@ -1,5 +1,5 @@
 import queue from 'queue'
-import { getHtml, searchHtml } from './searchUrl'
+import SearchPage from './SearchPage'
 
 let q
 let running
@@ -18,13 +18,12 @@ export function enqueue(request, sendResponse) {
   if(!isAlreadyQueued(href)) {
     console.log("about to queue")
     queuedHrefs.push(href)
-    q.push((callback) => {
-      const onSuccess = searchHtml(href, queryParams)
-      const onCompletion = () => {
-        sendResponse({ href })
-        callback()
-      }
-      getHtml(url, onSuccess, onCompletion)
+
+    q.push((advanceQueue) => {
+      const page = new SearchPage({ url, href, queryParams, sendResponse })
+      // `advanceQueue` bombs is called with args, hence the anonymous function
+      const callback = () => { advanceQueue() }
+      page.search(callback)
     })
   }
 
@@ -34,8 +33,10 @@ export function enqueue(request, sendResponse) {
 function initialStart() {
   if (!running) {
     running = true
-    q.start(() => { 
-      initializeQueue()
+    q.start(() => {
+      running = false
+      queuedHrefs = []
+      // initializeQueue()
     })
   }
 }
