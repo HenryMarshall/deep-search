@@ -1,32 +1,26 @@
 @import 'vendor/bootstrap'
 
 body
-  margin-top: 16px
-  margin-bottom: 16px
-  width: 360px
+  width: 600px
+  height: 45px
 
-#search-wrapper .input-group
-  width: 100%
+#search-bar
+  display: flex
 
-#deepSearch-submit
-  width: 34px
-  cursor: pointer
-
-.checkbox-buttons
-  margin-bottom: 16px
-
-.checkbox-buttons label, #clear-search
+input[type='checkbox']+label, #clear-search
   font-size: 18px
   margin-right: 8px
   width: 48px
   font-weight: bold
 
-.checkbox-buttons input[type='checkbox']:checked+label
+input[type='checkbox']:checked+label
   color: #fff
   background-color: #666
   border-color: #555
 
-#is-deep+label>span, #clear-search>span
+.glyphicon
   position: relative
   top: 4px
 
+#find, #find-prev
+  flex: 0 1 64px
