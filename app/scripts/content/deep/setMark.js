@@ -2,7 +2,6 @@ import $ from 'jquery'
 
 export default function setMark(href, matches) {
   var link = $(`a[href='${href}']`)
-
   clearMarksFromLink(link)
   const marker = buildMarker(matches)
   link.append(marker)
@@ -20,12 +19,9 @@ function clearMarksFromLink(link) {
 }
 
 function buildMarker(matches) {
-  // FIXME: Accidental camelCase class names
   const marker = $(
     `<span class='deepSearch-link${matches ? '' : '-not'}-found'>
-    <span class='matchCountWrapper'>
-    <span='matchCount'>${matchCount(matches)}</span>
-    </span>
+      <span='deepSearch-match-count'>${matchCount(matches)}</span>
     </span>`
   )
   return marker

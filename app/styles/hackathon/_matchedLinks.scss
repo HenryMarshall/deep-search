@@ -3,7 +3,6 @@
   margin-left: 4px;
   width: 18px;
   height: 18px;
-  border-radius: 8px;
   display: inline-block;
 
   text-align: center;
@@ -13,21 +12,18 @@
 
 .deepSearch-link-found {
   background-color: #0a9400;
+  border-radius: 8px;
 }
 
 .deepSearch-link-not-found {
   background-color: #940000;
+  border-radius: 1px;
 }
 
-.matchCountWrapper {
+.deepSearch-match-count {
   display: flex;
   flex-direction: column;
   flex: 0 1 auto;
   line-height: 18px;
 }
-
-.matchCountWrapper {
-
-}
-
 
