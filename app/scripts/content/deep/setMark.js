@@ -21,7 +21,7 @@ function clearMarksFromLink(link) {
 function buildMarker(matches) {
   const marker = $(
     `<span class='deepSearch-link${matches ? '' : '-not'}-found'>
-      <span='deepSearch-match-count'>${matchCount(matches)}</span>
+      <span class='deepSearch-match-count'>${matchCount(matches)}</span>
     </span>`
   )
   return marker
