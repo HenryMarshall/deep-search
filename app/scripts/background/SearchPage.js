@@ -41,12 +41,15 @@ export default class SearchPage {
   }
 
   innerText(html) {
+    // remove head
     const body = html.match(/<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>/)
     return (
       (body ? body[1] : html)
+        // inline scripts and their tags
         .replace(/<\s*script[^>]*>[\s\S]*<\s*\/\s*script\s*>/g, "")
-        .replace(/<\s*script[^>]*\/\s*>/g, "")
+        // all tags (including external scripts)
         .replace(/<[^>]+>/g, "")
+        // line breaks
         .replace(/(\r?\n){2,}/g, "\n")
         .trim()
     )
