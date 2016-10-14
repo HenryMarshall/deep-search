@@ -44,15 +44,12 @@ function setFocused(element) {
 
 function scrollToElement(elements) {
   const targetPosition = elements.first().offset().top
-  const viewportTop = $("html").scrollTop()
+  const viewportTop = $("body").scrollTop()
   const viewportBottom = viewportTop + $(window).height()
 
-  if (viewportBottom < targetPosition) {
-    // give a negative offset?
-    window.scrollTo(0, targetPosition)
-  }
-  else if (targetPosition < viewportTop) {
-    // positive offset?
+  const isElementAboveViewport = viewportTop > targetPosition
+  const isElementBelowViewport = targetPosition > viewportBottom
+  if (isElementAboveViewport || isElementBelowViewport) {
     window.scrollTo(0, targetPosition)
   }
 }
