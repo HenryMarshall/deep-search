@@ -28,6 +28,11 @@ function handleMouseEnter(event) {
 
   const $this = $(this)
   const href = $this.parent().attr('href')
+
+  $this.tooltipster({ content: buildMessage(href) }).tooltipster("open")
+}
+
+function buildMessage(href) {
   const matches = global.deepSearchMatches[href]
 
   let message = "<ul><li>"
@@ -41,10 +46,10 @@ function handleMouseEnter(event) {
     )
     .join("</li><li>")
   message += "</li></ul>"
+
   if (matches.length > 10) {
     message += `<p>Plus ${matches.length - 10} more</p>`
   }
 
-  $this.tooltipster({ content: $(message) }).tooltipster("open")
+  return $(message)
 }
-
