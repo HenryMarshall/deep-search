@@ -1,6 +1,9 @@
-import $ from 'jquery'
-import buildRegex from '../../shared/buildRegex'
-import findAndReplaceDomText from 'findandreplacedomtext'
+import $ from "jquery"
+import findAndReplaceDomText from "findandreplacedomtext"
+
+import buildRegex from "../../shared/buildRegex"
+import scrollToElement from "./scrollToElement"
+
 
 export default function search(queryParams) {
   const regex = buildRegex(queryParams)
@@ -8,16 +11,17 @@ export default function search(queryParams) {
     find: regex,
     replace: createHighlight
   })
+  scrollToElement($(".deepSearch-current-highlight"))
 }
 
 function createHighlight(portion, match) {
   var wrapped = document.createElement("span")
-  var wrappedClasses = 'deepSearch-highlight'
+  var wrappedClasses = "deepSearch-highlight"
   if (match.index === 0) {
-    wrappedClasses += ' deepSearch-current-highlight'
+    wrappedClasses += " deepSearch-current-highlight"
   }
-  wrapped.setAttribute('class', wrappedClasses)
-  wrapped.setAttribute('data-highlight-index', match.index)
+  wrapped.setAttribute("class", wrappedClasses)
+  wrapped.setAttribute("data-highlight-index", match.index)
   wrapped.appendChild(document.createTextNode(portion.text))
   return wrapped
 }
