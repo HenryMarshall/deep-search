@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import scrollToElement from "./scrollToElement"
 
 export default function changeHighlight(direction) {
   direction = (direction === "next") ? 1 : -1
@@ -40,16 +41,4 @@ function removeFocused() {
 
 function setFocused(element) {
   element.addClass('deepSearch-current-highlight')
-}
-
-function scrollToElement(elements) {
-  const targetPosition = elements.first().offset().top
-  const viewportTop = $("body").scrollTop()
-  const viewportBottom = viewportTop + $(window).height()
-
-  const isElementAboveViewport = viewportTop > targetPosition
-  const isElementBelowViewport = targetPosition > viewportBottom
-  if (isElementAboveViewport || isElementBelowViewport) {
-    window.scrollTo(0, targetPosition)
-  }
 }
