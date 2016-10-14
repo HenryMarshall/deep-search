@@ -1,10 +1,10 @@
 import $ from 'jquery'
 
 export default function setMark(href, matches) {
-  var link = $(`a[href='${href}']`)
-  clearMarksFromLink(link)
+  var $link = $(`a[href='${href}']`)
+  clearMarksFromLink($link)
   const marker = buildMarker(matches)
-  link.append(marker)
+  $link.after(marker)
 }
 
 // If a link is on the page multiple times, it will (currently) be checked
@@ -13,8 +13,8 @@ export default function setMark(href, matches) {
 // removed before one is re-added.
 function clearMarksFromLink(link) {
   const selector = '.deepSearch-link-found, .deepSearch-link-not-found'
-  link.children(selector).each(function() {
-    $(this).remove()
+  link.each(function() {
+    $(this).next(selector).remove()
   })
 }
 

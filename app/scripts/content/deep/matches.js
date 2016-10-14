@@ -27,7 +27,7 @@ function handleMouseEnter(event) {
   event.preventDefault()
 
   const $this = $(this)
-  const href = $this.parent().attr('href')
+  const href = $this.prev("a").first().attr('href')
 
   $this.tooltipster({ content: buildMessage(href) }).tooltipster("open")
 }
