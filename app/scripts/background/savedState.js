@@ -2,7 +2,7 @@ global.defaultState = {
   search: '',
   isRegex: false,
   isDeep: false,
-  isCaseInsensitive: false,
+  isCaseInsensitive: true,
   isValid: true
 }
 
