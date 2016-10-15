@@ -56,29 +56,22 @@ export default class SearchPage {
     const endingIndex = lastMatchCharacter + chars
 
     // If leadingContext brings us to the beginning, include it all
-    if (startingIndex <= 0) {
-      match.preceedingContext = text.slice(0, match.index)
-    }
-    else {
-      match.preceedingContext =
-        text.slice(startingIndex - 1, match.index)
-          .split(/\b/)
-          .slice(2)
-          .join("")
-    }
+    match.preceedingContext = startingIndex <= 0 ?
+      text.slice(0, match.index) :
+      text
+        .slice(startingIndex - 1, match.index)
+        .split(/\b/)
+        .slice(2)
+        .join("")
 
     // If followingContext brings us to the end, include it all
-    if (endingIndex + 1 >= text.length) {
-      match.followingContext = text.slice(endingIndex)
-    }
-    else {
-      match.followingContext =
-        text
-          .slice(lastMatchCharacter, endingIndex + 1)
-          .split(/\b/)
-          .slice(0, -2)
-          .join("")
-    }
+    match.followingContext = endingIndex + 1 >= text.length ?
+      text.slice(endingIndex) :
+      text
+        .slice(lastMatchCharacter, endingIndex + 1)
+        .split(/\b/)
+        .slice(0, -2)
+        .join("")
 
     return match
   }
