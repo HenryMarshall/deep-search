@@ -32,7 +32,7 @@ export default class SearchPage {
 
   onSuccess(response) {
     const text = this.innerText(response)
-    let matches = globalRegexMatch(text, this.regex)
+    let matches = this.globalRegexMatch(text, this.regex)
 
     this.sendResponse({ status: "received_response", href: this.href, matches })
   }
@@ -41,10 +41,10 @@ export default class SearchPage {
     const matches = []
     let match
 
-    while (match = regex.exec(input)) {
+    while (match = regex.exec(text)) {
       // TODO: maxContent should be a settable value
       const maxContext = 32
-      const contextualized = contextualize(text, match, maxContext)
+      const contextualized = this.contextualize(text, match, maxContext)
       matches.push(contextualized)
     }
 
@@ -52,7 +52,6 @@ export default class SearchPage {
   }
 
   contextualize(text, match, chars) {
-    // We grab one extra character to ensure we can cut *around* words
     ++chars
     const startingIndex = match.index - chars
     const lastMatchCharacter = match.index + match[0].length
@@ -62,6 +61,7 @@ export default class SearchPage {
     match.preceedingContext = startingIndex <= 0 ?
       text.slice(0, match.index) :
       text
+        // We grab one extra character to ensure we can cut *around* words
         .slice(startingIndex - 1, match.index)
         .split(/\b/)
         .slice(2)

@@ -16,7 +16,6 @@ export function enqueue(request, sendResponse) {
   const { url, href, queryParams } = request
 
   if(!isAlreadyQueued(href)) {
-    console.log("about to queue")
     queuedHrefs.push(href)
 
     q.push((advanceQueue) => {
