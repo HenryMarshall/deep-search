@@ -18,7 +18,16 @@ describe("contextualize", function() {
   
   it("should add a context property", function() {
     const contextualized = page.contextualize(text, match, 0)
-    expect(contextualized).to.be.an("array")
     expect(contextualized.context).not.to.equal(undefined)
+  })
+
+  it("should have a length corresponding to the char limit", function() {
+    const contextLimit = 8
+    const matchLength = match[0].length
+    const maxLength = contextLimit * 2 + matchLength
+
+    const contextualized = page.contextualize(text, match, contextLimit)
+    expect(contextualized.context.length).to.be.at.most(maxLength)
+    expect(contextualized.context.length).to.be.at.least(matchLength)
   })
 })

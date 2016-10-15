@@ -49,7 +49,10 @@ export default class SearchPage {
   }
 
   contextualize(text, match, chars) {
-    match.context = text
+    const startingPoint = match.index - chars
+    const endingPoint = match[0].length + chars
+    match.context = text.slice(startingPoint, endingPoint)
+
     return match
   }
 
