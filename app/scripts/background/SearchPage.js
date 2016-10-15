@@ -32,8 +32,25 @@ export default class SearchPage {
 
   onSuccess(response) {
     const text = this.innerText(response)
-    const matches = text.match(this.regex)
+    let matches = globalRegexMatch(text, this.regex)
+
     this.sendResponse({ status: "received_response", href: this.href, matches })
+  }
+
+  globalRegexMatch(text, regex) {
+    const matches = []
+    let match
+
+    while (match = regex.exec(input)) {
+      matches.push(matches)
+    }
+
+    return matches
+  }
+
+  contextualize(text, match, chars) {
+    match.context = text
+    return match
   }
 
   onError(jqXHR, textStatus, error) {
