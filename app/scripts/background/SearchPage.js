@@ -49,9 +49,36 @@ export default class SearchPage {
   }
 
   contextualize(text, match, chars) {
-    const startingPoint = match.index - chars
-    const endingPoint = match[0].length + chars
-    match.context = text.slice(startingPoint, endingPoint)
+    // We grab one extra character to ensure we can cut *around* words
+    ++chars
+    const startingIndex = match.index - chars
+    const lastMatchCharacter = match.index + match[0].length
+    const endingIndex = lastMatchCharacter + chars
+
+    // If leadingContext brings us to the beginning, include it all
+    if (startingIndex <= 0) {
+      match.preceedingContext = text.slice(0, match.index)
+    }
+    else {
+      match.preceedingContext =
+        text.slice(startingIndex - 1, match.index)
+          .split(/\b/)
+          .slice(2)
+          .join("")
+    }
+
+    // If followingContext brings us to the end, include it all
+    if (endingIndex + 1 >= text.length) {
+      match.followingContext = text.slice(endingIndex)
+    }
+    else {
+      match.followingContext =
+        text
+          .slice(lastMatchCharacter, endingIndex + 1)
+          .split(/\b/)
+          .slice(0, -2)
+          .join("")
+    }
 
     return match
   }
