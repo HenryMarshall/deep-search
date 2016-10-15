@@ -35,21 +35,45 @@ function handleMouseEnter(event) {
 function buildMessage(href) {
   const matches = global.deepSearchMatches[href]
 
-  let message = "<ul><li>"
-  message += matches
-    .slice(0,10)
-    .map(match =>
-      match
-        .replace(/\s/, ' ')
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-    )
-    .join("</li><li>")
-  message += "</li></ul>"
+  let message = `<table>`
 
+  matches.slice(0,10).forEach((match, idx) => {
+    if (idx === 0) {
+      message +=
+        `<tr>
+          <th>Match</th>
+          ${match.slice(1).map((captureGroup, idx) => (
+            `<th>$${idx}</th>`
+          )).join("")}
+          <th>Context</th>
+        </tr>`
+    }
+
+    message +=
+      `<tr>
+        ${match.map(captureGroup => {
+          `<td>$${escapeHTML(captureGroup)}</td>`
+        }).join("")}
+        <td>
+          ${match.preceedingContext}
+          <strong>${escapeHTML(match[0])}</strong>
+          ${match.followingContext}
+        </td>
+      </tr>`
+  })
+
+  message += `</table>`
+      
   if (matches.length > 10) {
     message += `<p>Plus ${matches.length - 10} more</p>`
   }
 
   return $(message)
+}
+
+function escapeHTML(text) {
+  text
+    .replace(/\s/, ' ')
+    .replace("<", "&lt;")
+    .replace(">", "&gt;")
 }
