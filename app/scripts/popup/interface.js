@@ -19,8 +19,13 @@ export default function initialize() {
 function onChange(event) {
   // KeyCode for Enter
   if (event.keyCode === 13) {
-    const direction = event.shiftKey ? "prev" : "next"
-    dispatch.changeHighlight(direction)
+    if ($("#is-deep").prop("checked")) {
+      dispatch.deepSearch()
+    }
+    else {
+      const direction = event.shiftKey ? "prev" : "next"
+      dispatch.changeHighlight(direction)
+    }
   }
 
   // Note: This `onChange` is also responsible for handling changes of the
