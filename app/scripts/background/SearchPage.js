@@ -42,7 +42,10 @@ export default class SearchPage {
     let match
 
     while (match = regex.exec(input)) {
-      matches.push(matches)
+      // TODO: maxContent should be a settable value
+      const maxContext = 32
+      const contextualized = contextualize(text, match, maxContext)
+      matches.push(contextualized)
     }
 
     return matches
