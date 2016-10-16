@@ -20,7 +20,7 @@ export function enqueue(request, sendResponse) {
 
     q.push((advanceQueue) => {
       const page = new SearchPage({ url, href, queryParams, sendResponse })
-      // `advanceQueue` bombs is called with args, hence the anonymous function
+      // `advanceQueue` bombs if called with args, hence the anonymous function
       const callback = () => { advanceQueue() }
       page.search(callback)
     })
@@ -29,13 +29,19 @@ export function enqueue(request, sendResponse) {
   initialStart()
 }
 
+export function clearQueue() {
+  if (running && q) {
+    running = false
+    q.end()
+  }
+}
+
 function initialStart() {
   if (!running) {
     running = true
     q.start(() => {
       running = false
       queuedHrefs = []
-      // initializeQueue()
     })
   }
 }
@@ -46,6 +52,6 @@ function isAlreadyQueued(href) {
 }
 
 function onTimeout(next, job) {
-  console.error("job timed out")
+  console.error("deepSearch page timed out")
   next()
 }
