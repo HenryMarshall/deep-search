@@ -18,7 +18,7 @@ export default function setupListeners() {
           shallow.changeHighlight(request.direction)
           break
         case "download_shallow_csv":
-          shallow.downloadCsv(queryParams)
+          shallow.onDownload(queryParams)
           break
       }
     }
