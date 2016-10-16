@@ -68,7 +68,7 @@ function buildMessage(href) {
   if (matches.length > 10) {
     message += `<span>(Plus ${matches.length - 10} more)</span>`
   }
-  message +=  `<a href="${href}" class="csv-link">Download as CSV</a></p>`
+  message += `<a data-page-href="${href}" href="#" class="csv-link">Download as CSV</a></p>`
 
   return $(message)
 }

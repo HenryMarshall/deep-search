@@ -8,10 +8,10 @@ export default function listenForDownload() {
 function handleDownload(event) {
   event.preventDefault()
 
-  const href = $(this).attr("href")
+  const href = $(this).attr("data-page-href")
   const matches = global.deepSearchMatches[href]
 
-  const output = buildCsv(matches)
+  const csv = buildCsv(matches)
 }
 
 function buildCsv(matches) {
