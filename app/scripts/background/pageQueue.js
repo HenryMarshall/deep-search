@@ -22,7 +22,7 @@ export function enqueue(request, sendResponse) {
       const page = new SearchPage({ url, href, queryParams, sendResponse })
       // `advanceQueue` bombs if called with args, hence the anonymous function
       const callback = () => { advanceQueue() }
-      page.search(callback)
+      page.process(callback)
     })
   }
 
