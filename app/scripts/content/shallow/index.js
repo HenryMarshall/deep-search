@@ -1,11 +1,11 @@
 import search from "./search"
 import clearMarks from "./clearMarks"
 import changeHighlight from "./changeHighlight"
-import onDownload from "./onDownload"
+import handleDownload from "./handleDownload"
 
 export default {
   search,
   clearMarks,
   changeHighlight,
-  onDownload,
+  handleDownload,
 }
