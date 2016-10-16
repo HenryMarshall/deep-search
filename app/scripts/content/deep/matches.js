@@ -29,7 +29,10 @@ function handleMouseEnter(event) {
   const $this = $(this)
   const href = $this.prev("a").first().attr('href')
 
-  $this.tooltipster({ content: buildMessage(href) }).tooltipster("open")
+  $this.tooltipster({
+    content: buildMessage(href),
+    interactive: true,
+  }).tooltipster("open")
 }
 
 function buildMessage(href) {
