@@ -68,7 +68,7 @@ function buildMessage(href) {
   message += `</tbody></table>`
       
   if (matches.length > 10) {
-    message += `<p>Plus ${matches.length - 10} more</p>`
+    message += `<p>(Plus ${matches.length - 10} more)</p>`
   }
 
   return $(message)
