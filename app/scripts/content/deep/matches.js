@@ -48,20 +48,20 @@ function buildMessage(href) {
     }
 
     message +=
+      // The long `td` line is necessary. Breaking it up causes a potential
+      // space to be inserted when the search is for a word fragment. Consider:
+      // "the preceeding " + "human" + "s are pretty cool" will render as
+      // "the preceeding human s are pretty cool" if split across lines.
       `<tr>
         ${match.match.map(captureGroup => (
           `<td>${escapeHTML(captureGroup)}</td>`
         )).join("")}
-        <td>
-          ${match.preceedingContext}
-          <strong>${escapeHTML(match.match[0])}</strong>
-          ${match.followingContext}
-        </td>
+        <td>${match.preceedingContext}<strong>${escapeHTML(match.match[0])}</strong>${match.followingContext}</td>
       </tr>`
   })
 
   message += `</tbody></table>`
-      
+
   if (matches.length > 10) {
     message += `<p>(Plus ${matches.length - 10} more)</p>`
   }
