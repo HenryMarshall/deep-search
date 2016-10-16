@@ -1,11 +1,40 @@
 .tooltipster-base
-  ul
-    padding: 0 0 0 18px
-    margin: 0
-  li
-    padding: 0
-    margin: 0
-    list-style: disc
+
+  // `.tooltipster-box` included to win in specificity contenst with vendor css
+  > .tooltipster-box > .tooltipster-content
+    padding: 6px 0
+
+  .tooltipster-content, table, thead, tbody, tr
+    width: 100%
+    border-collapse: collapse
+
+  td, th
+    text-align: left
+    font-size: 16px
+    line-height: 22px
+    border: none
+    padding: 1px 16px 1px 0
+
+  th:first-of-type, td:first-of-type
+    padding-left: 16px
+
+  tbody > tr:nth-child(odd)
+    background-color: hsl(0, 0, 21%)
+
+  p
+    font-size: 12px
+    margin: 8px 16px
+
+  p, a
+    color: hsl(0,0, 80%)
+
+  .csv-link
+    float: right
+    text-decoration: none
+
+  .csv-link:hover
+    text-decoration: underline
+  
 
 .tooltipster
   font-family: arial, helvetica, sans-serif

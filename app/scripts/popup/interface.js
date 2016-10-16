@@ -13,14 +13,26 @@ export default function initialize() {
   $("#clear-search").click(onClear)
   $("#find, #find-prev").click(onFind)
   $("#deep-search").click(onDeepSearch)
+  $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
+
+  showFooterConditionally()
+}
+
+function showFooterConditionally(isDeep = $("#is-deep").prop("checked")) {
+  $(".shallow-footer").toggle(!isDeep)
 }
 
 function onChange(event) {
   // KeyCode for Enter
   if (event.keyCode === 13) {
-    const direction = event.shiftKey ? "prev" : "next"
-    dispatch.changeHighlight(direction)
+    if ($("#is-deep").prop("checked")) {
+      dispatch.deepSearch()
+    }
+    else {
+      const direction = event.shiftKey ? "prev" : "next"
+      dispatch.changeHighlight(direction)
+    }
   }
 
   // Note: This `onChange` is also responsible for handling changes of the
@@ -34,6 +46,7 @@ function onChange(event) {
 
 function onDeepToggle() {
   const isDeep = $(this).prop('checked')
+  showFooterConditionally(isDeep)
   ui.toggleDeepClass(isDeep)
 }
 
@@ -51,6 +64,11 @@ function onClear(event) {
 function onDeepSearch(event) {
   event.preventDefault()
   dispatch.deepSearch()
+}
+
+function onDownloadCsv(event) {
+  event.preventDefault()
+  dispatch.downloadCsv()
 }
 
 export const ui = {

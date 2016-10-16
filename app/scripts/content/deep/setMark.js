@@ -19,16 +19,18 @@ function clearMarksFromLink(link) {
 }
 
 function buildMarker(matches) {
-  const marker = $(
-    `<span class='deepSearch-link${matches ? '' : '-not'}-found'>
+  if (matches) {
+    const marker = $(
+      `<span class='deepSearch-link${matches.length ? '' : '-not'}-found'>
       <span class='deepSearch-match-count'>${matchCount(matches)}</span>
-    </span>`
-  )
-  return marker
+      </span>`
+    )
+    return marker
+  }
 }
 
 function matchCount(matches) {
-  if (matches) {
+  if (matches.length) {
     return ((matches.length < 10) ? matches.length : '+')
   }
   else {
