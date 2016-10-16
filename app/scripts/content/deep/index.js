@@ -1,7 +1,14 @@
-import search from './search'
-import setMark from './setMark'
-import clearMarks from './clearMarks'
-import { initialize, saveMatch } from './matches'
+import search from "./search"
+import setMark from "./setMark"
+import clearMarks from "./clearMarks"
+import { listenForHover, saveMatch } from "./matches"
+import listenForDownload from "./listenForDownload"
+
+function initialize() {
+  global.deepSearchMatches = {}
+  listenForHover()
+  listenForDownload()
+}
 
 export default {
   initialize,

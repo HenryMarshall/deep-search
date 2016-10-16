@@ -1,21 +1,13 @@
 const $ = require("jquery")
 require("tooltipster")
 
-import listenForDownload from "./downloadCsv"
-
-export function initialize() {
-  global.deepSearchMatches = {}
-  listenForHover()
-  listenForDownload()
-}
-
 export function saveMatch(href, matches) {
   if (matches) {
     global.deepSearchMatches[href] = matches
   }
 }
 
-function listenForHover() {
+export function listenForHover() {
   $("body").on(
     "mouseenter",
     ".deepSearch-link-found:not(.tooltipstered)",
