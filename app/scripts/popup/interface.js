@@ -14,6 +14,12 @@ export default function initialize() {
   $("#find, #find-prev").click(onFind)
   $("#deep-search").click(onDeepSearch)
   $("#query").submit((e) => { e.preventDefault() })
+
+  showFooterConditionally()
+}
+
+function showFooterConditionally(isDeep = $("#is-deep").prop("checked")) {
+  $(".shallow-footer").toggle(!isDeep)
 }
 
 function onChange(event) {
@@ -39,6 +45,7 @@ function onChange(event) {
 
 function onDeepToggle() {
   const isDeep = $(this).prop('checked')
+  showFooterConditionally(isDeep)
   ui.toggleDeepClass(isDeep)
 }
 
