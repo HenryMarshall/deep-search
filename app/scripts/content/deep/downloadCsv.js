@@ -12,6 +12,7 @@ function handleDownload(event) {
   const matches = global.deepSearchMatches[href]
 
   const csv = buildCsv(matches)
+  initiateDownload(csv)
 }
 
 function buildCsv(matches) {
@@ -42,4 +43,13 @@ function buildData(matches) {
     match.match.slice(1).forEach((str, idx) => data[`$${idx}`] = str)
     return data
   })
+}
+
+function initiateDownload(csv) {
+  const href = encodeURI("data:csv;charset=utf-8," + csv)
+
+  const link = document.createElement("a")
+  link.setAttribute("href", href)
+  link.setAttribute("download", "ds_export.csv")
+  link.click()
 }
