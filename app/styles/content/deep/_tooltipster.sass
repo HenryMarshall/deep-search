@@ -15,7 +15,7 @@
     border: none
     padding: 1px 16px 1px 0
 
-  th:first-of-type, td:first-of-type, p
+  th:first-of-type, td:first-of-type
     padding-left: 16px
 
   tbody > tr:nth-child(odd)
@@ -23,8 +23,17 @@
 
   p
     font-size: 12px
+    margin: 8px 16px
+
+  p, a
     color: hsl(0,0, 80%)
-    margin: 8px 0
+
+  .csv-link
+    float: right
+    text-decoration: none
+
+  .csv-link:hover
+    text-decoration: underline
   
 
 .tooltipster

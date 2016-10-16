@@ -1,9 +1,12 @@
 const $ = require("jquery")
 require("tooltipster")
 
+import listenForDownload from "./downloadCsv"
+
 export function initialize() {
   global.deepSearchMatches = {}
   listenForHover()
+  listenForDownload()
 }
 
 export function saveMatch(href, matches) {
@@ -60,11 +63,12 @@ function buildMessage(href) {
       </tr>`
   })
 
-  message += `</tbody></table>`
+  message += `</tbody></table><p>`
 
   if (matches.length > 10) {
-    message += `<p>(Plus ${matches.length - 10} more)</p>`
+    message += `<span>(Plus ${matches.length - 10} more)</span>`
   }
+  message +=  `<a href="${href}" class="csv-link">Download as CSV</a></p>`
 
   return $(message)
 }
