@@ -11,29 +11,24 @@ function handleDownload(event) {
   const href = $(this).attr("href")
   const matches = global.deepSearchMatches[href]
 
-  buildOutput(matches)
+  const output = buildCsv(matches)
 }
 
-function buildOutput(matches) {
-  let output = {
+function buildCsv(matches) {
+  return json2csv({
     fields: buildFields(matches),
     data: buildData(matches),
-  }
-
-  output = json2csv(output)
-
-  console.log(output)
-
-  return output
+  })
 }
 
 function buildFields(matches) {
-  // The number of captured groups is variable, so we slice it
+  const fields = ["match", "preceeding_context", "following_context"]
   const captured = matches[0].match.slice(1).map(
     (captureGroup, idx) => `$${idx}`
   )
-  const context = ["preceeding_context", "following_context"]
-  return ["match"].concat(captured, context)
+
+  fields.splice(1, 0, ...captured) // ["match", "$0", "$1", "preceeding...
+  return fields
 }
 
 function buildData(matches) {
