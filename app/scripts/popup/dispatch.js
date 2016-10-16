@@ -33,6 +33,11 @@ export default {
     }
   },
 
+  downloadCsv() {
+    const queryParams = manageState.readState()
+    messageContent({ message: "download_shallow_csv", queryParams })
+  },
+
   changeHighlight(direction) {
     messageContent({
       message: "change_highlight",

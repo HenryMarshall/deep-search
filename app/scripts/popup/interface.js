@@ -13,6 +13,7 @@ export default function initialize() {
   $("#clear-search").click(onClear)
   $("#find, #find-prev").click(onFind)
   $("#deep-search").click(onDeepSearch)
+  $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
 
   showFooterConditionally()
@@ -63,6 +64,11 @@ function onClear(event) {
 function onDeepSearch(event) {
   event.preventDefault()
   dispatch.deepSearch()
+}
+
+function onDownloadCsv(event) {
+  event.preventDefault()
+  dispatch.downloadCsv()
 }
 
 export const ui = {
