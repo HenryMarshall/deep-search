@@ -1,5 +1,5 @@
-import queue from 'queue'
-import SearchPage from './SearchPage'
+import queue from "queue"
+import searchAddress from "./searchAddress"
 
 let q
 let running
@@ -13,16 +13,15 @@ export function initializeQueue(concurrency = 8, timeout = 750) {
 }
 
 export function enqueue(request, sendResponse) {
-  const { url, href, queryParams } = request
+  const { href, url, queryParams } = request
 
   if(!isAlreadyQueued(href)) {
     queuedHrefs.push(href)
 
     q.push((advanceQueue) => {
-      const page = new SearchPage({ url, href, queryParams, sendResponse })
       // `advanceQueue` bombs if called with args, hence the anonymous function
       const callback = () => { advanceQueue() }
-      page.process(callback)
+      searchAddress({ queryParams, href, url, sendResponse, callback })
     })
   }
 
