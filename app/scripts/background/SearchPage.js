@@ -57,8 +57,13 @@ export default class SearchPage {
     const lastMatchCharacter = match.index + match[0].length
     const endingIndex = lastMatchCharacter + chars
 
+    // Chrome seems to be stripping non-standard properties off arrays when
+    // passing them back through `sendResponse`. As such, I wrap the object in 
+    // this contextualized object.
+    const contextualized = { match }
+
     // If leadingContext brings us to the beginning, include it all
-    match.preceedingContext = startingIndex <= 0 ?
+    contextualized.preceedingContext = startingIndex <= 0 ?
       text.slice(0, match.index) :
       text
         // We grab one extra character to ensure we can cut *around* words
@@ -68,7 +73,7 @@ export default class SearchPage {
         .join("")
 
     // If followingContext brings us to the end, include it all
-    match.followingContext = endingIndex + 1 >= text.length ?
+    contextualized.followingContext = endingIndex + 1 >= text.length ?
       text.slice(endingIndex) :
       text
         .slice(lastMatchCharacter, endingIndex + 1)
@@ -76,7 +81,7 @@ export default class SearchPage {
         .slice(0, -2)
         .join("")
 
-    return match
+    return contextualized
   }
 
   onError(jqXHR, textStatus, error) {

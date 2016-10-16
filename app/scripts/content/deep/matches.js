@@ -40,29 +40,29 @@ function buildMessage(href) {
   matches.slice(0,10).forEach((match, idx) => {
     if (idx === 0) {
       message +=
-        `<tr>
+        `<thead><tr>
           <th>Match</th>
-          ${match.slice(1).map((captureGroup, idx) => (
+          ${match.match.slice(1).map((captureGroup, idx) => (
             `<th>$${idx}</th>`
           )).join("")}
           <th>Context</th>
-        </tr>`
+        </tr></thead><tbody>`
     }
 
     message +=
       `<tr>
-        ${match.map(captureGroup => {
-          `<td>$${escapeHTML(captureGroup)}</td>`
-        }).join("")}
+        ${match.match.map(captureGroup => (
+          `<td>${escapeHTML(captureGroup)}</td>`
+        )).join("")}
         <td>
           ${match.preceedingContext}
-          <strong>${escapeHTML(match[0])}</strong>
+          <strong>${escapeHTML(match.match[0])}</strong>
           ${match.followingContext}
         </td>
       </tr>`
   })
 
-  message += `</table>`
+  message += `</tbody></table>`
       
   if (matches.length > 10) {
     message += `<p>Plus ${matches.length - 10} more</p>`
@@ -72,7 +72,7 @@ function buildMessage(href) {
 }
 
 function escapeHTML(text) {
-  text
+  return text
     .replace(/\s/, ' ')
     .replace("<", "&lt;")
     .replace(">", "&gt;")
