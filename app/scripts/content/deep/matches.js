@@ -18,14 +18,9 @@ function listenForHover() {
     ".deepSearch-link-found:not(.tooltipstered)",
     handleMouseEnter
   )
-
-  $('body').on("click", ".deepSearch-link-not-found", e => e.preventDefault())
-  // TODO: create `.deepSearch-error`
 }
 
 function handleMouseEnter(event) {
-  event.preventDefault()
-
   const $this = $(this)
   const href = $this.prev("a").first().attr('href')
 
