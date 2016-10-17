@@ -14,23 +14,20 @@ export default function changeHighlight(direction) {
 function getNewFocused(direction) {
   const $highlights = $(".deepSearch-highlight")
 
-  const oldIndex = $highlights
-    .filter(".deepSearch-current-highlight")
-    .attr("data-highlight-index")
+  const oldIndex = Number(
+    $highlights
+      .filter(".deepSearch-current-highlight")
+      .attr("data-highlight-index")
+  )
 
-  let newIndex
-  if (direction === "next") {
-    newIndex =
-      firstInSubset(direction, oldIndex, $highlights, "following") ||
-      firstInSubset(direction, oldIndex, $highlights, "preceeding") ||
-      oldIndex
-  }
-  else {
-    newIndex = 
-      firstInSubset(direction, oldIndex, $highlights, "preceeding") ||
-      firstInSubset(direction, oldIndex, $highlights, "following") ||
-      oldIndex
-  }
+  const [first, second] = (direction === "next") ?
+    ["following", "preceeding"] :
+    ["preceeding", "following"]
+
+  const newIndex =
+    firstInSubset(direction, oldIndex, $highlights, first) ||
+    firstInSubset(direction, oldIndex, $highlights, second) ||
+    oldIndex
 
   return getHighlightByIndex(newIndex, $highlights)
 }
@@ -38,7 +35,6 @@ function getNewFocused(direction) {
 function firstInSubset(direction, oldIndex, $highlights, section) {
   let $subset = $highlights.filter(function() {
     const $this = $(this)
-    oldIndex = Number(oldIndex)
     const thisIndex = Number($this.attr("data-highlight-index"))
     return (
       $this.is(":visible") &&
