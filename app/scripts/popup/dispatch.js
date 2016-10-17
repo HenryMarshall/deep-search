@@ -11,7 +11,7 @@ export default {
     const isValid = queryParams.isRegex ? this.isRegexValid(queryParams) : true
     ui.toggleValidClass(isValid)
 
-    if (isValid && !queryParams.isDeep) {
+    if (isValid && !queryParams.isDeep && queryParams.search) {
       this.submitQuery(queryParams)
     }
   },
