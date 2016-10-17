@@ -4,7 +4,7 @@ import shallow from './shallow'
 export default function setupListeners() {
   chrome.runtime.onMessage.addListener(
     function (request, sender, sendMessage) {
-      console.log("message received", request)
+      // console.log("message received", request)
       const { queryParams } = request
 
       switch(request.message) {
