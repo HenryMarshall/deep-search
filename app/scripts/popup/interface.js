@@ -20,6 +20,7 @@ export default function initialize() {
 
   const $search = $("#search")
   $search.keyup(onChange)
+  ui.toggleDisableable(!$search.val())
 }
 
 function showFooterConditionally($isDeep = $("#is-deep")) {
@@ -57,8 +58,11 @@ function onDeepToggle(event) {
 
 function onFind(event) {
   event.preventDefault()
-  const direction = $(this).attr('data-direction')
-  dispatch.changeHighlight(direction)
+
+  if (!$(this).hasClass("disabled")) {
+    const direction = $(this).attr('data-direction')
+    dispatch.changeHighlight(direction)
+  }
 }
 
 function onClear(event) {
@@ -68,12 +72,18 @@ function onClear(event) {
 
 function onDeepSearch(event) {
   event.preventDefault()
-  dispatch.deepSearch()
+
+  if (!$(this).hasClass("disabled")) {
+    dispatch.deepSearch()
+  }
 }
 
 function onDownloadCsv(event) {
   event.preventDefault()
-  dispatch.downloadCsv()
+
+  if (!$(this).hasClass("disabled")) {
+    dispatch.downloadCsv()
+  }
 }
 
 export const ui = {
@@ -94,5 +104,9 @@ export const ui = {
 
   toggleDeepClass(isDeep, $query = $("#query")) {
     $query.toggleClass("deep-query", isDeep)
+  },
+
+  toggleDisableable(isDisabled) {
+    $(".disableable").toggleClass("disabled", isDisabled)
   },
 }
