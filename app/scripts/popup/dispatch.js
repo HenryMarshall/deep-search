@@ -23,6 +23,12 @@ export default {
       return true
     }
     catch (error) {
+      // Range error is thrown if search is an empty string. We return true
+      // here because empty strings *are* valid (they generate /(?:)/) and
+      // disabling the search should be handled by `ui.toggleDisableable`.
+      if (e instanceof RangeError) {
+        return true
+      }
       return false
     }
   },
