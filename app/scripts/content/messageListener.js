@@ -17,6 +17,9 @@ export default function setupListeners() {
         case "change_highlight":
           shallow.changeHighlight(request.direction)
           break
+        case "download_shallow_csv":
+          shallow.downloadCsv(queryParams)
+          break
       }
     }
   )

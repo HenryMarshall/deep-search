@@ -1,5 +1,5 @@
 // import { getHtml, searchHtml } from './searchUrl'
-import { enqueue } from './pageQueue'
+import { enqueue, clearQueue } from './pageQueue'
 
 export default setupListener;
 
@@ -11,6 +11,10 @@ function setupListener() {
         enqueue(request, sendResponse)
         // We `return true` to permit async sendResponse
         return true
+      }
+
+      if (message === "clear_queue") {
+        clearQueue()
       }
     }
   )

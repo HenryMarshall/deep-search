@@ -28,11 +28,11 @@
     <input type="text" name="search" class="form-control" id="search" autocomplete="off" autofocus>
 
     <!-- Controls -->
-    <button type="button" class="btn btn-primary" data-direction="next" id="find">
+    <button type="button" class="btn btn-primary disableable" data-direction="next" id="find">
       Find
     </button>
 
-    <button type="button" class="btn btn-default" data-direction="prev" id="find-prev">
+    <button type="button" class="btn btn-default disableable" data-direction="prev" id="find-prev">
       Find Prev
     </button>
 
@@ -42,7 +42,7 @@
     </div>
 
     <!-- (Hidden) Deep Search Button -->
-    <button type="button" class="btn btn-primary" id="deep-search">
+    <button type="button" class="btn btn-primary disableable" id="deep-search">
       Deep Search
     </button>
 
@@ -50,6 +50,10 @@
       <span class="glyphicon glyphicon-remove"></span>
     </button>
   </form>
+
+  <footer class="shallow-footer">
+    <a href="#" id="download-shallow-csv" class="disableable">Download as CSV</a>
+  </footer>
 
   <script src="../scripts/popup.js"></script>
   </body>

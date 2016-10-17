@@ -1,6 +1,7 @@
-@import 'vendor/bootstrap'
-@import 'popup/vars'
-@import 'popup/error'
+@import "vendor/bootstrap"
+
+$findWidth: 92px
+$elementHeight: 34px
 
 body
   width: 792px
@@ -9,6 +10,29 @@ body
 
 form
   display: flex
+
+// buttons
+#find, #find-prev
+  display: block
+  flex: 0 1 $findWidth
+
+#deep-search
+  display: none
+  flex: 0 1 ($findWidth * 2 + 8px)
+
+.alert
+  display: none
+  flex: 0 1 ($findWidth * 2 + 8px)
+  height: 34px
+  padding: 6px 12px
+  margin-bottom: 0
+
+#download-shallow-csv
+  float: right
+  font-family: arial, helvetica, sans-serif
+  font-size: 12px
+  margin: 6px 12px
+  color: hsl(0,0, 30%)
 
 label, input, button, .alert
   margin-right: 8px
@@ -20,9 +44,10 @@ input[type='checkbox']+label, #clear-search
   font-size: 14px
   width: $elementHeight
   font-weight: bold
-  display: flex;
-  justify-content: center;
+  display: flex
+  justify-content: center
 
+// state
 input[type='checkbox']:checked+label
   color: #fff
   background-color: #666
@@ -31,4 +56,20 @@ input[type='checkbox']:checked+label
 .glyphicon-chevron-down
   position: relative
   top: 3px
+
+.deep-query
+  #find, #find-prev
+    display: none
+  #deep-search
+    display: block
+
+a.disabled
+  cursor: not-allowed
+
+// .invalid-regex must be below .deep-query for the cascade
+.invalid-regex
+  #find, #find-prev, #deep-search
+    display: none
+  .alert
+    display: block
 

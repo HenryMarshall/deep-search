@@ -1,5 +1,5 @@
-import queue from 'queue'
-import SearchPage from './SearchPage'
+import queue from "queue"
+import searchAddress from "./searchAddress"
 
 let q
 let running
@@ -13,21 +13,26 @@ export function initializeQueue(concurrency = 8, timeout = 750) {
 }
 
 export function enqueue(request, sendResponse) {
-  const { url, href, queryParams } = request
+  const { href, url, queryParams } = request
 
   if(!isAlreadyQueued(href)) {
-    console.log("about to queue")
     queuedHrefs.push(href)
 
     q.push((advanceQueue) => {
-      const page = new SearchPage({ url, href, queryParams, sendResponse })
-      // `advanceQueue` bombs is called with args, hence the anonymous function
+      // `advanceQueue` bombs if called with args, hence the anonymous function
       const callback = () => { advanceQueue() }
-      page.search(callback)
+      searchAddress({ queryParams, href, url, sendResponse, callback })
     })
   }
 
   initialStart()
+}
+
+export function clearQueue() {
+  if (running && q) {
+    running = false
+    q.end()
+  }
 }
 
 function initialStart() {
@@ -36,7 +41,6 @@ function initialStart() {
     q.start(() => {
       running = false
       queuedHrefs = []
-      // initializeQueue()
     })
   }
 }
@@ -47,6 +51,6 @@ function isAlreadyQueued(href) {
 }
 
 function onTimeout(next, job) {
-  console.error("job timed out")
+  console.error("deepSearch page timed out")
   next()
 }

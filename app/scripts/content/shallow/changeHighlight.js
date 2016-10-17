@@ -1,7 +1,8 @@
-import $ from 'jquery'
+import $ from "jquery"
+import scrollToElement from "./scrollToElement"
+$.fn.reverse = [].reverse
 
 export default function changeHighlight(direction) {
-  direction = (direction === "next") ? 1 : -1
   const newFocused = getNewFocused(direction)
 
   removeFocused()
@@ -9,28 +10,50 @@ export default function changeHighlight(direction) {
   scrollToElement(newFocused)
 }
 
+// Note: a highlight is considered visible if *any* sub element is :visible
 function getNewFocused(direction) {
-  var oldIndex = $(".deepSearch-current-highlight").attr('data-highlight-index')
-  var maxIndex = $(".deepSearch-highlight").last().attr('data-highlight-index')
+  const $highlights = $(".deepSearch-highlight")
 
-  var newIndex = Number(oldIndex) + direction
-  if (newIndex < 0) {
-    newIndex = maxIndex
-  }
-  else if (newIndex > maxIndex) {
-    newIndex = 0
-  }
-  return getHighlightByIndex(newIndex)
+  const oldIndex = Number(
+    $highlights
+      .filter(".deepSearch-current-highlight")
+      .attr("data-highlight-index")
+  )
+
+  const [first, second] = (direction === "next") ?
+    ["following", "preceeding"] :
+    ["preceeding", "following"]
+
+  const newIndex =
+    firstInSubset(direction, oldIndex, $highlights, first) ||
+    firstInSubset(direction, oldIndex, $highlights, second) ||
+    oldIndex
+
+  return getHighlightByIndex(newIndex, $highlights)
 }
 
-function getHighlightByIndex(index) {
-  const element = $(`.deepSearch-highlight[data-highlight-index='${index}']`)
+function firstInSubset(direction, oldIndex, $highlights, section) {
+  let $subset = $highlights.filter(function() {
+    const $this = $(this)
+    const thisIndex = Number($this.attr("data-highlight-index"))
+    return (
+      $this.is(":visible") &&
+      section === "following" ? thisIndex > oldIndex : thisIndex < oldIndex
+    )
+  })
+  $subset = (direction === "next") ? $subset : $subset.reverse()
 
-  if (!element) {
+  return $subset.attr("data-highlight-index")
+}
+
+function getHighlightByIndex(index, $highlights = $("deepSearch-highlight")) {
+  const $elements = $highlights.filter(`[data-highlight-index=${index}]`)
+
+  if (!$elements) {
     throw new RangeError("Next/Prev highlight not found!")
   }
   else {
-    return element
+    return $elements
   }
 }
 
@@ -38,21 +61,6 @@ function removeFocused() {
   $(".deepSearch-current-highlight").removeClass('deepSearch-current-highlight')
 }
 
-function setFocused(element) {
-  element.addClass('deepSearch-current-highlight')
-}
-
-function scrollToElement(elements) {
-  const targetPosition = elements.first().offset().top
-  const viewportTop = $("html").scrollTop()
-  const viewportBottom = viewportTop + $(window).height()
-
-  if (viewportBottom < targetPosition) {
-    // give a negative offset?
-    window.scrollTo(0, targetPosition)
-  }
-  else if (targetPosition < viewportTop) {
-    // positive offset?
-    window.scrollTo(0, targetPosition)
-  }
+function setFocused($highlight) {
+  $highlight.addClass('deepSearch-current-highlight')
 }

@@ -1,5 +1,9 @@
 export default function buildRegex(queryParams) {
   const { isCaseInsensitive, isRegex, search } = queryParams
+  if (!search) {
+    throw new RangeError("Searching empty strings causes a memory explosion")
+  }
+
   const regex = isRegex ? search : regexEscape(search)
   const regexFlags = isCaseInsensitive ? "gi" : "g";
   return new RegExp(regex, regexFlags)

@@ -1,11 +1,10 @@
 import $ from 'jquery'
 
 export default function setMark(href, matches) {
-  var link = $(`a[href='${href}']`)
-
-  clearMarksFromLink(link)
+  var $link = $(`a[href='${href}']`)
+  clearMarksFromLink($link)
   const marker = buildMarker(matches)
-  link.append(marker)
+  $link.after(marker)
 }
 
 // If a link is on the page multiple times, it will (currently) be checked
@@ -14,25 +13,24 @@ export default function setMark(href, matches) {
 // removed before one is re-added.
 function clearMarksFromLink(link) {
   const selector = '.deepSearch-link-found, .deepSearch-link-not-found'
-  link.children(selector).each(function() {
-    $(this).remove()
+  link.each(function() {
+    $(this).next(selector).remove()
   })
 }
 
 function buildMarker(matches) {
-  // FIXME: Accidental camelCase class names
-  const marker = $(
-    `<span class='deepSearch-link${matches ? '' : '-not'}-found'>
-    <span class='matchCountWrapper'>
-    <span='matchCount'>${matchCount(matches)}</span>
-    </span>
-    </span>`
-  )
-  return marker
+  if (matches) {
+    const marker = $(
+      `<span class='deepSearch-link${matches.length ? '' : '-not'}-found'>
+      <span class='deepSearch-match-count'>${matchCount(matches)}</span>
+      </span>`
+    )
+    return marker
+  }
 }
 
 function matchCount(matches) {
-  if (matches) {
+  if (matches.length) {
     return ((matches.length < 10) ? matches.length : '+')
   }
   else {
