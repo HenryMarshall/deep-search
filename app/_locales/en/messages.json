@@ -1,18 +1,18 @@
 {
   "appName": {
-    "message": "deep-search",
+    "message": "DeepSearch",
     "description": "The name of the application"
   },
   "appShortName": {
-    "message": "deep-search",
+    "message": "DeepSearch",
     "description": "The short_name (maximum of 12 characters recommended) is a short version of the app's name."
   },
   "appDescription": {
-    "message": "Find regex on current or linked page",
+    "message": "Supercharge your browsers find with regex and deep search",
     "description": "The description of the application"
   },
   "browserActionTitle": {
-    "message": "deep-search",
+    "message": "DeepSearch",
     "description": "The title of the browser action button"
   }
 }
