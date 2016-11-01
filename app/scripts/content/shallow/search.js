@@ -9,7 +9,8 @@ export default function search(queryParams) {
   const regex = buildRegex(queryParams)
   findAndReplaceDomText($('body')[0], {
     find: regex,
-    replace: createHighlight
+    replace: createHighlight,
+    preset: "prose",
   })
   scrollToElement($(".deepSearch-current-highlight"))
 }
@@ -25,3 +26,4 @@ function createHighlight(portion, match) {
   wrapped.appendChild(document.createTextNode(portion.text))
   return wrapped
 }
+
