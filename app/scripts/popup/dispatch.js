@@ -6,7 +6,6 @@ import messageContent from '../shared/messageContent'
 export default {
   updateSearch() {
     const queryParams = manageState.saveState()
-    this.clearMarks()
 
     const isValid = queryParams.isRegex ? this.isRegexValid(queryParams) : true
     ui.toggleValidClass(isValid)
@@ -62,10 +61,6 @@ export default {
   clearState() {
     const state = manageState.clearState()
     ui.setUiState(state)
-    this.clearMarks()
-  },
-
-  clearMarks() {
     messageContent({ message: "clear_marks" })
-  }
+  },
 }
