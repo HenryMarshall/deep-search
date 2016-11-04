@@ -5,8 +5,6 @@ export default function search(html, queryParams) {
   const regex = buildRegex(queryParams)
   const text = innerText(html)
 
-  console.log("text: ", text)
-
   const matches = []
   let match
 
