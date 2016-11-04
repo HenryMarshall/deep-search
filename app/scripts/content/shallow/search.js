@@ -9,7 +9,9 @@ export default function search(queryParams) {
   const regex = buildRegex(queryParams)
   findAndReplaceDomText($('body')[0], {
     find: regex,
-    replace: createHighlight
+    replace: createHighlight,
+    preset: "prose",
+    filterElements,
   })
   scrollToElement($(".deepSearch-current-highlight"))
 }
@@ -24,4 +26,9 @@ function createHighlight(portion, match) {
   wrapped.setAttribute("data-highlight-index", match.index)
   wrapped.appendChild(document.createTextNode(portion.text))
   return wrapped
+}
+
+function filterElements(elem) {
+  const $elem = $(elem)
+  return $elem.is(":visible") && !$elem.attr("aria-hidden")
 }
