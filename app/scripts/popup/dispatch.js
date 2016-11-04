@@ -11,8 +11,17 @@ export default {
     ui.toggleValidClass(isValid)
     ui.toggleDisableable(!queryParams.search)
 
-    if (isValid && !queryParams.isDeep && queryParams.search) {
-      this.submitQuery(queryParams)
+    if (isValid && !queryParams.isDeep) {
+      // The highlighting engine blows up if you feed it an empty string.
+      if (queryParams.search) {
+        this.submitQuery(queryParams)
+      }
+      // If the user deletes/backspaces the contents of the search box we must
+      // clear the existing search explicitly. Normally it would be called
+      // implicitly on receipt of the message from `this.submitQuery`.
+      else {
+        messageContent({ message: "clear_marks" })
+      }
     }
   },
 
