@@ -1,75 +1,22 @@
-# deep-search
+DeepSearch
+----------
+
+DeepSearch is a Chrome Extension that supercharges `Ctrl+F`, letting you search for text on all *linked* pages simultaneously. You can review your matches in tooltips next to the links or download them in a CSV file for future analysis.
+
+Advanced users can use Regular Expressions (regex) complete with capture groups to extract exactly the information they are looking for. This works both on the current page and as part of a "deep" search.
 
 
+Tips
+====
 
-## Installation
-
-	$ npm install
-
-## Usage
-
-Run `$ gulp --watch` and load the `dist`-directory into chrome.
-
-## Entryfiles (bundles)
-
-There are two kinds of entryfiles that create bundles.
-
-1. All js-files in the root of the `./app/scripts` directory
-2. All css-,scss- and less-files in the root of the `./app/styles` directory
-
-## Tasks
-
-### Build
-
-	$ gulp
+* Open the DeepSearch interface with "Alt+Shift+F" or click the `.*` icon in your Chrome toolbar.
+* You can cycle through "shallow" results with the "Find" and "Find Prev" buttons or by hitting "Enter" and "Shift+Enter" respectively.
+* Performing "deep" search (with the chevron selected) can take several seconds as it downloads all of the linked pages. This delay is a function of your internet connection and the number of links present. You can cancel your search at any time by clicking the `X` button.
+* You may download results as a CSV from a tooltip (for "deep" searches) or the DeepSearch menu (for "shallow" searches). This file can be opened with any spreadsheet tool (e.g., Excel).
 
 
-| Option         | Description                                                                                                                                           |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `--watch`      | Starts a livereload server and watches all assets. <br>To reload the extension on change include `livereload.js` in your bundle.                      |
-| `--production` | Minifies all assets                                                                                                                                   |
-| `--verbose`    | Log additional data to the console.                                                                                                                   |
-| `--vendor`     | Compile the extension for different vendors (chrome, firefox, opera)  Default: chrome                                                                 |
-| `--sourcemaps` | Force the creation of sourcemaps. Default: !production                                                                                                |
+Performance
+===========
 
-
-### pack
-
-Zips your `dist` directory and saves it in the `packages` directory.
-
-    $ gulp pack --vendor=firefox
-
-### Version
-
-Increments version number of `manifest.json` and `package.json`,
-commits the change to git and adds a git tag.
-
-
-    $ gulp patch      // => 0.0.X
-
-or
-
-    $ gulp feature    // => 0.X.0
-
-or
-
-    $ gulp release    // => X.0.0
-
-
-## Globals
-
-The build tool also defines a variable named `ENV` in your scripts. It will be set to `development` unless you use the `--production` option.
-
-
-**Example:** `./app/background.js`
-
-	if(ENV === 'development'){
-		console.log('We are in development mode!');
-	}
-
-
-
-
-
-
+Even a modest web page can have hundreds of links, so a *particularly* unperformant regex may take significant time to resolve, or, depending on your computer's resources, even cause the extension or page to hang. Chrome is excellent at keeping your processes isolated so there should be no risk of a general browser crash. In the event you need to reload DeepSearch, go to `chrome://extensions` and click reload.
 
