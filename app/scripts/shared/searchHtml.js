@@ -1,8 +1,11 @@
+import $ from "jquery"
 import buildRegex from "./buildRegex"
 
 export default function search(html, queryParams) {
   const regex = buildRegex(queryParams)
   const text = innerText(html)
+
+  console.log("text: ", text)
 
   const matches = []
   let match
@@ -49,17 +52,24 @@ export function contextualize(text, match, maxContent = 32) {
 }
 
 function innerText(html) {
-  const body = html.match(/<\s*body[^>]*>([\s\S]*)<\s*\/\s*body\s*>/)
-  return (
-    // Accepts both html fragments or html with a head
-    (body ? body[1] : html)
-      // inline scripts and their tags
-      .replace(/<\s*script[^>]*>[\s\S]*<\s*\/\s*script\s*>/g, "")
-      // all tags (including external scripts)
-      .replace(/<[^>]+>/g, "")
-      // line breaks
-      .replace(/(\r?\n){2,}/g, "\n")
-      .trim()
-  )
+  let $html = $(html)
+  const $body = $html.find("body")
+  $html = $body.length ? $body : $html
+
+  // We can't use ":visible" because these elements aren't in the DOM
+  const tagsToRemove = "script, img, link, style, meta, noscript"
+
+  // We do this with a function instead of a selector because `not` doesn't
+  // seem to like commas in a selector list. This works great.
+  $html = $html.not(function() { return $(this).is(tagsToRemove) })
+
+  $html.find(tagsToRemove).each(function() {
+    this.remove()
+  })
+
+  const text = $html.text()
+  // We use \s+ instead of \s{2,} to handle line returns etc
+  const trimmed = text.replace(/\s+/g, " ")
+  return trimmed
 }
 
