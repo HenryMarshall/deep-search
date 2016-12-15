@@ -3,7 +3,7 @@ import shallow from './shallow'
 
 export default function setupListeners() {
   chrome.runtime.onMessage.addListener(
-    function (request, sender, sendMessage) {
+    function (request, sender, sendResponse) {
       // console.log("message received", request)
       const { queryParams } = request
 
@@ -19,6 +19,14 @@ export default function setupListeners() {
           break
         case "download_shallow_csv":
           shallow.downloadCsv(queryParams)
+          break
+        case "save_state":
+          window.deepSearchState = request.state
+          console.log("save_state", global.deepSearchState)
+          break
+        case "read_state":
+          console.log("read_state", global.deepSearchState)
+          sendResponse(global.deepSearchState)
           break
       }
     }

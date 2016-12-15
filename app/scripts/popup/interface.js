@@ -1,7 +1,6 @@
-import $ from 'jquery'
-import resetState from '../background/savedState'
-import manageState from './manageState'
-import dispatch from './dispatch'
+import $ from "jquery"
+import manageState from "./manageState"
+import dispatch from "./dispatch"
 
 export default function initialize() {
   // Restores the state from the last time the popup was open
@@ -87,7 +86,8 @@ function onDownloadCsv(event) {
 }
 
 export const ui = {
-  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
+  setUiState(state = manageState.readState()) {
+    console.log("state: ", state)
     $("#search").val(state.search)
     $("#is-regex").prop('checked', state.isRegex),
     $("#is-deep").prop('checked', state.isDeep),
