@@ -12,7 +12,6 @@ export default function search(queryParams) {
     find: buildRegex(queryParams),
     replace: createHighlight,
     preset: "prose",
-    // filterElements,
   })
   $body.replaceWith(bodyDouble)
   scrollToElement($(".deepSearch-current-highlight"))
@@ -30,7 +29,3 @@ function createHighlight(portion, match) {
   return wrapped
 }
 
-function filterElements(elem) {
-  const $elem = $(elem)
-  return $elem.is(":visible") && !$elem.attr("aria-hidden")
-}
