@@ -30,11 +30,11 @@ export default {
       buildRegex(queryParams)
       return true
     }
-    catch (error) {
+    catch (err) {
       // Range error is thrown if search is an empty string. We return true
       // here because empty strings *are* valid (they generate /(?:)/) and
       // disabling the search should be handled by `ui.toggleDisableable`.
-      if (e instanceof RangeError) {
+      if (err instanceof RangeError) {
         return true
       }
       return false
@@ -56,14 +56,14 @@ export default {
   changeHighlight(direction) {
     messageContent({
       message: "change_highlight",
-      direction
+      direction,
     })
   },
 
   submitQuery(queryParams) {
     messageContent({
       message: "submit_query",
-      queryParams
+      queryParams,
     })
   },
 

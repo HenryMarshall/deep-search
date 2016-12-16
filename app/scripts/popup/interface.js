@@ -1,6 +1,4 @@
 import $ from 'jquery'
-import resetState from '../background/savedState'
-import manageState from './manageState'
 import dispatch from './dispatch'
 
 export default function initialize() {
@@ -43,7 +41,7 @@ function onChange(event) {
   // options (is-regex etc). This negative `if` intentionally fires then.
   //
   // KeyCodes for Shift, Control, Alt, Meta respectively
-  else if (![16,17,18,91].includes(event.keyCode)) {
+  else if (![16, 17, 18, 91].includes(event.keyCode)) {
     dispatch.updateSearch()
   }
 }
@@ -89,8 +87,8 @@ function onDownloadCsv(event) {
 export const ui = {
   setUiState(state = chrome.extension.getBackgroundPage().savedState) {
     $("#search").val(state.search)
-    $("#is-regex").prop('checked', state.isRegex),
-    $("#is-deep").prop('checked', state.isDeep),
+    $("#is-regex").prop('checked', state.isRegex)
+    $("#is-deep").prop('checked', state.isDeep)
     $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
 
     const $query = $("#query")

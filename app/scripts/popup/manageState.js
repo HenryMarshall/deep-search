@@ -7,7 +7,7 @@ export default {
       isRegex: $("#is-regex").prop('checked'),
       isDeep: $("#is-deep").prop('checked'),
       isCaseInsensitive: $("#is-case-insensitive").prop('checked'),
-      isValid: !$("#query").hasClass("invalid-regex")
+      isValid: !$("#query").hasClass("invalid-regex"),
     }
   },
 
@@ -29,5 +29,6 @@ export default {
     const newState = Object.assign({}, background.defaultState)
     background.savedState = newState
     return newState
-  }
+  },
 }
+

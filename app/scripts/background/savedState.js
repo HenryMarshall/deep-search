@@ -3,7 +3,7 @@ global.defaultState = {
   isRegex: false,
   isDeep: false,
   isCaseInsensitive: true,
-  isValid: true
+  isValid: true,
 }
 
 export default function resetState() {

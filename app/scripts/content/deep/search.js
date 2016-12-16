@@ -11,7 +11,7 @@ export default function search(queryParams) {
         message: "page_search",
         queryParams,
         url,
-        href
+        href,
       }, onSearched)
     }
   })
@@ -22,12 +22,12 @@ export default function search(queryParams) {
 // searching the very page you are currently on (which should be done with
 // a shallow search).
 function isCurrentPageDeepLink(href) {
-  return (href.slice(0,1) === "#")
+  return (href.slice(0, 1) === "#")
 }
 
 function onSearched(response) {
-  if (response) { 
-    const { status, href, matches } = response
+  if (response) {
+    const { href, matches } = response
     saveMatch(href, matches)
     setMark(href, matches)
   }

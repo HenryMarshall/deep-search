@@ -15,7 +15,7 @@ export function initializeQueue(concurrency = 8, timeout = 750) {
 export function enqueue(request, sendResponse) {
   const { href, url, queryParams } = request
 
-  if(!isAlreadyQueued(href)) {
+  if (!isAlreadyQueued(href)) {
     queuedHrefs.push(href)
 
     q.push((advanceQueue) => {
