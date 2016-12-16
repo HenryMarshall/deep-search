@@ -1,7 +1,7 @@
 {
   "name": "deep-search",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "Supercharge your browsers find with regex and deep search",
   "scripts": {
     "start": "npm run dev:chrome",
