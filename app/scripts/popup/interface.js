@@ -12,18 +12,8 @@ export default function initialize() {
   $("#deep-search").click(onDeepSearch)
   $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
-
-  const $isDeep = $("#is-deep")
-  $isDeep.click(onDeepToggle)
-  showFooterConditionally($isDeep)
-
-  const $search = $("#search")
-  $search.keyup(onChange)
-  ui.toggleDisableable(!$search.val())
-}
-
-function showFooterConditionally($isDeep = $("#is-deep")) {
-  $(".shallow-footer").toggle(!$isDeep.prop("checked"))
+  $("#is-deep").click(onDeepToggle)
+  $("#search").keyup(onChange)
 }
 
 function onChange(event) {
@@ -49,9 +39,9 @@ function onChange(event) {
 
 function onDeepToggle(event) {
   const $this = $(this)
-  const isDeep = $this.prop('checked')
-  showFooterConditionally($this)
-  ui.toggleDeepClass(isDeep)
+  const isDeep = $this.prop("checked")
+  ui.showFooter(!isDeep)
+  ui.toggleDeep(isDeep)
   onChange(event)
 }
 
@@ -94,8 +84,9 @@ export const ui = {
       $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
 
       const $query = $("#query")
-      this.toggleValidClass(state.isValid, $query)
-      this.toggleDeepClass(state.isDeep, $query)
+      this.toggleValid(state.isValid, $query)
+      this.toggleDeep(state.isDeep, $query)
+      this.toggleDisableable(state.search)
     }
 
     if (state === undefined) {
@@ -106,15 +97,21 @@ export const ui = {
     }
   },
 
-  toggleValidClass(isValid, $query = $("#query")) {
+  toggleValid(isValid, $query = $("#query")) {
     $query.toggleClass("invalid-regex", !isValid)
   },
 
-  toggleDeepClass(isDeep, $query = $("#query")) {
+  toggleDeep(isDeep, $query = $("#query")) {
     $query.toggleClass("deep-query", isDeep)
+    this.showFooter(!isDeep)
   },
 
   toggleDisableable(isDisabled) {
     $(".disableable").toggleClass("disabled", isDisabled)
   },
+
+  showFooter(isShown) {
+    $(".shallow-footer").toggle(isShown)
+  },
+
 }

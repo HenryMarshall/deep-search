@@ -8,7 +8,7 @@ export default {
     const queryParams = manageState.saveState()
 
     const isValid = queryParams.isRegex ? this.isRegexValid(queryParams) : true
-    ui.toggleValidClass(isValid)
+    ui.toggleValid(isValid)
     ui.toggleDisableable(!queryParams.search)
 
     if (isValid && !queryParams.isDeep) {
