@@ -46,8 +46,8 @@ export default {
     })
   },
 
-  clearState() {
-    const state = manageState.clearState()
+  clearState(callback) {
+    const state = manageState.clearState(callback)
     ui.setUiState(state)
     messageContent({ message: "clear_marks" })
   },

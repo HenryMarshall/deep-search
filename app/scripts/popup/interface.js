@@ -56,7 +56,7 @@ function onFind(event) {
 
 function onClear(event) {
   event.preventDefault()
-  dispatch.clearState()
+  dispatch.clearState(window.close)
 }
 
 function onDeepSearch(event) {
