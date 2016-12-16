@@ -6,13 +6,14 @@ import scrollToElement from "./scrollToElement"
 
 
 export default function search(queryParams) {
-  const regex = buildRegex(queryParams)
-  findAndReplaceDomText($('body')[0], {
-    find: regex,
+  const $body = $("body")
+  const bodyDouble = $body.clone(true)[0]
+  findAndReplaceDomText(bodyDouble, {
+    find: buildRegex(queryParams),
     replace: createHighlight,
     preset: "prose",
-    filterElements,
   })
+  $body.replaceWith(bodyDouble)
   scrollToElement($(".deepSearch-current-highlight"))
 }
 
@@ -28,7 +29,3 @@ function createHighlight(portion, match) {
   return wrapped
 }
 
-function filterElements(elem) {
-  const $elem = $(elem)
-  return $elem.is(":visible") && !$elem.attr("aria-hidden")
-}
