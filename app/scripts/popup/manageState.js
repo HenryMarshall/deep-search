@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import getActiveTabId from "../shared/getActiveTabId"
 
 export default {
   extractUiState() {
@@ -12,23 +13,29 @@ export default {
   },
 
   saveState(state = this.extractUiState()) {
-    const background = chrome.extension.getBackgroundPage()
-    background.savedState = state
+    this.getState().set(getActiveTabId(), state)
     return state
   },
 
   readState() {
-    const background = chrome.extension.getBackgroundPage()
-    return background.savedState
+    return this.getState().get(getActiveTabId()) || this.defaultState
   },
 
-  // Note: You *cannot* simply import and use the initialization method from
-  // the `background/savedState` page. This has a different global scope!
   clearState() {
-    const background = chrome.extension.getBackgroundPage()
-    const newState = Object.assign({}, background.defaultState)
-    background.savedState = newState
-    return newState
+    this.getState().delete(getActiveTabId())
+    return this.defaultState
+  },
+
+  getState() {
+    return chrome.extension.getBackgroundPage().savedState
+  },
+
+  defaultState: {
+    search: '',
+    isRegex: false,
+    isDeep: false,
+    isCaseInsensitive: true,
+    isValid: true,
   },
 }
 

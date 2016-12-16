@@ -1,9 +1,9 @@
-import initializeState from './background/savedState'
 import setupListener from './background/setupListener'
 import { initializeQueue } from './background/pageQueue'
-initializeState()
 setupListener()
 initializeQueue()
+
+global.savedState = new Map()
 
 // Enable chromereload by uncommenting this line:
 // import './lib/livereload';
