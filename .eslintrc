@@ -24,7 +24,6 @@
     "ecmaVersion": 7,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true,
       "impliedStrict": true,
       "experimentalObjectRestSpread": true,
     },

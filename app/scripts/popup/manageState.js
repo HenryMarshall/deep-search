@@ -13,16 +13,25 @@ export default {
   },
 
   saveState(state = this.extractUiState()) {
-    this.getState().set(getActiveTabId(), state)
+    getActiveTabId(tabId => {
+      this.getState().set(tabId, state)
+    })
     return state
   },
 
-  readState() {
-    return this.getState().get(getActiveTabId()) || this.defaultState
+  readState(callback) {
+    getActiveTabId(tabId => {
+      const state = this.getState().get(tabId) || this.defaultState
+      callback(state)
+    })
   },
 
   clearState() {
-    this.getState().delete(getActiveTabId())
+    // Should I be watching for tab closing and deleting these values then or is
+    // that unnecessary.
+    getActiveTabId(tabId => {
+      this.getState().delete(tabId)
+    })
     return this.defaultState
   },
 

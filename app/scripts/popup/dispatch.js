@@ -42,15 +42,17 @@ export default {
   },
 
   deepSearch() {
-    const queryParams = manageState.readState()
-    if (queryParams.isDeep) {
-      this.submitQuery(queryParams)
-    }
+    manageState.readState(queryParams => {
+      if (queryParams.isDeep) {
+        this.submitQuery(queryParams)
+      }
+    })
   },
 
   downloadCsv() {
-    const queryParams = manageState.readState()
-    messageContent({ message: "download_shallow_csv", queryParams })
+    manageState.readState(queryParams => {
+      messageContent({ message: "download_shallow_csv", queryParams })
+    })
   },
 
   changeHighlight(direction) {

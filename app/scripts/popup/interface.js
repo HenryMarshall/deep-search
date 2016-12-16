@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import manageState from "./manageState"
 import dispatch from './dispatch'
 
 export default function initialize() {
@@ -85,15 +86,24 @@ function onDownloadCsv(event) {
 }
 
 export const ui = {
-  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
-    $("#search").val(state.search)
-    $("#is-regex").prop('checked', state.isRegex)
-    $("#is-deep").prop('checked', state.isDeep)
-    $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
+  setUiState(state) {
+    const doWork = state => {
+      $("#search").val(state.search)
+      $("#is-regex").prop('checked', state.isRegex)
+      $("#is-deep").prop('checked', state.isDeep)
+      $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
 
-    const $query = $("#query")
-    this.toggleValidClass(state.isValid, $query)
-    this.toggleDeepClass(state.isDeep, $query)
+      const $query = $("#query")
+      this.toggleValidClass(state.isValid, $query)
+      this.toggleDeepClass(state.isDeep, $query)
+    }
+
+    if (state === undefined) {
+      manageState.readState(doWork)
+    }
+    else {
+      doWork(state)
+    }
   },
 
   toggleValidClass(isValid, $query = $("#query")) {
