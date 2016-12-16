@@ -8,7 +8,7 @@ export default {
     const queryParams = manageState.saveState()
 
     const isValid = queryParams.isRegex ? this.isRegexValid(queryParams) : true
-    ui.toggleValidClass(isValid)
+    ui.toggleValid(isValid)
     ui.toggleDisableable(!queryParams.search)
 
     if (isValid && !queryParams.isDeep) {
@@ -30,11 +30,11 @@ export default {
       buildRegex(queryParams)
       return true
     }
-    catch (error) {
+    catch (err) {
       // Range error is thrown if search is an empty string. We return true
       // here because empty strings *are* valid (they generate /(?:)/) and
       // disabling the search should be handled by `ui.toggleDisableable`.
-      if (e instanceof RangeError) {
+      if (err instanceof RangeError) {
         return true
       }
       return false
@@ -42,28 +42,30 @@ export default {
   },
 
   deepSearch() {
-    const queryParams = manageState.readState()
-    if (queryParams.isDeep) {
-      this.submitQuery(queryParams)
-    }
+    manageState.readState(queryParams => {
+      if (queryParams.isDeep) {
+        this.submitQuery(queryParams)
+      }
+    })
   },
 
   downloadCsv() {
-    const queryParams = manageState.readState()
-    messageContent({ message: "download_shallow_csv", queryParams })
+    manageState.readState(queryParams => {
+      messageContent({ message: "download_shallow_csv", queryParams })
+    })
   },
 
   changeHighlight(direction) {
     messageContent({
       message: "change_highlight",
-      direction
+      direction,
     })
   },
 
   submitQuery(queryParams) {
     messageContent({
       message: "submit_query",
-      queryParams
+      queryParams,
     })
   },
 

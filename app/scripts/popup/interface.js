@@ -1,6 +1,5 @@
 import $ from 'jquery'
-import resetState from '../background/savedState'
-import manageState from './manageState'
+import manageState from "./manageState"
 import dispatch from './dispatch'
 
 export default function initialize() {
@@ -13,18 +12,8 @@ export default function initialize() {
   $("#deep-search").click(onDeepSearch)
   $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
-
-  const $isDeep = $("#is-deep")
-  $isDeep.click(onDeepToggle)
-  showFooterConditionally($isDeep)
-
-  const $search = $("#search")
-  $search.keyup(onChange)
-  ui.toggleDisableable(!$search.val())
-}
-
-function showFooterConditionally($isDeep = $("#is-deep")) {
-  $(".shallow-footer").toggle(!$isDeep.prop("checked"))
+  $("#is-deep").click(onDeepToggle)
+  $("#search").keyup(onChange)
 }
 
 function onChange(event) {
@@ -43,16 +32,16 @@ function onChange(event) {
   // options (is-regex etc). This negative `if` intentionally fires then.
   //
   // KeyCodes for Shift, Control, Alt, Meta respectively
-  else if (![16,17,18,91].includes(event.keyCode)) {
+  else if (![16, 17, 18, 91].includes(event.keyCode)) {
     dispatch.updateSearch()
   }
 }
 
 function onDeepToggle(event) {
   const $this = $(this)
-  const isDeep = $this.prop('checked')
-  showFooterConditionally($this)
-  ui.toggleDeepClass(isDeep)
+  const isDeep = $this.prop("checked")
+  ui.showFooter(!isDeep)
+  ui.toggleDeep(isDeep)
   onChange(event)
 }
 
@@ -87,26 +76,42 @@ function onDownloadCsv(event) {
 }
 
 export const ui = {
-  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
-    $("#search").val(state.search)
-    $("#is-regex").prop('checked', state.isRegex),
-    $("#is-deep").prop('checked', state.isDeep),
-    $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
+  setUiState(state) {
+    const doWork = state => {
+      $("#search").val(state.search)
+      $("#is-regex").prop('checked', state.isRegex)
+      $("#is-deep").prop('checked', state.isDeep)
+      $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
 
-    const $query = $("#query")
-    this.toggleValidClass(state.isValid, $query)
-    this.toggleDeepClass(state.isDeep, $query)
+      const $query = $("#query")
+      this.toggleValid(state.isValid, $query)
+      this.toggleDeep(state.isDeep, $query)
+      this.toggleDisableable(state.search)
+    }
+
+    if (state === undefined) {
+      manageState.readState(doWork)
+    }
+    else {
+      doWork(state)
+    }
   },
 
-  toggleValidClass(isValid, $query = $("#query")) {
+  toggleValid(isValid, $query = $("#query")) {
     $query.toggleClass("invalid-regex", !isValid)
   },
 
-  toggleDeepClass(isDeep, $query = $("#query")) {
+  toggleDeep(isDeep, $query = $("#query")) {
     $query.toggleClass("deep-query", isDeep)
+    this.showFooter(!isDeep)
   },
 
   toggleDisableable(isDisabled) {
     $(".disableable").toggleClass("disabled", isDisabled)
   },
+
+  showFooter(isShown) {
+    $(".shallow-footer").toggle(isShown)
+  },
+
 }
