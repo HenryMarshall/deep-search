@@ -6,13 +6,15 @@ import scrollToElement from "./scrollToElement"
 
 
 export default function search(queryParams) {
-  const regex = buildRegex(queryParams)
-  findAndReplaceDomText($('body')[0], {
-    find: regex,
+  const $body = $("body")
+  const bodyDouble = $body.clone(true)[0]
+  findAndReplaceDomText(bodyDouble, {
+    find: buildRegex(queryParams),
     replace: createHighlight,
     preset: "prose",
-    filterElements,
+    // filterElements,
   })
+  $body.replaceWith(bodyDouble)
   scrollToElement($(".deepSearch-current-highlight"))
 }
 
