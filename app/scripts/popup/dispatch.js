@@ -11,9 +11,9 @@ export default {
     ui.toggleValid(isValid)
     ui.toggleDisableable(!queryParams.search)
 
-    if (isValid && !queryParams.isDeep) {
+    if (isValid) {
       // The highlighting engine blows up if you feed it an empty string.
-      if (queryParams.search) {
+      if (queryParams.search && !queryParams.isDeep) {
         this.submitQuery(queryParams)
       }
       // If the user deletes/backspaces the contents of the search box we must
@@ -22,6 +22,9 @@ export default {
       else {
         messageContent({ message: "clear_marks" })
       }
+    }
+    else {
+      messageContent({ message: "clear_marks" })
     }
   },
 
