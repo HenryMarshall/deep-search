@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import debounce from "lodash.debounce"
 import manageState from "./manageState"
 import dispatch from './dispatch'
 
@@ -7,14 +8,18 @@ export default function initialize() {
   ui.setUiState()
 
   $("#is-regex, #is-case-insensitive").click(onChange)
+  $("#search").keyup(onChange)
   $("#clear-search").click(onClear)
   $("#find, #find-prev").click(onFind)
   $("#deep-search").click(onDeepSearch)
   $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
   $("#is-deep").click(onDeepToggle)
-  $("#search").keyup(onChange)
 }
+
+// A 175ms debounce time was determined by experimentation. In a long-ish query
+// it sometimes triggers more than once, but that is pretty acceptable.
+const debouncedUpdateSearch = debounce(dispatch.updateSearch, 175)
 
 function onChange(event) {
   // KeyCode for Enter
@@ -33,7 +38,7 @@ function onChange(event) {
   //
   // KeyCodes for Shift, Control, Alt, Meta respectively
   else if (![16, 17, 18, 91].includes(event.keyCode)) {
-    dispatch.updateSearch()
+    debouncedUpdateSearch()
   }
 }
 
@@ -56,7 +61,7 @@ function onFind(event) {
 
 function onClear(event) {
   event.preventDefault()
-  dispatch.clearState()
+  dispatch.clearState(window.close)
 }
 
 function onDeepSearch(event) {

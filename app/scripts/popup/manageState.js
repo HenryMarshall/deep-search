@@ -26,11 +26,14 @@ export default {
     })
   },
 
-  clearState() {
+  clearState(callback) {
     // Should I be watching for tab closing and deleting these values then or is
     // that unnecessary.
     getActiveTabId(tabId => {
       this.getState().delete(tabId)
+      if (callback) {
+        callback()
+      }
     })
     return this.defaultState
   },
