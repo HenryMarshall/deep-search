@@ -1,9 +1,7 @@
 import $ from 'jquery'
 
-export default function clearMarks() {
-  const $body = $("body")
-  const $bodyDouble = $("body").clone()
-  const $highlights = $bodyDouble.find(".deepSearch-highlight")
+export default function clearMarks($elem) {
+  const $highlights = $elem.find(".deepSearch-highlight")
   const $parents = $highlights.parent()
 
   $highlights.replaceWith(function() {
@@ -15,5 +13,5 @@ export default function clearMarks() {
     return this
   })
 
-  $body.replaceWith($bodyDouble)
+  return $elem
 }

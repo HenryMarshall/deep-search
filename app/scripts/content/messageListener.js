@@ -1,5 +1,7 @@
-import deep from './deep'
-import shallow from './shallow'
+import $ from "jquery"
+import deep from "./deep"
+import shallow from "./shallow"
+import updateInMemory from "./updateInMemory"
 
 export default function setupListeners() {
   chrome.runtime.onMessage.addListener(
@@ -26,13 +28,32 @@ export default function setupListeners() {
 }
 
 function submitQuery(queryParams) {
-  clearMarks()
-  const searchType = queryParams.isDeep ? deep : shallow
-  searchType.search(queryParams)
+  queryParams.isDeep ?
+    deepSearch(queryParams) :
+    shallowSearch(queryParams)
 }
 
-function clearMarks() {
-  shallow.clearMarks()
-  deep.clearMarks()
+function shallowSearch(queryParams) {
+  updateInMemory(($elem) => {
+    shallow.clearMarks($elem)
+    deep.clearMarks($elem)
+
+    shallow.search($elem, queryParams)
+  }, () => {
+    shallow.scrollToElement($(".deepSearch-current-highlight"))
+  })
+}
+
+function deepSearch(queryParams) {
+  clearMarks(() => {
+    deepSearch(queryParams)
+  })
+}
+
+function clearMarks(onCompletion) {
+  updateInMemory(($elem) => {
+    shallow.clearMarks($elem)
+    deep.clearMarks($elem)
+  }, onCompletion)
 }
 
