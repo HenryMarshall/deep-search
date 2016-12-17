@@ -1,16 +1,12 @@
-import $ from 'jquery'
-
-export default function clearMarks() {
+export default function clearMarks($elem) {
   // If the previous search hasn't finished running, results will continue
   // coming in unless the queue is cleared.
   chrome.runtime.sendMessage({ message: "clear_queue" })
+  global.deepSearchMatches = {}
 
-  const $body = $("body")
-  const $bodyDouble = $body.clone()
-  $bodyDouble
+  $elem
     .find(".deepSearch-link-found, .deepSearch-link-not-found")
     .remove()
-  $body.replaceWith($bodyDouble)
 
-  global.deepSearchMatches = {}
+  return $elem
 }

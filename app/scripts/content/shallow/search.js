@@ -1,20 +1,14 @@
-import $ from "jquery"
 import findAndReplaceDomText from "findandreplacedomtext"
-
 import buildRegex from "../../shared/buildRegex"
-import scrollToElement from "./scrollToElement"
 
-
-export default function search(queryParams) {
-  const $body = $("body")
-  const bodyDouble = $body.clone(true)[0]
-  findAndReplaceDomText(bodyDouble, {
+export default function search($elem, queryParams) {
+  const html = $elem[0]
+  findAndReplaceDomText(html, {
     find: buildRegex(queryParams),
     replace: createHighlight,
     preset: "prose",
   })
-  $body.replaceWith(bodyDouble)
-  scrollToElement($(".deepSearch-current-highlight"))
+  return html
 }
 
 function createHighlight(portion, match) {
