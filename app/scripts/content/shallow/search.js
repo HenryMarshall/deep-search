@@ -1,14 +1,19 @@
+import $ from "jquery"
 import findAndReplaceDomText from "findandreplacedomtext"
-import buildRegex from "../../shared/buildRegex"
 
-export default function search($elem, queryParams) {
-  const html = $elem[0]
-  findAndReplaceDomText(html, {
-    find: buildRegex(queryParams),
+import buildRegex from "../../shared/buildRegex"
+import scrollToElement from "./scrollToElement"
+
+
+export default function search(queryParams, $elem = $("body")) {
+  const regex = buildRegex(queryParams)
+  findAndReplaceDomText($elem[0], {
+    find: regex,
     replace: createHighlight,
     preset: "prose",
+    filterElements,
   })
-  return html
+  scrollToElement($(".deepSearch-current-highlight"))
 }
 
 function createHighlight(portion, match) {
@@ -23,3 +28,7 @@ function createHighlight(portion, match) {
   return wrapped
 }
 
+function filterElements(elem) {
+  const $elem = $(elem)
+  return $elem.is(":visible") && !$elem.attr("aria-hidden")
+}

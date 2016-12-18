@@ -1,6 +1,6 @@
-import $ from 'jquery'
+import $ from "jquery"
 
-export default function clearMarks($elem) {
+export default function clearMarks($elem = $("body")) {
   const $highlights = $elem.find(".deepSearch-highlight")
   const $parents = $highlights.parent()
 
