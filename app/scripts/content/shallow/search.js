@@ -29,9 +29,18 @@ function createHighlight(portion, match) {
 
 function chooseCurrent($highlights = $(".deepSearch-highlight")) {
   const $viewportHighlights = $highlights.filter(isInViewport)
-  const $currentHighlight = $viewportHighlights.length === 0 ?
-                            $highlights.first() :
-                            $viewportHighlights.first()
+                                         .filter(":visible")
 
-  return $currentHighlight
+  const $relevantHighlights = $viewportHighlights.length === 0 ?
+                              $highlights.filter(":visible") :
+                              $viewportHighlights
+
+  return firstVisible($relevantHighlights)
+}
+
+// A single highlight can be composed of multiple elements. We can't
+// simply use .first() as that would only get a single portion.
+function firstVisible($elements) {
+  const targetIndex = $elements.first().attr("data-highlight-index")
+  return $elements.filter(`[data-highlight-index=${targetIndex}]`)
 }
