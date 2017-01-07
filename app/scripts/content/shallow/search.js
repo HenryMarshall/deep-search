@@ -2,8 +2,9 @@ import $ from "jquery"
 import findAndReplaceDomText from "findandreplacedomtext"
 
 import buildRegex from "../../shared/buildRegex"
-/* import scrollToElement from "./scrollToElement"
- * */
+import isInViewport from "./isInViewport"
+import scrollToElement from "./scrollToElement"
+
 
 export default function search(queryParams, $elem = $("body")) {
   const regex = buildRegex(queryParams)
@@ -13,8 +14,9 @@ export default function search(queryParams, $elem = $("body")) {
     preset: "prose",
   })
 
-  highlightCurrent()
-  /* scrollToElement($(".deepSearch-current-highlight"))*/
+  const $current = chooseCurrent()
+  $current.addClass("deepSearch-current-highlight")
+  scrollToElement($current)
 }
 
 function createHighlight(portion, match) {
@@ -25,18 +27,11 @@ function createHighlight(portion, match) {
   return wrapped
 }
 
-function highlightCurrent($highlights = $(".deepSearch-highlight")) {
+function chooseCurrent($highlights = $(".deepSearch-highlight")) {
   const $viewportHighlights = $highlights.filter(isInViewport)
   const $currentHighlight = $viewportHighlights.length === 0 ?
                             $highlights.first() :
                             $viewportHighlights.first()
 
-  $currentHighlight.addClass("deepSearch-current-highlight")
   return $currentHighlight
-}
-
-function isInViewport(idx, elem) {
-  const viewportHeight = document.documentElement.clientHeight
-  const { top, bottom } = elem.getBoundingClientRect()
-  return (top >= 0 && bottom < viewportHeight)
 }
