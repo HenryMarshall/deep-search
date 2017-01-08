@@ -5,6 +5,12 @@ import buildRegex from "../../shared/buildRegex"
 import isInViewport from "./isInViewport"
 import scrollToElement from "./scrollToElement"
 
+import groupBy from "./groupBy"
+$.fn.groupBy = groupBy
+$.fn.every = function(predicate) {
+  const filtered = this.filter(predicate)
+  return this.length === filtered.length
+}
 
 export default function search(queryParams, $elem = $("body")) {
   const regex = buildRegex(queryParams)
@@ -14,9 +20,18 @@ export default function search(queryParams, $elem = $("body")) {
     preset: "prose",
   })
 
-  const $current = chooseCurrent()
+  const groups = $(".deepSearch-highlight")
+    .groupBy("data-highlight-index")
+    .filter(allAreVisible)
+
+  // When searching we give deference to results already in your viewport,
+  // which is the same behavior as in the default chrome search.
+  const $current = chooseCurrent(groups.filter(allInViewport)) ||
+                   chooseCurrent(groups)
   $current.addClass("deepSearch-current-highlight")
   scrollToElement($current)
+
+  return groups
 }
 
 function createHighlight(portion, match) {
@@ -27,20 +42,16 @@ function createHighlight(portion, match) {
   return wrapped
 }
 
-function chooseCurrent($highlights = $(".deepSearch-highlight")) {
-  const $viewportHighlights = $highlights.filter(isInViewport)
-                                         .filter(":visible")
-
-  const $relevantHighlights = $viewportHighlights.length === 0 ?
-                              $highlights.filter(":visible") :
-                              $viewportHighlights
-
-  return firstVisible($relevantHighlights)
+function chooseCurrent(groups) {
+  return groups.find($group => $group.every(
+    ($element => $element.is(":visible"))
+  ))
 }
 
-// A single highlight can be composed of multiple elements. We can't
-// simply use .first() as that would only get a single portion.
-function firstVisible($elements) {
-  const targetIndex = $elements.first().attr("data-highlight-index")
-  return $elements.filter(`[data-highlight-index=${targetIndex}]`)
+function allInViewport($group) {
+  return $group.toArray().every(isInViewport)
+}
+
+function allAreVisible($group) {
+  return $group.every($element => $element.is(":visible"))
 }

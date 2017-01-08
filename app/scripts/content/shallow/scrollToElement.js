@@ -3,7 +3,7 @@ import isInViewport from "./isInViewport"
 export default function scrollToElement($target) {
   const target = $target[0]
 
-  if (target && !isInViewport(null, target)) {
+  if (target && !isInViewport(target)) {
     const viewportTopAbsolute = window.pageXOffset
     const targetTopRelativeToViewport = target.getBoundingClientRect().top
     const targetTopAbsolute = targetTopRelativeToViewport + viewportTopAbsolute

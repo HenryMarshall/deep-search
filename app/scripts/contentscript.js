@@ -6,4 +6,5 @@ import deep from './content/deep'
 $(document).on('ready', function() {
   setupListeners()
   deep.initialize()
+  global.deepSearch = new Map()
 })
