@@ -31,6 +31,10 @@ export default function search(queryParams, $elem = $("body")) {
     $firstInViewport ? groups.indexOf($firstInViewport) : 0
   const $current = groups[currentResult]
 
+  global.deepSearch.set("type", "shallow")
+  global.deepSearch.set("matches", groups)
+  global.deepSearch.set("currentIndex", currentResult)
+
   $current.addClass("deepSearch-current-highlight")
   scrollToElement($current)
 

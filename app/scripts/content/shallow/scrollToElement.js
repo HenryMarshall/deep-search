@@ -4,7 +4,7 @@ export default function scrollToElement($target) {
   const target = $target[0]
 
   if (target && !isInViewport(target)) {
-    const viewportTopAbsolute = window.pageXOffset
+    const viewportTopAbsolute = window.scrollY
     const targetTopRelativeToViewport = target.getBoundingClientRect().top
     const targetTopAbsolute = targetTopRelativeToViewport + viewportTopAbsolute
 
