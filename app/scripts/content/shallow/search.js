@@ -22,12 +22,15 @@ export default function search(queryParams, $elem = $("body")) {
 
   const groups = $(".deepSearch-highlight")
     .groupBy("data-highlight-index")
-    .filter(allAreVisible)
+    .filter($element => $element.is(":visible"))
 
   // When searching we give deference to results already in your viewport,
   // which is the same behavior as in the default chrome search.
-  const $current = chooseCurrent(groups.filter(allInViewport)) ||
-                   chooseCurrent(groups)
+  const $firstInViewport = groups.filter(allInViewport)[0]
+  const currentResult =
+    $firstInViewport ? groups.indexOf($firstInViewport) : 0
+  const $current = groups[currentResult]
+
   $current.addClass("deepSearch-current-highlight")
   scrollToElement($current)
 
@@ -42,16 +45,6 @@ function createHighlight(portion, match) {
   return wrapped
 }
 
-function chooseCurrent(groups) {
-  return groups.find($group => $group.every(
-    ($element => $element.is(":visible"))
-  ))
-}
-
 function allInViewport($group) {
   return $group.toArray().every(isInViewport)
-}
-
-function allAreVisible($group) {
-  return $group.every($element => $element.is(":visible"))
 }
