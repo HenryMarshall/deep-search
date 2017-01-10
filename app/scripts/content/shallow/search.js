@@ -7,10 +7,6 @@ import scrollToElement from "./scrollToElement"
 
 import groupBy from "./groupBy"
 $.fn.groupBy = groupBy
-$.fn.every = function(predicate) {
-  const filtered = this.filter(predicate)
-  return this.length === filtered.length
-}
 
 export default function search(queryParams, $elem = $("body")) {
   const regex = buildRegex(queryParams)
@@ -22,7 +18,7 @@ export default function search(queryParams, $elem = $("body")) {
 
   const groups = $(".deepSearch-highlight")
     .groupBy("data-highlight-index")
-    .filter($element => $element.is(":visible"))
+    .filter(allAreVisible)
 
   // When searching we give deference to results already in your viewport,
   // which is the same behavior as in the default chrome search.
@@ -51,4 +47,12 @@ function createHighlight(portion, match) {
 
 function allInViewport($group) {
   return $group.toArray().every(isInViewport)
+}
+
+export function allAreVisible($elements) {
+  return $elements.toArray().every(element =>
+    // This is what `$element.is(":visible")` does, but is faster without
+    // the overhead of jquery calls.
+    element.offsetWidth === 0 && element.offsetHeight === 0
+  )
 }
