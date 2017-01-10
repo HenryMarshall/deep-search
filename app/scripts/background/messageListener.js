@@ -1,7 +1,7 @@
 // import { getHtml, searchHtml } from './searchUrl'
 import { enqueue, clearQueue } from './pageQueue'
 
-export default function setupListeners() {
+export default function messageListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       const { message, queryParams } = request

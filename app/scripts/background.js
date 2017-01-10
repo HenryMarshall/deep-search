@@ -1,6 +1,6 @@
-import setupListener from './background/setupListener'
+import messageListener from './background/messageListener'
 import { initializeQueue } from './background/pageQueue'
-setupListener()
+messageListener()
 initializeQueue()
 
 global.savedState = new Map()

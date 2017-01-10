@@ -2,7 +2,7 @@ import $ from "jquery"
 import deep from "./deep"
 import shallow from "./shallow"
 
-export default function setupListeners() {
+export default function messageListener() {
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
       // console.log("message received", request)
