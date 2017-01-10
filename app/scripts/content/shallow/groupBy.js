@@ -19,6 +19,10 @@ export default function groupBy(attribute) {
   let startingIndexOfCurrentGroup = 0
   let currentGroupHighlightIndex = null
 
+  if (this.length === 0) {
+    return []
+  }
+
   this.each(function(idx) {
     const highlightIndex = $(this).attr(attribute)
 
