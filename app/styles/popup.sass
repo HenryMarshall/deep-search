@@ -34,6 +34,11 @@ form
   margin: 6px 12px
   color: hsl(0,0, 30%)
 
+#progress
+  float: left
+  margin-left: (($elementHeight + $buttonMargin) * 3)
+  /* margin-left: 60px
+
 #download-shallow-csv
   float: right
 
@@ -62,10 +67,12 @@ input[type='checkbox']:checked+label
 
 .deep-query
   margin-bottom: 6px
+
   + .shallow-footer, #find, #find-prev
     display: none
   #deep-search
     display: block
+
 
 a.disabled
   cursor: not-allowed
