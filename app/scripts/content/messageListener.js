@@ -1,23 +1,21 @@
 import $ from "jquery"
 import deep from "./deep"
 import shallow from "./shallow"
-import updateInMemory from "./updateInMemory"
 
-export default function setupListeners() {
+export default function messageListener() {
   chrome.runtime.onMessage.addListener(
-    function(request, sender, sendMessage) {
-      // console.log("message received", request)
+    function(request, sender, sendResponse) {
       const { queryParams } = request
 
       switch (request.message) {
         case "submit_query":
-          submitQuery(queryParams)
+          submitQuery(queryParams, sendResponse)
           break
         case "clear_marks":
           clearMarks()
           break
         case "change_highlight":
-          shallow.changeHighlight(request.direction)
+          shallow.changeHighlight(request.direction, sendResponse)
           break
         case "download_shallow_csv":
           shallow.downloadCsv(queryParams)
@@ -27,33 +25,15 @@ export default function setupListeners() {
   )
 }
 
-function submitQuery(queryParams) {
-  queryParams.isDeep ?
-    deepSearch(queryParams) :
-    shallowSearch(queryParams)
+function submitQuery(queryParams, sendResponse) {
+  const $elem = $("body")
+  clearMarks($elem)
+  const searchType = queryParams.isDeep ? deep : shallow
+  searchType.search(queryParams, sendResponse, $elem)
 }
 
-function shallowSearch(queryParams) {
-  updateInMemory(($elem) => {
-    shallow.clearMarks($elem)
-    deep.clearMarks($elem)
-
-    shallow.search($elem, queryParams)
-  }, () => {
-    shallow.scrollToElement($(".deepSearch-current-highlight"))
-  })
+function clearMarks($elem = $("body")) {
+  shallow.clearMarks()
+  deep.clearMarks($elem)
+  global.deepSearch = new Map()
 }
-
-function deepSearch(queryParams) {
-  clearMarks(() => {
-    deepSearch(queryParams)
-  })
-}
-
-function clearMarks(onCompletion) {
-  updateInMemory(($elem) => {
-    shallow.clearMarks($elem)
-    deep.clearMarks($elem)
-  }, onCompletion)
-}
-

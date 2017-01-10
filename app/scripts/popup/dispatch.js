@@ -22,6 +22,7 @@ export default {
     }
     else {
       messageContent({ message: "clear_marks" })
+      updateProgress(queryParams, "")
     }
   },
 
@@ -40,16 +41,19 @@ export default {
   },
 
   changeHighlight(direction) {
-    messageContent({
-      message: "change_highlight",
-      direction,
+    manageState.readState(state => {
+      messageContent({
+        message: "change_highlight",
+        direction,
+      }, updateProgress.bind(this, state))
     })
   },
 
   clearState(callback) {
-    const state = manageState.clearState(callback)
-    ui.setUiState(state)
     messageContent({ message: "clear_marks" })
+    const state = manageState.clearState(callback)
+    // This resetst progress implicitly
+    ui.setUiState(state)
   },
 }
 
@@ -57,7 +61,13 @@ function submitQuery(queryParams) {
   messageContent({
     message: "submit_query",
     queryParams,
-  })
+  }, updateProgress.bind(this, queryParams))
+}
+
+function updateProgress(state, progress) {
+  ui.updateProgress(progress.label)
+  const newState = Object.assign({}, state, { progress: progress.label })
+  manageState.saveState(newState)
 }
 
 function isRegexValid(queryParams) {
@@ -72,4 +82,3 @@ function isRegexValid(queryParams) {
     return false
   }
 }
-

@@ -9,6 +9,7 @@ export default {
       isDeep: $("#is-deep").prop('checked'),
       isCaseInsensitive: $("#is-case-insensitive").prop('checked'),
       isValid: !$("#query").hasClass("invalid-regex"),
+      progress: $("#progress").text(),
     }
   },
 
@@ -44,10 +45,10 @@ export default {
 
   defaultState: {
     search: '',
+    progress: "",
     isRegex: false,
     isDeep: false,
     isCaseInsensitive: true,
     isValid: true,
   },
 }
-

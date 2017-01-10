@@ -15,6 +15,7 @@ export default function initialize() {
   $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
   $("#is-deep").click(onDeepToggle)
+  $("body").keyup(closeOnEscape)
 }
 
 // A 175ms debounce time was determined by experimentation. In a long-ish query
@@ -45,7 +46,6 @@ function onChange(event) {
 function onDeepToggle(event) {
   const $this = $(this)
   const isDeep = $this.prop("checked")
-  ui.showFooter(!isDeep)
   ui.toggleDeep(isDeep)
   onChange(event)
 }
@@ -80,6 +80,12 @@ function onDownloadCsv(event) {
   }
 }
 
+function closeOnEscape(event) {
+  if (event.key === "Escape") {
+    window.close()
+  }
+}
+
 export const ui = {
   setUiState(state) {
     const doWork = state => {
@@ -91,7 +97,8 @@ export const ui = {
       const $query = $("#query")
       this.toggleValid(state.isValid, $query)
       this.toggleDeep(state.isDeep, $query)
-      this.toggleDisableable(state.search)
+      this.toggleDisableable(!state.search)
+      this.updateProgress(state.progress)
     }
 
     if (state === undefined) {
@@ -108,15 +115,13 @@ export const ui = {
 
   toggleDeep(isDeep, $query = $("#query")) {
     $query.toggleClass("deep-query", isDeep)
-    this.showFooter(!isDeep)
   },
 
   toggleDisableable(isDisabled) {
     $(".disableable").toggleClass("disabled", isDisabled)
   },
 
-  showFooter(isShown) {
-    $(".shallow-footer").toggle(isShown)
+  updateProgress(label) {
+    $("#progress").text(label || "")
   },
-
 }

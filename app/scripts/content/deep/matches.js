@@ -3,7 +3,7 @@ require("tooltipster")
 
 export function saveMatch(href, matches) {
   if (matches) {
-    global.deepSearchMatches[href] = matches
+    global.deepSearch.set(href, matches)
   }
 }
 
@@ -26,7 +26,7 @@ function handleMouseEnter(event) {
 }
 
 function buildMessage(href) {
-  const matches = global.deepSearchMatches[href]
+  const matches = global.deepSearch.get(href)
 
   let message = `<table>`
 
