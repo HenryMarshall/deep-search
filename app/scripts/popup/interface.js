@@ -45,7 +45,6 @@ function onChange(event) {
 function onDeepToggle(event) {
   const $this = $(this)
   const isDeep = $this.prop("checked")
-  ui.showFooter(!isDeep)
   ui.toggleDeep(isDeep)
   onChange(event)
 }
@@ -108,15 +107,9 @@ export const ui = {
 
   toggleDeep(isDeep, $query = $("#query")) {
     $query.toggleClass("deep-query", isDeep)
-    this.showFooter(!isDeep)
   },
 
   toggleDisableable(isDisabled) {
     $(".disableable").toggleClass("disabled", isDisabled)
   },
-
-  showFooter(isShown) {
-    $(".shallow-footer").toggle(isShown)
-  },
-
 }
