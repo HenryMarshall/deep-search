@@ -90,7 +90,7 @@ export const ui = {
       const $query = $("#query")
       this.toggleValid(state.isValid, $query)
       this.toggleDeep(state.isDeep, $query)
-      this.toggleDisableable(state.search)
+      this.toggleDisableable(!state.search)
       this.updateProgress(state.progress)
     }
 
