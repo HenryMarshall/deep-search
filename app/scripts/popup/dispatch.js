@@ -41,9 +41,11 @@ export default {
   },
 
   changeHighlight(direction) {
-    messageContent({
-      message: "change_highlight",
-      direction,
+    manageState.readState(state => {
+      messageContent({
+        message: "change_highlight",
+        direction,
+      }, updateProgress.bind(this, state))
     })
   },
 
