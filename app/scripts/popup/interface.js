@@ -15,6 +15,7 @@ export default function initialize() {
   $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
   $("#is-deep").click(onDeepToggle)
+  $("body").keyup(closeOnEscape)
 }
 
 // A 175ms debounce time was determined by experimentation. In a long-ish query
@@ -76,6 +77,12 @@ function onDownloadCsv(event) {
 
   if (!$(this).hasClass("disabled")) {
     dispatch.downloadCsv()
+  }
+}
+
+function closeOnEscape(event) {
+  if (event.key === "Escape") {
+    window.close()
   }
 }
 
