@@ -36,4 +36,5 @@ function submitQuery(queryParams, sendResponse) {
 function clearMarks($elem = $("body")) {
   shallow.clearMarks()
   deep.clearMarks($elem)
+  global.deepSearch = new Map()
 }

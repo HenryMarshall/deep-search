@@ -3,8 +3,4 @@ export default function clearMarks() {
   if (reverter) {
     reverter.revert()
   }
-
-  for (let key of global.deepSearch.keys()) {
-    global.deepSearch.delete(key)
-  }
 }
