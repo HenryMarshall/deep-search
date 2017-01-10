@@ -13,5 +13,9 @@ export default function clearMarks($elem = $("body")) {
     return this
   })
 
+  global.deepSearch.delete("type")
+  global.deepSearch.delete("matches")
+  global.deepSearch.delete("currentIndex")
+
   return $elem
 }
