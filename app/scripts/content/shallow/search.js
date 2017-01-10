@@ -54,6 +54,6 @@ function allAreVisible($elements) {
   return $elements.toArray().every(element =>
     // This is what `$element.is(":visible")` does, but is faster without
     // the overhead of jquery calls.
-    element.offsetWidth === 0 && element.offsetHeight === 0
+    element.offsetWidth !== 0 && element.offsetHeight !== 0
   )
 }
