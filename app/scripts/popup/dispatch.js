@@ -22,6 +22,7 @@ export default {
     }
     else {
       messageContent({ message: "clear_marks" })
+      updateProgress(queryParams, "")
     }
   },
 
@@ -47,9 +48,10 @@ export default {
   },
 
   clearState(callback) {
-    const state = manageState.clearState(callback)
-    ui.setUiState(state)
     messageContent({ message: "clear_marks" })
+    const state = manageState.clearState(callback)
+    // This resetst progress implicitly
+    ui.setUiState(state)
   },
 }
 
@@ -60,9 +62,9 @@ function submitQuery(queryParams) {
   }, updateProgress.bind(this, queryParams))
 }
 
-function updateProgress(queryParams, progress) {
+function updateProgress(state, progress) {
   ui.updateProgress(progress.label)
-  const newState = Object.assign({}, queryParams, { progress: progress.label })
+  const newState = Object.assign({}, state, { progress: progress.label })
   manageState.saveState(newState)
 }
 
