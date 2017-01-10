@@ -33,7 +33,6 @@ function submitQuery(queryParams, $elem = $("body")) {
 }
 
 function clearMarks($elem = $("body")) {
-  shallow.clearMarks($elem)
+  shallow.clearMarks()
   deep.clearMarks($elem)
 }
-

@@ -1,21 +1,10 @@
-import $ from "jquery"
+export default function clearMarks() {
+  const reverter = global.deepSearch.get("reverter")
+  if (reverter) {
+    reverter.revert()
+  }
 
-export default function clearMarks($elem = $("body")) {
-  const $highlights = $elem.find(".deepSearch-highlight")
-  const $parents = $highlights.parent()
-
-  $highlights.replaceWith(function() {
-    return $(this).contents()
-  })
-
-  $parents.replaceWith(function() {
-    this.normalize()
-    return this
-  })
-
-  global.deepSearch.delete("type")
-  global.deepSearch.delete("matches")
-  global.deepSearch.delete("currentIndex")
-
-  return $elem
+  for (let key of global.deepSearch.keys()) {
+    global.deepSearch.delete(key)
+  }
 }

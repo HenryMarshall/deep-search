@@ -10,7 +10,7 @@ $.fn.groupBy = groupBy
 
 export default function search(queryParams, $elem = $("body")) {
   const regex = buildRegex(queryParams)
-  findAndReplaceDomText($elem[0], {
+  const reverter = findAndReplaceDomText($elem[0], {
     find: regex,
     replace: createHighlight,
     preset: "prose",
@@ -30,6 +30,7 @@ export default function search(queryParams, $elem = $("body")) {
   global.deepSearch.set("type", "shallow")
   global.deepSearch.set("matches", groups)
   global.deepSearch.set("currentIndex", currentResult)
+  global.deepSearch.set("reverter", reverter)
 
   $current.addClass("deepSearch-current-highlight")
   scrollToElement($current)
@@ -49,7 +50,7 @@ function allInViewport($group) {
   return $group.toArray().every(isInViewport)
 }
 
-export function allAreVisible($elements) {
+function allAreVisible($elements) {
   return $elements.toArray().every(element =>
     // This is what `$element.is(":visible")` does, but is faster without
     // the overhead of jquery calls.
