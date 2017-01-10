@@ -57,7 +57,13 @@ function submitQuery(queryParams) {
   messageContent({
     message: "submit_query",
     queryParams,
-  })
+  }, updateProgress.bind(this, queryParams))
+}
+
+function updateProgress(queryParams, progress) {
+  ui.updateProgress(progress.label)
+  const newState = Object.assign({}, queryParams, { progress: progress.label })
+  manageState.saveState(newState)
 }
 
 function isRegexValid(queryParams) {
@@ -72,4 +78,3 @@ function isRegexValid(queryParams) {
     return false
   }
 }
-

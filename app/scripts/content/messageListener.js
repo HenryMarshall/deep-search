@@ -4,13 +4,13 @@ import shallow from "./shallow"
 
 export default function setupListeners() {
   chrome.runtime.onMessage.addListener(
-    function(request, sender, sendMessage) {
+    function(request, sender, sendResponse) {
       // console.log("message received", request)
       const { queryParams } = request
 
       switch (request.message) {
         case "submit_query":
-          submitQuery(queryParams)
+          submitQuery(queryParams, sendResponse)
           break
         case "clear_marks":
           clearMarks()
@@ -26,10 +26,11 @@ export default function setupListeners() {
   )
 }
 
-function submitQuery(queryParams, $elem = $("body")) {
+function submitQuery(queryParams, sendResponse) {
+  const $elem = $("body")
   clearMarks($elem)
   const searchType = queryParams.isDeep ? deep : shallow
-  searchType.search(queryParams, $elem)
+  searchType.search(queryParams, sendResponse, $elem)
 }
 
 function clearMarks($elem = $("body")) {

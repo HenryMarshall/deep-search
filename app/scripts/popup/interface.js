@@ -91,6 +91,7 @@ export const ui = {
       this.toggleValid(state.isValid, $query)
       this.toggleDeep(state.isDeep, $query)
       this.toggleDisableable(state.search)
+      this.updateProgress(state.progress)
     }
 
     if (state === undefined) {
@@ -111,5 +112,9 @@ export const ui = {
 
   toggleDisableable(isDisabled) {
     $(".disableable").toggleClass("disabled", isDisabled)
+  },
+
+  updateProgress(label) {
+    $("#progress").text(label || "")
   },
 }

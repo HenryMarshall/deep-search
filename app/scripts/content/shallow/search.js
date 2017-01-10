@@ -8,7 +8,7 @@ import scrollToElement from "./scrollToElement"
 import groupBy from "./groupBy"
 $.fn.groupBy = groupBy
 
-export default function search(queryParams, $elem = $("body")) {
+export default function search(queryParams, sendResponse, $elem = $("body")) {
   const regex = buildRegex(queryParams)
   const reverter = findAndReplaceDomText($elem[0], {
     find: regex,
@@ -23,19 +23,21 @@ export default function search(queryParams, $elem = $("body")) {
   // When searching we give deference to results already in your viewport,
   // which is the same behavior as in the default chrome search.
   const $firstInViewport = groups.filter(allInViewport)[0]
-  const currentResult =
+  const currentIndex =
     $firstInViewport ? groups.indexOf($firstInViewport) : 0
-  const $current = groups[currentResult]
+  const $current = groups[currentIndex]
+
+  sendResponse({
+    label: `${Math.min(currentIndex + 1, groups.length)} of ${groups.length}`,
+  })
 
   global.deepSearch.set("type", "shallow")
   global.deepSearch.set("matches", groups)
-  global.deepSearch.set("currentIndex", currentResult)
+  global.deepSearch.set("currentIndex", currentIndex)
   global.deepSearch.set("reverter", reverter)
 
   $current.addClass("deepSearch-current-highlight")
   scrollToElement($current)
-
-  return groups
 }
 
 function createHighlight(portion, match) {
