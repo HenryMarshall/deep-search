@@ -1,5 +1,5 @@
-import gulp from 'gulp';
-import gulpSequence from 'gulp-sequence';
+import gulp from 'gulp'
+import gulpSequence from 'gulp-sequence'
 
 gulp.task('build', gulpSequence(
   'clean', [
@@ -10,6 +10,6 @@ gulp.task('build', gulpSequence(
     'locales',
     'images',
     'fonts',
-    'livereload'
+    'livereload',
   ]
-));
+))
