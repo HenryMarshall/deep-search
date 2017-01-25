@@ -5,7 +5,7 @@ let q
 let running
 let queuedHrefs
 
-export function initializeQueue(concurrency = 8, timeout = 750) {
+export function initializeQueue(concurrency = 8, timeout = 1500) {
   q = queue({ concurrency, timeout })
   running = false
   queuedHrefs = []

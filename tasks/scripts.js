@@ -33,10 +33,15 @@ gulp.task('scripts', (cb) => {
           loader: 'eslint-loader',
           exclude: /node_modules/,
         }],
-        loaders: [{
-          test: /\.js$/,
-          loader: 'babel',
-        }],
+        loaders: [
+          {
+            test: /\.js$/,
+            loader: 'babel',
+          },
+          {
+            test: /\.json$/,
+            loader: "json-loader",
+          }],
       },
       eslint: {
         configFile: '.eslintrc',

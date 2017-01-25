@@ -1,4 +1,4 @@
-import $ from "jquery"
+import cheerio from "cheerio"
 import buildRegex from "./buildRegex"
 
 export default function search(html, queryParams) {
@@ -51,9 +51,13 @@ export function contextualize(text, match, maxContent = 32) {
 }
 
 function innerText(html) {
-  let $html = $(html)
-  const $body = $html.find("body")
-  $html = $body.length ? $body : $html
+  const $ = cheerio.load(html)
+  let $html = $("body") || $
+
+  /* let $html = $(html)
+   * const $body = $html.find("body")
+   * $html = $body.length ? $body : $html
+   */
 
   // We can't use ":visible" because these elements aren't in the DOM
   const tagsToRemove = "script, img, link, style, meta, noscript"
@@ -63,7 +67,7 @@ function innerText(html) {
   $html = $html.not(function() { return $(this).is(tagsToRemove) })
 
   $html.find(tagsToRemove).each(function() {
-    this.remove()
+    $(this).remove()
   })
 
   const text = $html.text()
@@ -71,4 +75,3 @@ function innerText(html) {
   const trimmed = text.replace(/\s+/g, " ")
   return trimmed
 }
-
