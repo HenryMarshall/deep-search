@@ -10,3 +10,4 @@ self.addEventListener("message", function({ data }) {
     console.info("posted message", matches)
   }
 })
+
