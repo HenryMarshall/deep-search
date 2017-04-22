@@ -6,6 +6,7 @@
     "mocha": true,
     "jest": true,
     "qunit": true,
+    "es6": true,
   },
   "globals": {
     "Action": false,
@@ -39,9 +40,9 @@
     "no-unused-vars": ["warn", { "args": "none" }],
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-console": 0,
+    "no-debugger": 0,
     // `checkLoops: false` lets you set `while(true)`
     "no-constant-condition": ["error", { "checkLoops": false }],
-    "no-debugger": "warn",
     // Doesn't seem to be working:
     "no-template-curly-in-string": "warn",
     "no-unsafe-negation": "error",

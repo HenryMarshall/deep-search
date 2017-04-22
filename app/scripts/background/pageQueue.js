@@ -2,55 +2,58 @@ import queue from "queue"
 import searchAddress from "./searchAddress"
 
 let q
-let running
-let queuedHrefs
 
-export function initializeQueue(concurrency = 8, timeout = 1500) {
+export function initializeQueue(concurrency = 2, timeout = 1500) {
   q = queue({ concurrency, timeout })
-  running = false
-  queuedHrefs = []
-  q.on('timeout', onTimeout)
+  q.on("timeout", onTimeout)
+  q.on("success", onSuccess)
+  q.on("error", onError)
 }
 
-export function enqueue(request, sendResponse) {
-  const { href, url, queryParams } = request
+export function processLinks(queryParams, links, sendResponse) {
+  // Abort already running searches
+  q.end()
 
-  if (!isAlreadyQueued(href)) {
-    queuedHrefs.push(href)
+  links.forEach(link => {
+    enqueue(queryParams, link)
+  })
 
-    q.push((advanceQueue) => {
-      // `advanceQueue` bombs if called with args, hence the anonymous function
-      const callback = () => { advanceQueue() }
-      searchAddress({ queryParams, href, url, sendResponse, callback })
-    })
-  }
+  q.start(() => {
+    console.log("we processed every link!")
+    sendResponse()
+  })
+}
 
-  initialStart()
+function enqueue(queryParams, { href, url }) {
+  q.push((advanceQueue) => {
+    const callback = (response) => {
+      console.log("omg! something completed", response)
+      advanceQueue()
+    }
+    searchAddress({ queryParams, href, url, callback })
+  })
 }
 
 export function clearQueue() {
-  if (running && q) {
-    running = false
-    q.end()
-  }
+  q.end()
 }
 
-function initialStart() {
-  if (!running) {
-    running = true
-    q.start(() => {
-      running = false
-      queuedHrefs = []
-    })
-  }
+function onSuccess(result, job) {
+  console.group("success")
+  console.log("result: ", result)
+  console.log("job: ", job)
+  console.groupEnd("success")
 }
 
-function isAlreadyQueued(href) {
-  const isQueued = (queuedHrefs.indexOf(href) !== -1)
-  return isQueued
+function onError(err, job) {
+  console.group("error")
+  console.log("err: ", err)
+  console.log("job: ", job)
+  console.groupEnd("error")
 }
 
 function onTimeout(next, job) {
+  // TODO: notify main page of timeout with "exclamation in triangle"
   console.error("deepSearch page timed out")
   next()
 }

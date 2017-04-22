@@ -56,7 +56,7 @@
     "yargs": "^4.3.2"
   },
   "dependencies": {
-    "cheerio": "0.22.0",
+    "cheerio": "^0.22.0",
     "findandreplacedomtext": "^0.4.4",
     "jquery": "^2.2.4",
     "json2csv": "^3.7.0",

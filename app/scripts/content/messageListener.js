@@ -20,6 +20,11 @@ export default function messageListener() {
         case "download_shallow_csv":
           shallow.downloadCsv(queryParams)
           break
+        case "deep_result":
+          // TODO: implement approximately this:
+          // saveMatch(href, matches)
+          // setMark(href, matches)
+          break
       }
     }
   )

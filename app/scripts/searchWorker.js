@@ -8,6 +8,5 @@ self.addEventListener("message", function({ data }) {
     const matches = search(html, queryParams)
     self.postMessage({ matches })
     console.info("posted message", matches)
-    self.close()
   }
 })
