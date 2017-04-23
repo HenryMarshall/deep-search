@@ -1,5 +1,5 @@
 import $ from "jquery"
-import search from "./shared/searchHtml"
+import search from "../shared/searchHtml"
 
 export default function searchAddress({
   queryParams,
