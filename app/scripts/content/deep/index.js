@@ -5,7 +5,6 @@ import { listenForHover, saveMatch } from "./matches"
 import listenForDownload from "./listenForDownload"
 
 function initialize() {
-  global.deepSearchMatches = {}
   listenForHover()
   listenForDownload()
 }

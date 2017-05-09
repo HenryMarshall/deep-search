@@ -1,16 +1,14 @@
-'use strict';
-
-import initializeState from './background/savedState'
-import setupListener from './background/setupListener'
+import messageListener from './background/messageListener'
 import { initializeQueue } from './background/pageQueue'
-initializeState()
-setupListener()
+messageListener()
 initializeQueue()
+
+global.savedState = new Map()
 
 // Enable chromereload by uncommenting this line:
 // import './lib/livereload';
 
-chrome.runtime.onInstalled.addListener(function (details) {
-  console.log('previousVersion', details.previousVersion);
-});
+chrome.runtime.onInstalled.addListener(function(details) {
+  console.log('previousVersion', details.previousVersion)
+})
 

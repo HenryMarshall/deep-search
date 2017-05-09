@@ -1,16 +1,16 @@
-import $ from "jquery"
+import isInViewport from "./isInViewport"
 
-export default function scrollToElement(elements) {
-  if (elements.length) {
-    const targetPosition = elements.first().offset().top
-    const viewportTop = $("body").scrollTop()
-    const viewportBottom = viewportTop + $(window).height()
+export default function scrollToElement($target) {
+  const target = $target[0]
 
-    const isElementAboveViewport = viewportTop > targetPosition
-    const isElementBelowViewport = targetPosition > viewportBottom
-    // don't scroll if element is already in the viewport
-    if (isElementAboveViewport || isElementBelowViewport) {
-      window.scrollTo(0, targetPosition)
-    }
+  if (target && !isInViewport(target)) {
+    const viewportTopAbsolute = window.scrollY
+    const targetTopRelativeToViewport = target.getBoundingClientRect().top
+    const targetTopAbsolute = targetTopRelativeToViewport + viewportTopAbsolute
+
+    const viewportHeight = document.documentElement.clientHeight
+    const centeredPosition = targetTopAbsolute - (viewportHeight / 2)
+
+    window.scrollTo(0, centeredPosition)
   }
 }

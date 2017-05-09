@@ -2,6 +2,7 @@
 
 $findWidth: 92px
 $elementHeight: 34px
+$buttonMargin: 8px
 
 body
   width: 792px
@@ -27,15 +28,22 @@ form
   padding: 6px 12px
   margin-bottom: 0
 
-#download-shallow-csv
-  float: right
+#progress, #download-shallow-csv
   font-family: arial, helvetica, sans-serif
   font-size: 12px
   margin: 6px 12px
   color: hsl(0,0, 30%)
 
+#progress
+  float: left
+  margin-left: (($elementHeight + $buttonMargin) * 3)
+  /* margin-left: 60px
+
+#download-shallow-csv
+  float: right
+
 label, input, button, .alert
-  margin-right: 8px
+  margin-right: $buttonMargin
 
 #search
   flex: 1 1 150px
@@ -58,10 +66,13 @@ input[type='checkbox']:checked+label
   top: 3px
 
 .deep-query
-  #find, #find-prev
+  margin-bottom: 6px
+
+  + .shallow-footer, #find, #find-prev
     display: none
   #deep-search
     display: block
+
 
 a.disabled
   cursor: not-allowed
@@ -72,4 +83,3 @@ a.disabled
     display: none
   .alert
     display: block
-

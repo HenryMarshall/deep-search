@@ -10,9 +10,8 @@ function handleDownload(event) {
   event.preventDefault()
 
   const href = $(this).attr("data-page-href")
-  const matches = global.deepSearchMatches[href]
+  const matches = global.deepSearch.get(href)
 
   const csv = buildCsv(matches)
   initiateDownload(csv)
 }
-

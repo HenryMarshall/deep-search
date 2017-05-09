@@ -6,11 +6,12 @@ export default function search(html, queryParams) {
   const text = innerText(html)
 
   const matches = []
-  let match
+  let match = regex.exec(text)
 
-  while (match = regex.exec(text)) {
+  while (match) {
     const contextualized = contextualize(text, match)
     matches.push(contextualized)
+    match = regex.exec(text)
   }
 
   return matches
@@ -46,7 +47,7 @@ export function contextualize(text, match, maxContent = 32) {
       .slice(0, -2)
       .join("")
 
-    return contextualized
+  return contextualized
 }
 
 function innerText(html) {

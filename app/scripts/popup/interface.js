@@ -1,6 +1,6 @@
 import $ from 'jquery'
-import resetState from '../background/savedState'
-import manageState from './manageState'
+import debounce from "lodash.debounce"
+import manageState from "./manageState"
 import dispatch from './dispatch'
 
 export default function initialize() {
@@ -8,24 +8,19 @@ export default function initialize() {
   ui.setUiState()
 
   $("#is-regex, #is-case-insensitive").click(onChange)
+  $("#search").keyup(onChange)
   $("#clear-search").click(onClear)
   $("#find, #find-prev").click(onFind)
   $("#deep-search").click(onDeepSearch)
   $("#download-shallow-csv").click(onDownloadCsv)
   $("#query").submit((e) => { e.preventDefault() })
-
-  const $isDeep = $("#is-deep")
-  $isDeep.click(onDeepToggle)
-  showFooterConditionally($isDeep)
-
-  const $search = $("#search")
-  $search.keyup(onChange)
-  ui.toggleDisableable(!$search.val())
+  $("#is-deep").click(onDeepToggle)
+  $("body").keyup(closeOnEscape)
 }
 
-function showFooterConditionally($isDeep = $("#is-deep")) {
-  $(".shallow-footer").toggle(!$isDeep.prop("checked"))
-}
+// A 175ms debounce time was determined by experimentation. In a long-ish query
+// it sometimes triggers more than once, but that is pretty acceptable.
+const debouncedUpdateSearch = debounce(dispatch.updateSearch, 175)
 
 function onChange(event) {
   // KeyCode for Enter
@@ -43,16 +38,15 @@ function onChange(event) {
   // options (is-regex etc). This negative `if` intentionally fires then.
   //
   // KeyCodes for Shift, Control, Alt, Meta respectively
-  else if (![16,17,18,91].includes(event.keyCode)) {
-    dispatch.updateSearch()
+  else if (![16, 17, 18, 91].includes(event.keyCode)) {
+    debouncedUpdateSearch()
   }
 }
 
 function onDeepToggle(event) {
   const $this = $(this)
-  const isDeep = $this.prop('checked')
-  showFooterConditionally($this)
-  ui.toggleDeepClass(isDeep)
+  const isDeep = $this.prop("checked")
+  ui.toggleDeep(isDeep)
   onChange(event)
 }
 
@@ -67,7 +61,7 @@ function onFind(event) {
 
 function onClear(event) {
   event.preventDefault()
-  dispatch.clearState()
+  dispatch.clearState(window.close)
 }
 
 function onDeepSearch(event) {
@@ -86,27 +80,48 @@ function onDownloadCsv(event) {
   }
 }
 
-export const ui = {
-  setUiState(state = chrome.extension.getBackgroundPage().savedState) {
-    $("#search").val(state.search)
-    $("#is-regex").prop('checked', state.isRegex),
-    $("#is-deep").prop('checked', state.isDeep),
-    $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
+function closeOnEscape(event) {
+  if (event.key === "Escape") {
+    window.close()
+  }
+}
 
-    const $query = $("#query")
-    this.toggleValidClass(state.isValid, $query)
-    this.toggleDeepClass(state.isDeep, $query)
+export const ui = {
+  setUiState(state) {
+    const doWork = state => {
+      $("#search").val(state.search)
+      $("#is-regex").prop('checked', state.isRegex)
+      $("#is-deep").prop('checked', state.isDeep)
+      $("#is-case-insensitive").prop('checked', state.isCaseInsensitive)
+
+      const $query = $("#query")
+      this.toggleValid(state.isValid, $query)
+      this.toggleDeep(state.isDeep, $query)
+      this.toggleDisableable(!state.search)
+      this.updateProgress(state.progress)
+    }
+
+    if (state === undefined) {
+      manageState.readState(doWork)
+    }
+    else {
+      doWork(state)
+    }
   },
 
-  toggleValidClass(isValid, $query = $("#query")) {
+  toggleValid(isValid, $query = $("#query")) {
     $query.toggleClass("invalid-regex", !isValid)
   },
 
-  toggleDeepClass(isDeep, $query = $("#query")) {
+  toggleDeep(isDeep, $query = $("#query")) {
     $query.toggleClass("deep-query", isDeep)
   },
 
   toggleDisableable(isDisabled) {
     $(".disableable").toggleClass("disabled", isDisabled)
+  },
+
+  updateProgress(label) {
+    $("#progress").text(label || "")
   },
 }

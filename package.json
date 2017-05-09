@@ -1,7 +1,7 @@
 {
   "name": "deep-search",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "Supercharge your browsers find with regex and deep search",
   "scripts": {
     "start": "npm run dev:chrome",
@@ -27,8 +27,8 @@
     "chai": "^3.2.0",
     "debounce": "^1.0.0",
     "del": "^2.0.2",
-    "eslint": "^2.4.0",
-    "eslint-loader": "^1.3.0",
+    "eslint": "3.12.2",
+    "eslint-loader": "1.6.1",
     "gulp": "^3.9.1",
     "gulp-bump": "^2.0.1",
     "gulp-cache": "^0.4.3",
@@ -58,6 +58,7 @@
     "findandreplacedomtext": "^0.4.4",
     "jquery": "^2.2.4",
     "json2csv": "^3.7.0",
+    "lodash.debounce": "4.0.8",
     "queue": "^4.0.0",
     "tooltipster": "^4.1.5"
   }

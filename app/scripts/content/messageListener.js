@@ -1,21 +1,21 @@
-import deep from './deep'
-import shallow from './shallow'
+import $ from "jquery"
+import deep from "./deep"
+import shallow from "./shallow"
 
-export default function setupListeners() {
+export default function messageListener() {
   chrome.runtime.onMessage.addListener(
-    function (request, sender, sendMessage) {
-      // console.log("message received", request)
+    function(request, sender, sendResponse) {
       const { queryParams } = request
 
-      switch(request.message) {
+      switch (request.message) {
         case "submit_query":
-          submitQuery(queryParams)
+          submitQuery(queryParams, sendResponse)
           break
         case "clear_marks":
           clearMarks()
           break
         case "change_highlight":
-          shallow.changeHighlight(request.direction)
+          shallow.changeHighlight(request.direction, sendResponse)
           break
         case "download_shallow_csv":
           shallow.downloadCsv(queryParams)
@@ -25,14 +25,15 @@ export default function setupListeners() {
   )
 }
 
-function submitQuery(queryParams) {
-  clearMarks()
+function submitQuery(queryParams, sendResponse) {
+  const $elem = $("body")
+  clearMarks($elem)
   const searchType = queryParams.isDeep ? deep : shallow
-  searchType.search(queryParams)
+  searchType.search(queryParams, sendResponse, $elem)
 }
 
-function clearMarks() {
+function clearMarks($elem = $("body")) {
   shallow.clearMarks()
-  deep.clearMarks()
+  deep.clearMarks($elem)
+  global.deepSearch = new Map()
 }
-

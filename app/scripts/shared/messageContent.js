@@ -1,11 +1,7 @@
-function messageContent(message) {
-  chrome.tabs.query(
-    { active: true, currentWindow: true },
-    function(tabs) {
-      var activeTab = tabs[0]
-      chrome.tabs.sendMessage(activeTab.id, message)
-    }
-  )
+import getActiveTabId from "./getActiveTabId"
+
+function messageContent(message, callback) {
+  getActiveTabId(tabId => chrome.tabs.sendMessage(tabId, message, callback))
 }
 
 export default messageContent

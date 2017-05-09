@@ -1,10 +1,10 @@
-'use strict';
 import $ from 'jquery'
 
-import setupListeners from './content/messageListener'
+import messageListener from './content/messageListener'
 import deep from './content/deep'
 
 $(document).on('ready', function() {
-  setupListeners()
+  messageListener()
   deep.initialize()
+  global.deepSearch = new Map()
 })

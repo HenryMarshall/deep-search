@@ -3,7 +3,7 @@ require("tooltipster")
 
 export function saveMatch(href, matches) {
   if (matches) {
-    global.deepSearchMatches[href] = matches
+    global.deepSearch.set(href, matches)
   }
 }
 
@@ -26,11 +26,11 @@ function handleMouseEnter(event) {
 }
 
 function buildMessage(href) {
-  const matches = global.deepSearchMatches[href]
+  const matches = global.deepSearch.get(href)
 
   let message = `<table>`
 
-  matches.slice(0,10).forEach((match, idx) => {
+  matches.slice(0, 10).forEach((match, idx) => {
     if (idx === 0) {
       message +=
         `<thead><tr>
@@ -51,7 +51,10 @@ function buildMessage(href) {
         ${match.match.map(captureGroup => (
           `<td>${escapeHTML(captureGroup)}</td>`
         )).join("")}
-        <td>${match.preceedingContext}<strong>${escapeHTML(match.match[0])}</strong>${match.followingContext}</td>
+        <td>${match.preceedingContext}
+          <strong>${escapeHTML(match.match[0])}</strong>
+          ${match.followingContext}
+        </td>
       </tr>`
   })
 
@@ -60,7 +63,10 @@ function buildMessage(href) {
   if (matches.length > 10) {
     message += `<span>(Plus ${matches.length - 10} more)</span>`
   }
-  message += `<a data-page-href="${href}" href="#" class="csv-link">Download as CSV</a></p>`
+  message +=
+    `<a data-page-href="${href}" href="#" class="csv-link">
+      Download as CSV
+    </a></p>`
 
   return $(message)
 }
